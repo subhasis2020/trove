@@ -1,0 +1,558 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.ProgramLevelAdminDetailModel;
+@{
+    var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+    var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+}
+<div id="program" class="tab-pane active show">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Organizations: <small>@primaryOrgName </small></h6>
+                </div>
+                <div class="col-sm-4">
+                    <h6>
+                        Programs: <small>@primaryProgramName</small>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblProgramLevelAdmin" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">NAME</th>
+                            <th class="text-center">TITLE</th>
+                            <th class="text-center">EMAIL</th>
+                            <th class="text-center">PHONE NUMBER</th>
+                            <th class="text-center">DATE ADDED</th>
+                            <th>STATUS</th>
+                            <th class="text-center">
+                                <div class="invite-selector">
+                                    <a href="javascript:void(0);" class="invite-all-btn inviteall selected">Invite all</a>
+
+                                </div>
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() || User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Organization Full".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+        {
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmProAdminLevelDetail", enctype = "multipart/form-data" }))
+            {
+                <div class="org-admin-detail org-adminbrowse-detail">
+                    <h2 class="mb20 class-haed">New Admin</h2>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="admin-browse-image">
+                                <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                    <div class="dz-default dz-message" data-dz-message="">
+                                        <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--6-->
+                        <div class="col-sm-9">
+                            <div class="org-admin-form ">
+                                <div class="detail-information mt0">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Name*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.Name, new { @class = "form-control form-control-custom", @maxlength = 100 })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.Name)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Last name*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.LastName, new { @class = "form-control form-control-custom", @maxlength = 100 })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.LastName)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Title</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.Custom1, new { @class = "form-control form-control-custom", @maxlength = 50 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+
+                                    </div>
+                                    <!--row-->
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Email*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.EmailAddress, new { @class = "form-control form-control-custom", @maxlength = 80 })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.EmailAddress)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Phone number*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.PhoneNumber, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.PhoneNumber)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>User access role*</label>
+                                                <div class="form-group-inner">
+                                                    <div class="form-group-inner form-select-customs">
+                                                        @Html.DropDownListFor(m => m.adminLevelModel.RoleId, ViewBag.Role as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                                        @Html.ValidationMessageFor(m => m.adminLevelModel.RoleId)
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+
+                                    </div>
+                                    <!--row-->
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Program Access*</label>
+                                                <div class="form-group-inner form-select-custom">
+
+                                                    @Html.DropDownListFor(m => m.AdminProgramAccessibility, ViewBag.ProgramList as List<SelectListItem>, new { @multiple = "multiple", @class = "dropdown dropdown-multiselect show clsListBox" })
+                                                    @Html.ValidationMessageFor(m => m.AdminProgramAccessibility)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="custom-right">
+
+                                                <button type="submit" id="btnOrganisationAdminLevelDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                                                <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                                                <input type=hidden id="hdnIsNewUpload" value='1' />
+                                                <input type=hidden id="hdnIsFormSubmitted" value='false' />
+                                                @Html.HiddenFor(m => m.adminLevelModel.UserId)
+                                                @Html.HiddenFor(m => m.adminLevelModel.UserImagePath)
+                                            </div>
+
+                                        </div>
+                                        <!--row-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form-->
+                        </div>
+                        <!--6-->
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@*<script src="~/js/StandardPhoneFormat/jquery.caret.js"></script>
+    <script src="~/js/StandardPhoneFormat/jquery.mobilePhoneNumber.js"></script>*@
+<script>
+
+    $(document).ready(function () {
+        $('#AdminProgramAccessibility').multiselect({ includeSelectAllOption: true, numberDisplayed: 2 });
+
+
+        $(document).on('click', '#btnOrganisationAdminLevelDetail', function () {
+            if ($("#frmProAdminLevelDetail").validate() && $("#frmProAdminLevelDetail").valid()) {
+                $("#dvLoadingGif").show();
+                var Prgbrands = $('#AdminProgramAccessibility option:selected');
+                var prgAdminAccess = [];
+                $(Prgbrands).each(function (index, brand) {
+                    var data = {
+                        programId: $(this).val()
+                    };
+                    prgAdminAccess.push(data);
+                });
+                var programId = $("#hdnProgramId").val();
+                programTypes = [];
+                programTypes.push(0);
+                var adminLevelModel = {
+                    UserId: $("#adminLevelModel_UserId").val(),
+                    Name: $("#adminLevelModel_Name").val(),
+                    LastName: $("#adminLevelModel_LastName").val(),
+                    UserImagePath: $("#adminLevelModel_UserImagePath").val(),
+                    EmailAddress: $("#adminLevelModel_EmailAddress").val(),
+                    PhoneNumber: $("#adminLevelModel_PhoneNumber").val(),
+                    RoleId: $("#adminLevelModel_RoleId").val(),
+                };
+                var OrganisationAdminDetailModel = {
+                    adminLevelModel: adminLevelModel,
+                    ProgramId: programId,
+                    Custom1: $("#Custom1").val(),
+                    ProgramsAccessibility: programTypes,
+                    AdminProgramAccessibility: prgAdminAccess
+                };
+                $.post("/Program/PostProgramLevelAdminDetailInformation",
+                    OrganisationAdminDetailModel,
+                    function (data, message) {
+
+                        $("#dvLoadingGif").hide();
+                        if (data.data !== "" && data.data !== "0" && data.data !== null) {
+                            $("#frmProAdminLevelDetail").trigger("reset");
+                            $('#adminLevelModel_EmailAddress').removeAttr('readonly');
+                            $('#adminLevelModel_PhoneNumber').removeAttr('readonly');
+                            $('#adminLevelModel_PhoneNumber').removeAttr('disabled');
+                            $("#adminLevelModel_UserImagePath").val('');
+
+                            $('#PostedFileUploadError').hide();
+                            $('#wizardPicturePreview').attr('src', '/images/icon-profile.png');
+                            $("h2.class-haed").text("New Admin");
+                            $("#hdnIsFormSubmitted").val('true');
+                            $("#btnOrganisationAdminLevelDetail").text("Add");
+                            displaySwalAlert(data.message, "success");
+                            if ($("#adminLevelModel_UserId").val() !== '' && $("#adminLevelModel_UserId").val() !== '0') {
+                                displaySwalAlert("Admin details has been updated successfully.", "success")
+                                $("#adminLevelModel_UserId").val('0');
+                            } else {
+                                displaySwalAlert("Admin details has been submitted successfully.", "success")
+                                $("#adminLevelModel_UserId").val('0');
+                            }
+                            var imgDropzone = Dropzone.forElement("#my-awesome-dropzone");
+                            imgDropzone.removeAllFiles();
+                            prgAdminAccess = [];
+                            //    $('#MerchantAccessibility').multiselect("deselectAll", false);
+                            $('#AdminProgramAccessibility').multiselect('refresh');
+                            oTable = $('#tblProgramLevelAdmin').DataTable();
+                            oTable.draw();
+                        }
+                        else if (data.data === "0") {
+                            displaySwalAlert(data.message, "error")
+                        }
+                        else {
+                            displaySwalAlert("Currently unable to process the request! Please try again later.", "error");
+                        }
+                    });
+                return false;
+                //ajaxcall
+            }
+            else return false;
+        });
+
+
+        $(document).on('change', '#PostedFileUpload', function () {
+            // Prepare the preview for profile picture
+            readURL(this);
+            var file1 = $(this)[0].files[0];
+
+            var formData = new FormData();
+            formData.append("files", file1);
+            // Get uploaded file extension
+            var extension = $(this).val().split('.').pop().toLowerCase();
+            // Create array with the files extensions that we wish to upload
+            var validFileExtensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+            //Check file extension in the array.if -1 that means the file extension is not in the list.
+            if ($.inArray(extension, validFileExtensions) === -1) {
+                $('#PostedFileUploadError').show();
+                // Clear fileuload control selected file
+                $(this).val('');
+                //Disable Submit Button
+
+            }
+            else {
+                $('#PostedFileUploadError').hide();
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/UploadImage",
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+
+                        if (data.data !== "") {
+                            $("#adminLevelModel_UserImagePath").val(data.data);
+                        }
+                        else {
+                            displaySwalAlert("Failed to upload an image! Please try again later.", "error");
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
+
+
+        //Invite All
+        $(document).on('click', ".inviteall", function (e) {
+            $.ajax({
+                type: "GET",
+                url: "/Program/InviteProgramLevelAdmin/",
+                data: { 'userEmail': "", 'programId': $("#hdnProgramId").val() },
+                dataType: "json",
+                success: function (data) {
+                    $("#dvLoadingGif").hide();
+                    if (data.isInvited) {
+                        displaySwalAlert("Invitation sent successfully.", "success");
+                    }
+                    oTable = $('#tblProgramLevelAdmin').DataTable();
+                    oTable.draw();
+                },
+                error: function () {
+                    displaySwalAlert("Currently unable to process the request! Please try again later.", "error");
+                    $("#dvLoadingGif").hide();
+                }
+            });
+        });
+        //Invite
+        //MakeProgram id dynamic
+        $(document).on('click', ".invite", function (e) {
+            $.ajax({
+                type: "GET",
+                url: "/Program/InviteProgramLevelAdmin/",
+                data: { 'userEmail': $(this).attr('value'), 'programId': $("#hdnProgramId").val() },
+                dataType: "json",
+                success: function (data) {
+
+                    $("#dvLoadingGif").hide();
+                    if (data.isInvited) {
+                        displaySwalAlert("Invitation sent successfully.", "success");
+                    }
+                    oTable = $('#tblProgramLevelAdmin').DataTable();
+                    oTable.draw();
+                },
+                error: function () {
+
+                    displaySwalAlert("Currently unable to process the request! Please try again later.", "error");
+                    $("#dvLoadingGif").hide();
+                }
+            });
+        });
+
+
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function changeAdminStatus(userId, e) {
+        var checked = e.checked;
+        $("#dvLoadingGif").hide();
+        $.ajax({
+            type: "POST",
+            url: "/Organisation/ChangeOrganisationAdminStatus/",
+            data: { 'userId': userId, isActive: checked },
+            dataType: "json",
+            success: function (data) {
+                $("#dvLoadingGif").hide();
+                if (data.data > 0 && data.success) {
+                    swal({
+                        title: "Status has been changed successfully!",
+                        icon: "success"
+
+                    });
+                } else {
+                    swal({
+                        title: "Currently unable to process the request! Please try again later.",
+                        icon: "error"
+
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Currently unable to process the request! Please try again later.",
+                    icon: "error"
+
+                });
+                $("#dvLoadingGif").hide();
+            }
+        });
+    }
+    function DeleteUser(userId) {
+        $("#dvLoadingGif").hide();
+        $.ajax({
+            type: "POST",
+            url: "/Organisation/DeleteOrganisationAdminUser/",
+            data: { 'userId': userId },
+            dataType: "json",
+            success: function (data) {
+                $("#dvLoadingGif").hide();
+                if (data.data > 0 && data.success) {
+                    $('#adminLevelModel_EmailAddress').removeAttr('readonly');
+                    $(".clsHeaderForm").html('New Admin');
+                    $("#adminLevelModel_UserImagePath").val('');
+                    $('#Title').val('');
+                    $("#frmProAdminLevelDetail")[0].reset();
+                    $('#PostedFileUploadError').hide();
+                    $('#wizardPicturePreview').attr('src', '/images/icon-profile.png');
+
+                    $("#btnOrganisationAdminLevelDetail").html('ADD');
+                    swal({
+                        title: "Admin user has been deleted successfully!",
+                        icon: "success"
+
+                    });
+                    oTable = $('#tblProgramLevelAdmin').DataTable();
+                    oTable.draw();
+
+                } else {
+                    swal({
+                        title: "Currently unable to process the request! Please try again later.",
+                        icon: "error"
+
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Currently unable to process the request! Please try again later.",
+                    icon: "error"
+
+                });
+                $("#dvLoadingGif").hide();
+            }
+        });
+    }
+    function EditUserAdminData(userId) {
+        $("h2.class-haed").text("Edit Admin");
+        $("#btnOrganisationAdminLevelDetail").text("Update");
+        $("#dvLoadingGif").hide();
+        $.ajax({
+            type: "GET",
+            url: "/Organisation/UserAdminInfo/",
+            data: { 'userId': userId },
+            dataType: "json",
+            success: function (data) {
+
+                if (data.data !== null || data.data !== undefined) {
+                    $("#adminLevelModel_Name").val(data.data.FirstName);
+                    $("#adminLevelModel_LastName").val(data.data.LastName);
+                    $("#adminLevelModel_EmailAddress").val(data.data.Email);
+                    $('#adminLevelModel_EmailAddress').attr('readonly', 'readonly');
+                    $("#adminLevelModel_PhoneNumber").val(data.data.PhoneNumber);
+                    $('#adminLevelModel_PhoneNumber').attr('readonly', 'readonly');
+                    $('#adminLevelModel_PhoneNumber').attr('disabled', 'disabled');
+                    $("#adminLevelModel_RoleId").val(data.data.RoleId);
+                    $("#Custom1").val(data.data.Title);
+                    $("#adminLevelModel_UserId").val(data.data.UserId);
+                    $('html,body').animate({
+                        scrollTop: $("#adminLevelModel_Name").offset().top
+                    }, 'slow');
+
+                    if (data.data.ImageFileName != null && data.data.ImageFileName != '') {
+                        $("#adminLevelModel_").val(data.data.ImageFileName);
+                        $("#hdnIsNewUpload").val(2);
+
+                        var imgDropzone = Dropzone.forElement("#my-awesome-dropzone");
+                        imgDropzone.removeAllFiles();
+                        var mockFile = {
+                            name: data.data.ImageFileName,
+                            size: 12,
+                            accepted: true,
+                            kind: 'image'
+                        };
+
+                        imgDropzone.options.maxFiles = 1;
+                        imgDropzone.emit("addedfile", mockFile);
+                        imgDropzone.files.push(mockFile);
+
+                        // And optionally show the thumbnail of the file:
+                        imgDropzone.emit("thumbnail", mockFile, data.data.UserImagePath);
+
+                        imgDropzone.emit("complete", mockFile);
+                        imgDropzone._updateMaxFilesReachedClass();
+                    }
+                    else { $("#adminLevelModel_UserImagePath").val(''); }
+                    $('#AdminProgramAccessibility').multiselect("deselectAll", false);
+
+                    $('#AdminProgramAccessibility').multiselect('refresh');
+                    var queryArrStr = '';
+                    // validatorForm.resetForm();
+                    $('.field-validation-error').html('');
+
+                    $(data.data.AdminProgramIds).each(function (index) {
+                        var _locationId = index;
+                        var _locName = data.data.AdminProgramIds[index].programId;
+
+                        queryArrStr += _locName + ',';
+
+                    });
+
+                    var dataarray = queryArrStr.trimRight(',').split(",");
+
+
+                    $("#AdminProgramAccessibility").val(dataarray);
+                    $("#AdminProgramAccessibility").multiselect("refresh");
+                    $("#dvLoadingGif").hide();
+                } else {
+                    swal({
+                        title: "Currently unable to process the request! Please try again later.",
+                        icon: "error"
+                    });
+                    $("#dvLoadingGif").hide();
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Currently unable to process the request! Please try again later.",
+                    icon: "error"
+                });
+                $("#dvLoadingGif").hide();
+            }
+        });
+    }
+
+    function DeleteData(userId) {
+        swal({
+            title: "Are you sure you want to delete the program level admin?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonClass: 'btn btn-danger',
+            confirmButtonClass: 'btn btn-success',
+            confirmButtonText: 'Ok',
+            cancelButtonText: "Cancel",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (result) {
+            if (result === true) {
+                DeleteUser(userId);
+
+            }
+        }
+        );
+    }
+
+    function displaySwalAlert(title, icon) {
+        swal({
+            title: title,
+            icon: icon
+        });
+    }
+</script>

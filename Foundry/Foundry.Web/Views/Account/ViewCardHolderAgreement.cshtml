@@ -1,0 +1,72 @@
+﻿@model Foundry.Web.Models.CardHolderAgreeementModel;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Cardholder Agreement</title>
+    <style>
+        body {
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        section.agreement_sec {
+            width: 95%;
+            max-width: 560px;
+            padding: 20px;
+            border-radius: 6px;
+            background-color: #FFF;
+            font-family: arial;
+            margin: 20px auto;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+        }
+
+            section.agreement_sec h1 {
+                margin: 0 0 15px 0;
+                padding: 0;
+                font-size: 21px;
+            }
+
+            section.agreement_sec p {
+                margin: 5px 0 5px 0;
+                padding: 0;
+                word-break: break-all;
+                font-size: 14px;
+            }
+
+        h1, h2, h3, h4, h5, h6, p {
+            margin: 0 0 15px 0;
+        }
+
+        .agreement_sec ul li {
+            margin-bottom: 9px;
+        }
+        section.agreement_sec img {
+            width: 100%;
+        }
+        .agreement_sec h2 {
+            font-size: 18px;
+            padding-top: 20px;
+        }
+        .agreement_sec table {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="agreement_sec">
+        <h1> Cardholder Agreement</h1>
+        @Html.Raw(Model.CardHolderAgreementContent)
+
+    </section>
+</body>
+</html>
+

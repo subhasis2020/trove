@@ -1,0 +1,997 @@
+﻿@model Foundry.Web.Models.AccountHolderModel;
+<style>
+
+    #tblLoyaltyRewardTransactions_filter label {
+        display: none;
+    }
+
+    #tblBitePayTransactions_filter label {
+        display: none;
+    }
+
+    #tblLoyaltyTrackingTransactions_filter label {
+        display: none;
+    }
+</style>
+<div id="tab-3-5" class="tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2>Add Account Holders</h2>
+                </div>
+            </div>
+        </div>
+        <div class="org-admin-detail">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AccountHolderForm" }))
+            {
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4 padding-right">
+                        <div class="mecrchant-view-address">
+                            <div class="admin-browse-image">
+                                <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                    <div class="dz-default dz-message" data-dz-message="">
+                                        <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt40">
+                                <label>Add plan(s) to account holders*</label>
+                                <div class="form-group-inner form-select-customs">
+                                    @Html.ListBoxFor(m => m.SelectedPlanIds, ViewBag.PlansList as List<SelectListItem>, new { @multiple = "multiple", @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(m => m.SelectedPlanIds)
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!---4--->
+
+                    <div class="col-sm-12 col-md-6 col-lg-8 padding-right">
+                        <div class="mecrchant-view-info">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>First name*</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "First name" })
+                                            @Html.ValidationMessageFor(m => m.FirstName)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Last name*</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "Last name" })
+                                            @Html.ValidationMessageFor(m => m.LastName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--row-->
+
+                            <div class="row">
+                                <div class="col-sm-3">
+
+                                    <div class="form-group">
+                                        @if (!string.IsNullOrEmpty(Model.ProgramUniqueColumnName))
+                                        {
+                                            <label>@Model.ProgramUniqueColumnName*</label>
+                                        }
+                                        else
+                                        {
+                                            <label>Account holder ID*</label>}
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.AccountHolderID, new { @class = "form-control form-control-custom", @maxlength = 20, @placeholder = "Account holder id", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.AccountHolderID)
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>Bite RealID*</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.PartnerUserId, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "" })
+                                            @*@Html.ValidationMessageFor(m => m.PartnerUserId)*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Mobile Phone Number*</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "" })
+                                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Primary email*</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Primary email", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.Email)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Secondary email</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.SecondaryEmail, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Secondary email" })
+                                            @Html.ValidationMessageFor(m => m.SecondaryEmail)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <div class="form-group-inner">
+                                            @Html.DropDownListFor(m => m.GenderId, ViewBag.GenderList as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            @Html.ValidationMessageFor(m => m.GenderId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.DateOfBirth, "{0:MM/dd/yyyy}", new { @class = "form-control form-control-custom datetimepicker", @maxlength = 80, @placeholder = "", @autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Card Reference Id</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.i2cReferenceId, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "", @readonly = true })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="dvAddCustomProgramFields">
+                            </div>
+                            <!--row-->
+                            <!--row-->
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="col-sm-7 col-md-7 col-lg-7 ">
+
+                        <div class="balance-section">
+                            <table class="balanace-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Admin Balance Adjustment</td>
+                                        <td>
+
+
+                                            <label for="exampleFormControlSelect1">Amount</label>
+
+                                            <input type="text" id="txAmount" class="ForNumericOnly" name="txAmount">
+                                            <span id="spnErrorReloadAmount1" style="display:none;" class="error">Amount is required.</span>
+                                            <span id="spnErrorNoi2cCard" style="display:none;" class="error">User has not applied for i2c Card.</span>
+
+
+                                        </td>
+                                        <td align="center"><button id="btnAdminLoadFunds" class="view-add-bal">Credit Account</button>
+                                                           <button id="btnDebitFunds" class="view-add-bal">Debit Account</button>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Bite Pay Balance</td>
+                                        <td><label id="usrBitePayBalance" >@ViewBag.usrBitePayBalance</label></td>
+                                        <td align="center"><button id="btnViewBitePayTransactions" class="view-add-bal">View Transaction</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Loyalty Tracking Balance</td>
+                                        <td> <label>@ViewBag.usrLoyaltyTrackingBalance</label></td>
+                                        <td align="center"><button id="btnViewLoyaltyTrackingTransactions" class="view-add-bal">View Transaction</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Loyalty Reward Balance</td>
+                                        <td> <label>@ViewBag.usrBiteRewardsBalance</label></td>
+                                        <td align="center"><button id="btnViewLoyaltyRewardTransactions" class="view-add-bal">View Transaction</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Benefactors</td>
+                                        @if (@ViewBag.BenefectorsCounts != null)
+                                        {
+                                            <td> <label>@ViewBag.BenefectorsCounts</label></td>
+                                        }
+                                        else
+                                        {
+                                            <td> <label>0</label></td>
+                                        }
+                                        <td align="center"><button id="btnViewBenefactors" class="view-add-bal">View Benefactors</button></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5 col-md-5 col-lg-5 ">
+                        <div class="form-group-inner custom-right mt-5">
+                            <button type="submit" id="btnAccountHolderDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                            <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                            <input type=hidden id="hdnIsNewUpload" value='1' />
+                            @Html.HiddenFor(m => m.ProgramCustomJsonFields)
+                            @Html.HiddenFor(m => m.UserCustomJsonValue)
+                            @Html.HiddenFor(m => m.UserEncId)
+                            @Html.HiddenFor(m => m.UserImagePath)
+                            @Html.HiddenFor(m => m.ImageFileName)
+                            @Html.HiddenFor(m => m.Jpos_EncUserID)
+                            <input type="hidden" id="hdnuid" value="@ViewBag.uid" />
+                        </div>
+                    </div>
+
+
+                    <button id="btntest" style="display:none">View test</button>
+
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dvLoyaltyTrackingTransactions" role="dialog">
+    <div class="modal-dialog" style="max-width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-orange" style="font-size:25px;">Loyalty Tracking Transactions</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-wrapper">
+                    <table id="tblLoyaltyTrackingTransactions" width="100%" class="table table_left_td">
+                        <thead>
+                            <tr>
+
+                                <th width="20%">Date/Time</th>
+                                <th class="text-center">TranlogID</th>
+                                <th class="text-center" width="20%">Amount</th>
+                                <th class="text-center">Points Earned</th>
+                                <th class="text-center">Total Points</th>
+                                <th class="text-center" width="20%">Reward Amount Issued</th>
+                                <th class="text-center">Points Debited</th>
+                                <th class="text-center">Remaining Points</th>
+
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dvLoyaltyRewardTransactions" role="dialog">
+    <div class="modal-dialog" style="max-width:700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-orange" style="font-size:25px;">Loyalty Reward Transactions</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-wrapper">
+                    <table id="tblLoyaltyRewardTransactions" width="100%" class="table table_left_td">
+                        <thead>
+                            <tr>
+
+                                <th width="20%">Date/Time</th>
+                                <th class="text-center">TranlogID</th>
+                                <th class="text-center">CreditAmount</th>
+                                <th class="text-center">DebitAmount</th>
+                                <th class="text-center">RewardBalance</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dvBitePayTransactions" role="dialog">
+    <div class="modal-dialog" style="max-width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-orange" style="font-size:25px;">Bite Pay Transactions</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-wrapper">
+                    <table id="tblBitePayTransactions" width="100%" class="table table_left_td">
+                        <thead>
+                            <tr>
+
+                                <th class="text-center">Date/Time</th>
+                                <th class="text-center">TranlogID</th>
+                                <th class="text-center">DSID</th>
+                                <th class="text-center">DS</th>
+                                <th class="text-center">DSRC</th>
+                                <th class="text-center">Response</th>
+
+                                @*<th class="text-center">Merchant Name</th>
+        <th class="text-center">Transaction Type</th>
+        <th class="text-center">Service</th>*@
+                                <th class="text-center"> Amount</th>
+                                <th class="text-center">Available Balance</th>
+                                <th class="text-center">Refund</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dvBenefacotrs" role="dialog">
+    <div class="modal-dialog" style="max-width:700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-orange" style="font-size:25px;">Benefactors Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-wrapper">
+                    <table id="tblBenefacotrs" width="100%" class="table table_left_td">
+                        <thead>
+                            <tr>
+                                <th width="20%">First Name</th>
+                                <th class="text-center">Last Name</th>
+                                @*<th class="text-center" width="20%">Transaction Type</th>*@
+                                <th class="text-center">Email</th>
+                                @*<th class="text-center">Reward Balance</th>*@
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#SelectedPlanIds').multiselect({ includeSelectAllOption: true });
+        $('.timepicker').timepicker({ defaultTime: '12:00 AM', minuteStep: 1 });
+        $('.timepicker').timepicker('update');
+        //  $('#PhoneNumber').mobilePhoneNumber();
+        //  $("#PhoneNumber").mask("(999) 999-9999");
+
+        //$('#PhoneNumber').keydown(function (e) {
+        //    var isValid = false;
+        //    var regex = new RegExp("^[0-9-+()]*$");
+
+        //    isValid = regex.test($('#PhoneNumber').val());
+        //    alert(isValid);
+        //    if (!isValid) {
+        //        e.preventDefault();
+        //        return false;
+        //    }
+        //});
+        $('#btnAccountHolderDetail').click(function () {
+
+            if ($("#AccountHolderForm").validate() && $("#AccountHolderForm").valid()) {
+                $("#dvLoadingGif").show();
+                customFieldsJsonValueContent = [];
+
+                $(".customValueCls").each(function () {
+                    var FieldName = $(this).attr('id').split('^')[0];
+
+                    customFieldsJsonValueContent.push({
+                        CustomFieldName: $(this).attr('id').split('^')[0],
+                        CustomFieldValue: $(this).val()
+                    });
+                });
+
+                var brands = $('#SelectedPlanIds option:selected');
+                var planIdsArrayJson = [];
+                programTypes = [];
+                $(brands).each(function (index, brand) {
+                    var data = $(this).val();
+                    planIdsArrayJson.push(data);
+                });
+                var prgName = $("#ProgramName").val();
+                $("#UserCustomJsonValue").val(JSON.stringify(customFieldsJsonValueContent));
+                var AccountHolderModel = {
+                    UserCustomJsonValue: JSON.stringify(customFieldsJsonValueContent),
+                    AccountHolderID: $("#AccountHolderID").val(),
+                    DateOfBirth: $("#DateOfBirth").val(),
+                    FirstName: $("#FirstName").val(),
+                    GenderId: $("#GenderId").val(),
+                    UserEncId: $("#UserEncId").val(),
+                    LastName: $("#LastName").val(),
+                    OrgEncId: $("#hdnPrimaryOrgId").val(),  
+                    PhoneNumber: $("#PhoneNumber").val(),
+                    SelectedPlanIds: planIdsArrayJson,
+                    Email: $("#Email").val(),
+                    ProgEncId: $("#hdnProgramId").val(),
+                    SecondaryEmail: $("#SecondaryEmail").val(),
+                    UserImagePath: $("#ImageFileName").val(),
+                    Jpos_EncUserID: $("Jpos_EncUserID").val()
+                };
+
+                $.ajax({
+                    url: "/Program/PostAccountHolderInformation",
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data: AccountHolderModel,
+                    success: function (data) {
+
+                        $("#dvLoadingGif").hide();
+                        if (data.success) {
+
+                            if (data.data !== "" || data.data !== "0") {
+                                swal({
+                                    title: data.message,
+                                    icon: "success"
+                                });
+
+                                tab = '4';
+                                var stringElement = "tab_" + tab;
+                                $("#" + stringElement).addClass('active');
+                                GetTabViewComponent(tab);
+
+                            }
+                        }
+                        else {
+                            swal({
+                                title: data.message,
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function () { }
+                });
+
+                return false;
+                //ajaxcall
+            }
+            else {
+                $("#AccountHolderForm").validate();
+                if (!$("#AccountHolderForm").valid()) {
+                    if ($('#FirstName').val() == '') {
+                        $('#FirstName').focus();
+                    }
+                    else if ($('#LastName').val() == '') {
+                        $('#LastName').focus();
+                    }
+                    else if ($('#PhoneNumber').val() == '') {
+                        $('#PhoneNumber').focus();
+                    }
+                }
+            }
+        });
+
+
+        if ($("#ProgramCustomJsonFields").val() !== '' && $("#ProgramCustomJsonFields").val() !== '[]') {
+
+            var arrayCustomFields = JSON.parse($("#ProgramCustomJsonFields").val());
+            var arrayCustomFieldsValue = [];
+            if ($("#UserCustomJsonValue").val() != '' && $("#UserCustomJsonValue").val() !== '[]')
+                arrayCustomFieldsValue = JSON.parse($("#UserCustomJsonValue").val());
+
+            var MainRowDiv = '';
+            var j = 0;
+            for (var i = 0; i < arrayCustomFields.length; i++) {
+
+                if (i % 2 === 0) {
+                    j++;
+                    MainRowDiv = $('<div id="dv_' + j + '" class="row"></div>');
+
+                }
+                var markRequired = '';
+                if (arrayCustomFields[i].CustomFieldIsRequired == "true")
+                    markRequired = '*';
+                var InputElementCreate = fnInputOnDataType(arrayCustomFields[i].CustomFieldName, arrayCustomFields[i].CustomFieldDataType, arrayCustomFields[i].CustomFieldLength, arrayCustomFields[i].CustomFieldIsRequired, arrayCustomFields[i].CustomFieldUniqueColumnID, i, arrayCustomFieldsValue);
+
+                var dynamicDiv = $("<div class='col-sm-6'><div class='form-group'><label>" +
+                    arrayCustomFields[i].CustomFieldName + markRequired
+                    + "</label><div class='form-group-inner' id='dvInputInner_" + i + "'></div></div></div>");
+
+
+                if (i % 2 === 0) {
+                    // MainRowDiv = '';
+                    MainRowDiv.appendTo("#dvAddCustomProgramFields");
+                }
+                $("#dv_" + j + "").append(dynamicDiv);
+                $("#dvInputInner_" + i + "").append(InputElementCreate);
+
+                if (arrayCustomFields[i].CustomFieldIsRequired === "true") {
+                    if (InputElementCreate.attr("type") != "hidden") {
+                        InputElementCreate.attr("data-val", "true");
+                        InputElementCreate.attr("data-val-required", "Please enter " + arrayCustomFields[i].CustomFieldName + ".");
+                        InputElementCreate.after(
+                            '<span data-valmsg-for="' +
+                            arrayCustomFields[i].CustomFieldUniqueColumnID + "^" + i +
+                            '" data-valmsg-replace="true" class="field-validation-valid"></span>'
+                        );
+                        InputElementCreate.rules('add', {
+                            required: true,
+                            messages: {
+                                required: "Please enter " + arrayCustomFields[i].CustomFieldName + "."
+                            }
+                        });
+                    }
+                }
+                $("#AccountHolderForm").removeData("validator").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse($("#AccountHolderForm"));
+            }
+            $('.timepicker').timepicker({ defaultTime: '12:00 AM', minuteStep: 1 });
+            $('.timepicker').timepicker('update');
+        }
+    })
+
+    var CheckForPlan = function (strId) {
+        GetDataTableContent(strId);
+        $("#transactions-panel-dropdown.collapse").collapse('hide');
+    };
+    var GetDataTableContent = function (strId) {
+
+        oTable = $('#tblAccountHolder').DataTable();
+        oTable.on('preXhr.dt', function (e, settings, data) {
+            data.planId = strId;
+        });
+        oTable.draw();
+    };
+    var fnInputOnDataType = function (dataFieldName, dataType, dataTypeLength, dataTypeIsRequired, dataFieldNameUniqueColumnID, id, customFieldsValueJson) {
+        dataType = dataType.toString().toLowerCase();
+        var InputElement = '';  
+
+        var inputId = dataFieldNameUniqueColumnID + "^" + id;
+
+        if (dataType === 'int') {
+            InputElement = $("<input type='text' id=" + inputId + " name=" + inputId + " class='form-control form-control-custom ForNumericOnly customValueCls' placeholder='Please enter number'>");
+            if (dataTypeLength !== "" && dataTypeLength !== null) {
+                InputElement.attr('maxlength', dataTypeLength);
+            }
+            else { InputElement.attr('maxlength', '10'); }
+
+        }
+        else if (dataType === 'datetime') {
+            InputElement = $("<input type='text' readonly='true' id=" + inputId + " name=" + inputId + " class='form-control form-control-custom datetimepicker customValueCls' placeholder='MM/DD/YYYY'>");
+            InputElement.datepicker();
+        }
+        else if (dataType === 'time') {
+            InputElement = $("<div class='input-group bootstrap-timepicker'><input type='text'  readonly='true' id=" + inputId + " name=" + inputId + " class='form-control form-control-custom timepicker customValueCls' placeholder='HH:MM'><span class='input-group-addon'><i class='glyphicon glyphicon-time'></i></span></div>");
+
+        }
+        else if (dataType === 'money') {
+            InputElement = $("<input type='text' id=" + inputId + " name=" + inputId + " class='form-control form-control-custom ForDecimals customValueCls' placeholder='Please enter number with decimal places'>");
+            if (dataTypeLength !== "" && dataTypeLength !== null) {
+                InputElement.attr('maxlength', dataTypeLength);
+            } else { InputElement.attr('maxlength', '10'); }
+
+        }
+        else if (dataType === 'string') {
+            var placeholderstring = 'Please enter ' + dataFieldName;
+
+            InputElement = $("<input type='text' id=" + inputId + " name=" + inputId + " class='form-control form-control-custom customValueCls' placeholder='Please enter " + dataFieldName + "'>");
+            if (dataTypeLength !== "" && dataTypeLength !== null) {
+                InputElement.attr('maxlength', dataTypeLength);
+
+            } else { InputElement.attr('maxlength', '100'); }
+
+        }
+
+        if (customFieldsValueJson.length > 0) {
+
+            for (var i = 0; i < customFieldsValueJson.length; i++) {
+
+                if (customFieldsValueJson[i].CustomFieldName.toLowerCase() === dataFieldNameUniqueColumnID.toLowerCase()) {
+
+                    InputElement.val(customFieldsValueJson[i].CustomFieldValue);
+                }
+            }
+
+        }
+
+        return InputElement;
+    };
+
+    $(document).on('click', '#btnViewLoyaltyTrackingTransactions', function () {
+       // debugger;
+        $("#dvLoyaltyTrackingTransactions").modal('show');
+
+        $("#tblLoyaltyTrackingTransactions").DataTable({
+            "processing": true, "serverSide": true, "filter": true, "searching": false, "orderMulti": false,
+            "pageLength": 10, "destroy": true,
+            "order": [[1, "desc"]],
+            "oLanguage": {
+                "sEmptyTable": "No data available."
+            },
+            "bLengthChange": true,
+            "ajax": { "url": "/Account/LoadLoyaltyTrackingTransactions1", "data": { id: $("#hdnuid").val() }, "type": "POST", "datatype": "json" },
+            "columnDefs": [{ "targets": [0], "visible": true, "searchable": false, "orderable": true }, { "targets": [1], "visible": true, "searchable": false, "orderable": false }, { "targets": [2], "visible": true, "searchable": false, "orderable": false }, { "targets": [3], "visible": true, "searchable": false, "orderable": false }, { "targets": [4], "visible": true, "searchable": false, "orderable": false }, { "targets": [5], "visible": true, "searchable": false, "orderable": false }, { "targets": [6], "visible": true, "searchable": false, "orderable": false }, { "targets": [7], "visible": true, "searchable": false, "orderable": false }],
+            "columns": [{
+                "data": "transactionDate", "name": "transactionDate", "autoWidth": true, "render": function (data, type, full, mets) {
+                    return moment(full.DateAdded).format('MM-DD-YYYY hh:mm:ss ');
+                } },
+                { "data": "TranlogID", "name": "TranlogID", "autoWidth": true, className: "text-center" },
+                { "data": "transactionAmount", "name": "transactionAmount", "autoWidth": true, className: "text-center" },
+                { "data": "pointsEarned", "name": "pointsEarned", "autoWidth": true, className: "text-center" },
+                { "data": "totalPoints", "name": "totalPoints", "autoWidth": true, className: "text-center" },
+                { "data": "rewardAmount", "name": "rewardAmount", "autoWidth": true, className: "text-center" },
+                { "data": "pointDebited", "name": "pointDebited", "autoWidth": true, className: "text-center" },
+                { "data": "leftOverPoints", "name": "leftOverPoints", "autoWidth": true, className: "text-center" }
+
+            ],
+
+        });
+       // table.destroy();
+
+    });
+
+    $(document).on('click', '#btnAdminLoadFunds', function () {
+        var a = $('#txAmount').val();
+        var cardrefranceID = $('#i2cReferenceId').val();
+        
+        if (cardrefranceID=='') {
+            
+            $("#spnErrorNoi2cCard").show();
+            $("#i2cReferenceId").focus();
+            return false;
+        }
+
+
+        if (a == '') {
+
+            $("#spnErrorReloadAmount1").show();
+            $("#txAmount").focus();
+            return false;
+        }
+        else {
+            var reloadamt = parseFloat(a);
+            var model = {
+                ReloadUserId: $("#hdnuid").val(),
+                ReloadAmount: reloadamt
+            }
+            $.post("/Account/AdminReloadAmount",
+                model,
+                function (data) {
+                    $("#dvLoadingGif").hide();
+                    var titleMessage = '';
+                    
+                    if (data.Status) {
+                        $('#txAmount').val("");
+                        
+                        titleMessage = 'Balance has been updated, new BitePay balance will not be reflected immediately on this page.';
+                        swal({
+                            title: titleMessage,
+                            icon: "success"
+                        }, function () {
+                           // window.location.href = window.location.href;
+                        });
+
+                    }
+                    else {
+                        titleMessage = 'There was some problem loading the funds please try after sometime.';
+                        swal({
+                            title: titleMessage,
+                            icon: "error"
+                        });
+                    }
+                }
+                );
+            return false;
+        }
+    });
+
+
+    $(document).on('click', '#btnDebitFunds', function () {
+        var a = $('#txAmount').val();
+        var cardrefranceID = $('#i2cReferenceId').val();
+
+        if (cardrefranceID == '') {
+
+            $("#spnErrorNoi2cCard").show();
+            $("#i2cReferenceId").focus();
+            return false;
+        }
+
+
+        if (a == '') {
+
+            $("#spnErrorReloadAmount1").show();
+            $("#txAmount").focus();
+            return false;
+        }
+        else {
+            var reloadamt = parseFloat(a);
+            var model = {
+                ReloadUserId: $("#hdnuid").val(),
+                ReloadAmount: reloadamt
+            }
+            $.post("/Account/AdminDebitFundsi2c",
+                model,
+                function (data) {
+                    $("#dvLoadingGif").hide();
+                    var titleMessage = '';
+
+                    if (data.Status) {
+                        $('#txAmount').val("");
+                        titleMessage = 'Balance has been updated, new BitePay balance will not be reflected immediately on this page.';
+                        swal({
+                            title: titleMessage,
+                            icon: "success"
+                        }, function () {
+                            // window.location.href = window.location.href;
+                        });
+
+                    }
+                    else {
+                        titleMessage = 'There was some problem debiting the funds please try after sometime.';
+                        swal({
+                            title: titleMessage,
+                            icon: "error"
+                        });
+                    }
+                }
+            );
+
+            return false;
+        }
+    });
+
+
+
+
+
+    $(document).on('click', '#btnViewBitePayTransactions', function () {
+        $("#dvBitePayTransactions").modal('show');
+        
+        $("#tblBitePayTransactions").DataTable({
+            "processing": true, "serverSide": true, "filter": true, "searching": false, "orderMulti": false,
+            "pageLength": 10, "destroy": true,
+            "order": [[1, "desc"]],
+            "oLanguage": {
+                "sEmptyTable": "No data available."
+            },
+            "bLengthChange": true,
+            "ajax": { "url": "/Account/LoadBitePayTransactions", "data": { id: $("#hdnuid").val() }, "type": "POST", "datatype": "json" },
+            "columnDefs": [{ "targets": [0], "visible": true, "searchable": false, "orderable": false }, { "targets": [1], "visible": true, "searchable": false, "orderable": false }, { "targets": [2], "visible": true, "searchable": false, "orderable": false }, { "targets": [3], "visible": true, "searchable": false, "orderable": false }, { "targets": [4], "visible": true, "searchable": false, "orderable": false }
+                , { "targets": [5], "visible": true, "searchable": false, "orderable": false }
+                , { "targets": [6], "visible": true, "searchable": false, "orderable": false }
+                , { "targets": [7], "visible": true, "searchable": false, "orderable": false }
+                , { "targets": [8], "visible": true, "searchable": false, "orderable": false }
+            ],
+            "columns": [{
+                "data": "date", "name": "date", "autoWidth": true, "render": function (value) {
+                    if (value === null) return "";
+                    return moment(value).format('MM-DD-YYYY hh:mm:ss');
+                } 
+                
+            },
+                { "data": "id", "name": "id", "autoWidth": true, className: "text-center" },
+                { "data": "dstxnid", "name": "dstxnid", "autoWidth": true, className: "text-center" },
+                { "data": "ds", "name": "ds", "autoWidth": true, className: "text-center" },
+                { "data": "dsrc", "name": "dsrc", "autoWidth": true, className: "text-center" },
+                { "data": "dsresponse", "name": "dsresponse", "autoWidth": true, className: "text-center" },
+            //    {
+            //        "data": "date", "name": "date", "autoWidth": true, "render": function (value) {
+            //                  if (value === null) return "";
+            //                  return moment(value).format('DD/MM/YYYY');
+            //              } },
+            //{ "data": "pointsEarned", "name": "pointsEarned", "autoWidth": true, className: "text-center" },
+            //{ "data": "totalPoints", "name": "totalPoints", "autoWidth": true, className: "text-center" },
+                { "data": "dsamount", "name": "dsamount", "autoWidth": true, className: "text-center" },
+                { "data": "dsbalance", "name": "dsbalance", "autoWidth": true, className: "text-center" },
+                //{
+                //    "data": null,
+                //    "bSortable": false,
+                //    "render": function (o) {
+                //        return
+                //        '<button id="editBtn"  name="editBtn" type="button">Refund</button>';
+                //        //'<a href=#/' + o.userid + '>' + 'Refund' + '</a>';
+                //    }
+                //}
+
+
+                {//action
+                    visible: true,
+                    targets: 2,
+                    className: "text-center",
+                    render: function (data, type, full, meta) {
+
+                        return '<button id="btnRefund"  name="btnRefund" type="button">Refund</button>';
+
+                    }
+                }
+
+            ],
+
+        });
+        
+
+    });
+
+
+    $('#tblBitePayTransactions').on('click', '#btnRefund', function () {
+
+        var table = $('#tblBitePayTransactions').DataTable();
+        var data = table.row($(this).closest('tr')).data();
+        var vdstxnid = data['dstxnid'];
+        var vdate = data['date'];
+        var vdsamount = data['dsamount'];
+
+        swal({
+            title: "Are you sure?",
+            text: "you want to reverse the transaction !",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    var model = {
+
+                        dsamount: vdsamount,
+                        userId: $("#hdnuid").val(),
+                        dstxnid: vdstxnid,
+                        date: vdate
+                    }
+                    $.post("/Account/AdminReversal",
+                        model,
+                        function (data) {
+                          
+                            var titleMessage = '';
+
+                            if (data.Status) {
+                                $('#txAmount').val("");
+                                titleMessage = 'Reversal successful';
+                                swal({
+                                    title: titleMessage,
+                                    icon: "success"
+                                }, function () {
+                                    // window.location.href = window.location.href;
+                                });
+
+                            }
+                            else {
+                                titleMessage = 'There was some problem please try after sometime.';
+                                swal({
+                                    title: titleMessage,
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    );
+                    
+                    
+                } else {
+                   // swal("Cancelled", "jit", "error");
+
+                    swal({
+                        title: ' Reversal cancelled',
+                        timer: 1000,
+                        showCancelButton: false,
+                        showConfirmButton: false
+                    }).then(
+                        function () { },
+                        // handling the promise rejection
+                        function (dismiss) {
+                            if (dismiss === 'timer') {
+                                //console.log('I was closed by the timer')
+                            }
+                        }
+                    );
+                }
+            }
+        );
+        
+
+
+    });
+
+
+
+    $(document).on('click', '#btnViewLoyaltyRewardTransactions', function () {
+        $("#dvLoyaltyRewardTransactions").modal('show');
+
+        $("#tblLoyaltyRewardTransactions").DataTable({
+            "processing": true, "serverSide": true, "filter": true, "searching": false, "orderMulti": false,
+            "pageLength": 10, "destroy": true,
+            "order": [[1, "desc"]],
+            "oLanguage": {
+                "sEmptyTable": "No data available."
+            },
+            "bLengthChange": true,
+            "ajax": { "url": "/Account/LoadLoyaltyRewardTransactions", "data": { id: $("#hdnuid").val() }, "type": "POST", "datatype": "json" },
+            "columnDefs": [{ "targets": [0], "visible": true, "searchable": false, "orderable": false },
+                { "targets": [1], "visible": true, "searchable": false, "orderable": false },
+                { "targets": [2], "visible": true, "searchable": false, "orderable": false },
+                { "targets": [3], "visible": true, "searchable": false, "orderable": false },
+                { "targets": [4], "visible": true, "searchable": false, "orderable": false }],
+            "columns": [{
+                "data": "date", "name": "date", "autoWidth": true, "render": function (value) {
+                    if (value === null) return "";
+                    return moment(value).format('MM-DD-YYYY hh:mm:ss');
+                } 
+            },
+            { "data": "id", "name": "id", "autoWidth": true, className: "text-center" },
+                { "data": "CreditAmount", "name": "CreditAmount", "autoWidth": true, className: "text-center" },
+                { "data": "DebitAmount", "name": "DebitAmount", "autoWidth": true, className: "text-center" },
+            //{ "data": "totalPoints", "name": "totalPoints", "autoWidth": true, className: "text-center" },
+                { "data": "dsrc", "name": "dsrc", "autoWidth": true, className: "text-center" },
+
+            ],
+
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(document).on('click', '#btnViewBenefactors', function () {
+        $("#dvBenefacotrs").modal('show');
+
+        $("#tblBenefacotrs").DataTable({
+            "processing": true, "serverSide": true, "filter": true, "searching": false, "orderMulti": false,
+            "pageLength": 10, "destroy": true,
+            "order": [[1, "desc"]],
+            "oLanguage": {
+                "sEmptyTable": "No data available."
+            },
+            "bLengthChange": true,
+            "ajax": { "url": "/Account/LoadBenefectors", "data": { id: $("#hdnuid").val() }, "type": "POST", "datatype": "json" },
+            "columnDefs": [{ "targets": [0], "visible": true, "searchable": false, "orderable": true }, { "targets": [1], "visible": true, "searchable": false, "orderable": false }, { "targets": [2], "visible": true, "searchable": false, "orderable": false }],
+            "columns": [
+                { "data": "UserFirstName", "name": "UserFirstName", "autoWidth": true, className: "text-center" },
+                { "data": "UserLastName", "name": "UserLastName", "autoWidth": true, className: "text-center" },
+                { "data": "EmailAddress", "name": "EmailAddress", "autoWidth": true, className: "text-center" }                
+            ],
+
+        });
+     
+    });
+
+</script>

@@ -1,0 +1,39 @@
+﻿@model List<Foundry.Web.Models.LinkedUsersModel>
+@{
+    ViewData["Title"] = "Linked Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="page-content">
+
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <h2>Linked Accounts</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+    <article class="content-wrapper">
+
+        <!-- Tab panes -->
+        <div class="white-box">
+            <div class="table-wrapper">
+                 @await Html.PartialAsync("_LinkedAccountsPartial.cshtml", Model)
+            </div>
+        </div>
+
+    </article>
+
+</section>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/LinkedAccounts.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#accordion").find('li').removeClass('active');
+        $("#accordion #liLinkedAccounts").addClass('active');
+    });
+</script>

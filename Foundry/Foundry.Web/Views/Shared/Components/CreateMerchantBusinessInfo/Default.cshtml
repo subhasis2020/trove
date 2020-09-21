@@ -1,0 +1,384 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.MerchantBusinessInfoModel;
+<!-- Tab panes -->
+<div id="business-information" class=" tab-pane fade">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form", @name = "form" }))
+    {
+        <div class="detail-information prog-list">
+            <div class="title-section title-section01">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h6>Organizations: <small>@ViewBag.PrimaryOrgName </small></h6>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName)) </small></h6>
+
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) > 0)
+                        {
+                            <h6>Merchant: <small id="hmerchantname"></small></h6>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!--title-section-->
+            <div class="org-admin-detail">
+                <div class="business-detail">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="business-hours">
+                                <div class="form-group">
+                                    <label>Hours of operation*:</label>
+                                    @{ var j = 0;}
+                                    @for (int i = 0; i < Model.HoursOfOperation.Count; i++)
+                                    {
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 1)
+                                        {
+                                            @Html.Raw("<div id='add-more-hours'>")
+                                        }
+                                        <div class="form-group-inner form-inline select-business-hours" id="select-hours_@(i)">
+                                            <div class="select-control">
+                                                @Html.DropDownListFor(x => x.HoursOfOperation[i].WorkingDay, ViewBag.WeekDay as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            </div>
+                                            <div class="select-control">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    @Html.TextBoxFor(x => x.HoursOfOperation[i].OpenTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                </div>
+                                            </div>
+                                            <span>To</span>
+                                            <div class="select-control">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    @Html.TextBoxFor(x => x.HoursOfOperation[i].ClosedTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                </div>
+                                            </div>
+                                            @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i > 0)
+                                            {
+                                                <a class="delete-action" href="#">Remove</a><br />
+                                            }
+                                        </div>
+
+                                        j = i;
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == (Model.HoursOfOperation.Count - 1) && Model.HoursOfOperation.Count > 1)
+                                        {
+                                            @Html.Raw("</div>")
+                                        }
+                                    }
+                                    <div id="add-more-hours"> </div>
+                                    <a class="add add-hours" value="@j" href="#"><img src="~/images/icon-plus-sm.png"> <span>Add More</span></a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--7-->
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>Max capacity</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(x => x.Merchant.maxCapacity, new { @class = "form-control form-control-custom ForNumericOnly", @maxlength = "3" })
+                                            @Html.ValidationMessageFor(x => x.Merchant.maxCapacity)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>MID</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(x => x.Merchant.MerchantId, new { @class = "form-control form-control-custom", @readonly = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>Typical dwell time</label>
+                                        <div class="form-group-inner">
+                                            <div class="form-group-inner form-select-customs">
+                                                @Html.DropDownListFor(x => x.Merchant.dwellTime, ViewBag.DwellTime as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--row-->
+
+                            <div class="terminal-points">
+                                @{var l = 0;}
+                                @for (int i = 0; i < Model.MerchantTerminal.Count; i++)
+                                {
+                                    if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 1)
+                                    {
+                                        @Html.Raw("<div id='add-terminal'>")
+                                    }
+                                    <div class="terminal-area" id="select-terminal_@(i)">
+                                        <div class="row terminal-row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>TID(s)</label>
+                                                    <div class="form-group-inner">
+                                                        @Html.TextBoxFor(x => x.MerchantTerminal[i].terminalId, new { @class = "form-control form-control-custom" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Terminal name </label>
+                                                    <div class="form-group-inner">
+                                                        @Html.TextBoxFor(x => x.MerchantTerminal[i].terminalName, new { @class = "form-control form-control-custom", @maxlength = "50" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>Terminal type </label>
+                                                    <div class="form-group-inner form-select-customs">
+                                                        @Html.DropDownListFor(x => x.MerchantTerminal[i].terminalType, ViewBag.TerminalType as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*@Html.HiddenFor(x=>!string.IsNullOrEmpty(x.MerchantTerminal[i].Jpos_TerminalId)?Cryptography.EncryptPlainToCipher(x.MerchantTerminal[i].Jpos_TerminalId): x.MerchantTerminal[i].Jpos_TerminalId)*@
+                                            @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i > 0)
+                                            {
+                                                <a class="delete-action-ter" href="#">Remove</a>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    l = i;
+                                    if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 1)
+                                    {
+                                        @Html.Raw("</div>")
+                                    }
+                                }
+                            </div>
+                            <div id="add-terminal"> </div>
+                            <a class="add-terminal-fields" value="@l"><img src="~/images/icon-plus-sm.png"> <span>Add More</span></a>
+
+                        </div>
+                        <!--6-->
+                    </div>
+                    <!--row-->
+                </div>
+                <!--business-detail-->
+
+                <div class="business-detail mt50">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="business-hours">
+                                <div class="form-group">
+                                    <label>
+                                        Holiday Hours <small>(Note: By default for same date the first selection will be displayed.)</small>
+                                    </label>
+                                    @{ var k = 0;}
+                                    @for (int i = 0; i < Model.HolidayHours.Count; i++)
+                                    {
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 1)
+                                        {
+                                            @Html.Raw("<div id='add-more-datehours'>")
+                                        }
+                                        <div class="form-group-inner form-inline select-date-hours form-group-inner01" id="select-date-hours_@(i)">
+                                            <div class="row">
+                                                <div class="col-sm-6 left_icon">
+                                                    <label class="custom_check_box check_box-sm">
+                                                        @{ var isCheckforHolidayName = Model.HolidayHours[i].IsForHolidayNameToShow;}
+                                                        @Html.CheckBoxFor(x => x.HolidayHours[i].IsForHolidayNameToShow, new { @class = "clsCheckbox", @checked = isCheckforHolidayName })
+                                                        <span></span>
+                                                    </label>
+                                                    @Html.TextBoxFor(x => x.HolidayHours[i].HolidayName, new { @class = "form-control clsTextBoxHolidayName RestrictNumbers", @placeholder = "Holiday Name*", @maxlength = 20 })
+                                                    @{ var spnId = "spn_HolidayHours_" + i + "__HolidayName";}
+
+                                                    <span id="@spnId" name="@spnId" class="spnShowHolidayNameError error" style="display:none;">
+                                                        Please enter holiday name.
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm-6 left_icon">
+                                                    <div class="form-groups-picker form-group-date">
+                                                        @Html.TextBoxFor(x => x.HolidayHours[i].HolidayDate, new { @class = "form-control datetimepicker", @value = ViewBag.Date, @placeholder = "MM/DD/YYYY", @readonly = "true" })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 left_icon">
+                                                    <div class="select-control">
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            @Html.TextBoxFor(x => x.HolidayHours[i].OpenTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 left_icon">
+                                                    <span class="label_01">To</span>
+                                                    <div class="select-control">
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            @Html.TextBoxFor(x => x.HolidayHours[i].ClosedTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @Html.HiddenFor(x => x.HolidayHours[i].IsHoliday)
+                                                    @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i > 0)
+                                                    {
+                                                        <a class="delete-action-hh" href="#">Remove</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        k = i;
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 1)
+                                        {
+                                            @Html.Raw("</div>")
+                                        }
+                                    }
+                                    <div id="add-more-datehours"> </div>
+                                    <a class="add-date-hours" value="@k" href="#"><img src="~/images/icon-plus-sm.png"> <span>Add More</span></a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--7-->
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="business-hours business-holidays">
+                                <div class="form-group">
+                                    <label>Meal Period</label>
+                                    @{ var m = 0;}
+                                    <div class="form-group-inner form-inline select-holidays-area" style="display:none" id="select-holidays-hours_0">
+                                        <label class="custom_check_box  check_box-sm ">
+                                            <input type="checkbox" id="MealPeriod_0__isSelected_Value" name="MealPeriod[0].isSelected.Value">
+                                            <span></span>@Html.TextBoxFor(x => x.MealPeriod[0].title, new { @class = "form-control form-control-custom control-first mpbox", @maxlenth = "15" })
+                                        </label>
+                                        <div class="select-control select-droppicker">
+                                            <div class="input-group bootstrap-timepicker">
+                                                @Html.TextBoxFor(x => x.MealPeriod[0].openTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                        <span>To</span>
+                                        <div class="select-control select-droppicker">
+                                            <div class="input-group bootstrap-timepicker">
+                                                @Html.TextBoxFor(x => x.MealPeriod[0].closeTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="select-control">
+                                            @{
+                                                Model.MealPeriod[0].Selecteddays = !string.IsNullOrEmpty(Model.MealPeriod[0].days) ? Model.MealPeriod[0].days.Split(',').ToList() : new List<string>();
+                                            }
+                                            @Html.ListBoxFor(x => x.MealPeriod[0].Selecteddays, ViewBag.WeekDay as List<SelectListItem>, new { @class = "form-control mpmulti", @multiple = "multiple" })
+                                        </div>
+                                    </div>
+                                    @for (int i = 1; i < Model.MealPeriod.Count; i++)
+                                    {
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 5)
+                                        {
+                                            @Html.Raw("<div id='add-more-mealperiod'>")
+                                        }
+                                        <div class="form-group-inner form-inline select-holidays-area" id="select-holidays-hours_@(i)">
+                                            <label class="custom_check_box  check_box-sm ">
+                                                @Html.CheckBoxFor(x => x.MealPeriod[i].isSelected.Value, new { @class = "mprb" })
+
+                                                <span></span>
+                                                @if (!string.IsNullOrEmpty(Model.MealPeriod[i].title))
+                                                {@Model.MealPeriod[i].title
+                                                @Html.HiddenFor(x => x.MealPeriod[i].title)}
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => x.MealPeriod[i].title, new { @class = "form-control form-control-custom control-first mpbox", @maxlenth = "15" })
+                                            }
+
+                                            </label>
+
+                                            <div class="select-control select-droppicker">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    @Html.TextBoxFor(x => x.MealPeriod[i].openTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                </div>
+                                            </div>
+                                            <span>To</span>
+                                            <div class="select-control select-droppicker">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    @Html.TextBoxFor(x => x.MealPeriod[i].closeTime, new { @class = "form-control form-control-custom input-small timepicker", @readonly = "true" })
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="select-control">
+                                                @{
+                                                    Model.MealPeriod[i].Selecteddays = !string.IsNullOrEmpty(Model.MealPeriod[i].days) ? Model.MealPeriod[i].days.Split(',').ToList() : new List<string>();
+                                                }
+                                                @Html.ListBoxFor(x => x.MealPeriod[i].Selecteddays, ViewBag.WeekDay as List<SelectListItem>, new { @class = "form-control multiselect mpmulti", @multiple = "multiple" })
+
+                                            </div>
+                                            @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i > 4)
+                                            {
+                                                <a class="delete-action-mealp" href="#">Remove</a>
+                                            }
+                                        </div>
+
+                                        m = i;
+                                        if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(Model.Id)) > 0 && i == 5)
+                                        {
+                                            @Html.Raw("</div>")
+                                        }
+                                    }
+                                    <div id="add-more-mealperiod"></div>
+                                    <a class="add-meal-period" value="@m" href="#"><img src="~/images/icon-plus-sm.png"> <span>Add More</span></a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--6-->
+                    </div>
+                    <!--row-->
+                    <div class="row mt50">
+                        <div class="col-sm-4">
+                            <div class="form-group mt20">
+                                <div class="row">
+                                    <label class="col-sm-8">Display as closed in App</label>
+                                    <div class="col-sm-4">
+                                        <div class="form-group-inner">
+                                            <div class="switch-reload mt0">
+                                                <label class="switch">
+                                                    @Html.CheckBoxFor(x => x.Merchant.isClosed)
+                                                    <span class="slider  slider-round round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-8">Display traffic chart in App</label>
+                                    <div class="col-sm-4">
+                                        <div class="form-group-inner">
+                                            <div class="switch-reload mt0">
+                                                <label class="switch">
+                                                    @Html.CheckBoxFor(x => x.Merchant.isTrafficChartVisible.Value)
+                                                    <span class="slider  slider-round round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="custom-right">
+                                <button type="submit" class="btn btn-primary btn-login mt-3" id="btnMerchantBusinessInfo">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--business-detail-->
+            </div>
+        </div>
+    }
+</div>
+
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+<script>
+    $('.multiselect').multiselect({ numberDisplayed: 1 });
+
+</script>

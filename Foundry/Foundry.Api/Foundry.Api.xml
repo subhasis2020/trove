@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Foundry.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Foundry.Api.Controllers.AccountController.Login(Foundry.Domain.ApiModel.LoginViewModel)">
+            <summary>
+            Checks for the username and password and returns user detail.
+            </summary>
+            <param name="model">LoginViewModel</param>
+            <returns></returns>
+        </member>
+        <member name="M:Foundry.Api.Controllers.BenefactorController.GetAllRelationships(Foundry.Domain.ApiModel.SessionCheckModel)">
+            <summary>
+            The GetRelationships API returns all the relations exists in the system.
+            </summary>
+            <param name="model">UserId</param>
+            <param name="model">SessionId</param>
+            <returns>RelatioshipViewModel</returns>
+        </member>
+        <member name="M:Foundry.Api.Controllers.ImageController.UploadImage(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            This API will upload file in the server.
+            </summary>
+            <param name="file"></param>
+            <returns>ApiResponse</returns>
+        </member>
+        <member name="M:Foundry.Api.Controllers.ImageController.UploadImageLarge">
+            <summary>
+            This API will upload file in the server.
+            </summary>
+            <param name="file"></param>
+            <returns>ApiResponse</returns>
+        </member>
+    </members>
+</doc>

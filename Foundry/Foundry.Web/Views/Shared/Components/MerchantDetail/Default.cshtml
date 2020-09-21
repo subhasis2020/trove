@@ -1,0 +1,434 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.MerchantDetailModel;
+@{
+    if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) == 0)
+    {
+        Model.ShowMap = true;
+    }
+}
+<!-- Tab panes -->
+<style>
+    .map-size {
+        width: 300px;
+        height: 300px;
+    }
+
+    #map {
+        height: 100%;
+    }
+</style>
+<div id="home" class="tab-pane active">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form", @name = "form" }))
+    {
+        <div class="detail-information prog-list">
+            <div class="title-section title-section01">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h6>Organization: <small>@ViewBag.PrimaryOrgName</small></h6>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <h6>Program: <small>@ViewBag.PrimaryProgramName</small></h6>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) > 0)
+                        {
+                            <h6>Merchant: <small id="hmerchantname">@Model.OrganisationName</small></h6>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!--title-section-->
+            <div class="org-admin-detail">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4 padding-right">
+                        <div class="mecrchant-view-address">
+                            <div class="admin-browse-image">
+                                <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                    <div class="picture">
+                                        <div class="dz-default dz-message" data-dz-message="">
+                                            <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                        </div>
+                                        <span id="PostedFileUploadError" style="display:none;" class="field-validation-error">
+                                            <span>*Only Image files allowed.</span>
+                                        </span>
+                                        <span id="input_file_upload_error_img" style="display:none;" class="field-validation-error">
+                                            <span>Maximum image size is 10 MB.</span>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <p class="text-center mt10">Upload a picture that represents your site best. Max 10 MB/ High resolution</p>
+                            </div>
+                            <div class="form-group mt40">
+                                <label>Address*:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-custom", @maxlength = "300" })
+                                    @Html.ValidationMessageFor(m => m.Address)
+                                </div>
+                                <span id="addresslatlongerror" style="display:none;" class="field-validation-error">
+                                    <span>Please enter a valid address.</span>
+                                </span>
+                                <label style="font-size: 11px;">Please select address from dropdown.</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.City, new { @class = "form-control form-control-custom city", @maxlength = "100" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Zip Code</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.Zip, new { @class = "form-control form-control-custom", @maxlength = "10" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>State </label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.State, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                    </div>
+                                </div>
+                                <label>Country: </label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone number:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control form-control-custom", @maxlength = 17, @placeholder = "" })
+                                    @Html.ValidationMessageFor(m => m.ContactNumber)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---4--->
+
+                    <div class="col-sm-12 col-md-6 col-lg-4 padding-right">
+                        <div class="mecrchant-view-info">
+                            <div class="form-group">
+                                <label>Merchant name*:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(m => m.OrganisationName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Primary program</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.PrimaryProgramName, new { @class = "form-control form-control-custom", @maxlength = "100", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Program(s) associated</label>
+                                <div class="form-group-inner">
+                                    @Html.ListBoxFor(m => m.SelectedOrgProgram, Model.Program.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }), new { @multiple = "multiple" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Pass acceptance*</label>
+                                <div class="form-group-inner pa">
+                                    <ul>
+                                        @foreach (var item in Model.AccType)
+                                        {
+                                            <li>
+                                                <label class="custom_check_box  check_box-sm mt-3">
+                                                    @if (Model.SelectedOrgAccType.ToList().Contains(item.Id))
+                                                    {
+                                                        <input id="@(item.Id)" type="checkbox" class="clsCheckbox chkaccType" name="" checked>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@(item.Id)" type="checkbox" class="clsCheckbox chkaccType" name="">
+                                                    }
+                                                    <span></span>@item.AccountType
+                                                </label>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                    <span id="programselecterror" style="display:none;" class="field-validation-error">
+                                        <span>Please select atleast one pass acceptance.</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Description (max 500 characters)</label>
+                                <div class="form-group-inner">
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control form-control-custom", @maxlength = "500" })
+                                </div>
+                            </div>
+                            <div class="form-group mt20">
+                                <div class="row">
+                                    <label class="col-sm-8">Display Google maps</label>
+                                    <div class="col-sm-4">
+                                        <div class="form-group-inner">
+                                            <div class="switch-reload mt0">
+                                                <label class="switch">
+                                                    @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) == 0)
+                                                    {
+                                                        @Html.CheckBoxFor(m => m.ShowMap, new { @checked = "checked" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.CheckBoxFor(m => m.ShowMap)
+                                                    }
+                                                    <span class="slider  slider-round round"></span>
+                                                </label>
+                                            </div>
+                                            <span class="latlong"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="map-info mt20">
+                                    <div class="map-size">
+                                        <div id="map">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="col-sm-12 col-md-12 col-lg-4 padding-right">
+                        <div class="mecrchant-view-info">
+                            <div class="form-group">
+                                <label>Website:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.Website, new { @class = "form-control form-control-custom", @maxlength = "300", @placeholder = "http(s)://domain" })
+                                    @Html.ValidationMessageFor(m => m.Website)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Facebook link:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.FacebookURL, new { @class = "form-control form-control-custom", @maxlength = "400", @placeholder = "http(s)://domain" })
+                                    @Html.ValidationMessageFor(m => m.FacebookURL)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Twitter link:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.TwitterURL, new { @class = "form-control form-control-custom", @maxlength = "400", @placeholder = "http(s)://domain" })
+                                    @Html.ValidationMessageFor(m => m.TwitterURL)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Instagram:</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(m => m.InstagramHandle, new { @class = "form-control form-control-custom", @maxlength = "150" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Choose an icon for your business type*:</label>
+                                <div class="form-group-inner form-group-business">
+                                    <ul>
+                                        @foreach (var item in Model.BusinessType)
+                                        {
+                                            <li>
+                                                <label class="custom_check_box   mt-3">
+                                                    @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) > 0 && Model.BusinessTypeId == item.Id)
+                                                    {
+                                                        <input id="@(item.Id)" type="radio" value="@item.Id" class="chkbusinesstype" name="BusinessType" checked>
+                                                    }
+                                                    else if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) == 0 && Model.BusinessTypeId == item.Id)
+                                                    {
+                                                        <input id="@(item.Id)" type="radio" value="@item.Id" class="chkbusinesstype" name="BusinessType" checked>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@(item.Id)" type="radio" class="chkbusinesstype" name="BusinessType">
+                                                    }
+                                                    <span></span><img src="@string.Concat(ViewBag.BaseL.TrimEnd('/'),item.IconPath)">
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hdnPrimaryOrgId" value="@ViewBag.PrimaryOrgId" />
+                            @Html.HiddenFor(m => m.PrimaryProgramId)
+                            @Html.HiddenFor(m => m.ImagePath)
+                            @Html.HiddenFor(m => m.ImageFileName)
+                            @Html.HiddenFor(m => m.Location)
+                            @Html.HiddenFor(m => m.Jpos_MerchantEncId)
+                            <input type="hidden" id="hdnPrimaryPPId" value="@ViewBag.PpId" />
+                            <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                            <input type=hidden id="hdnIsNewUpload" value='1' />
+                            <div class="form-group">
+                                <label></label>
+                                <div class="form-group-inner">
+                                    <button type="submit" id="btnmerchantdetailinfo" class="btn btn-primary btn-login mt-3">ADD</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--4-->
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<style>
+    #map-canvas {
+        overflow: auto !important; /* or 'visible' whatever */
+        position: static !important;
+    }
+</style>
+@*<script src="~/js/StandardPhoneFormat/jquery.caret.js"></script>
+    <script src="~/js/StandardPhoneFormat/jquery.mobilePhoneNumber.js"></script>*@
+<script type="text/javascript">
+   // $('#ContactNumber').mobilePhoneNumber();
+    //$("#ContactNumber").mask("(999) 999-9999");
+    $('#SelectedOrgProgram').multiselect({
+        numberDisplayed: 2,
+    });
+    $(document).ready(function () {
+
+        var mapDiv = document.getElementById('map');
+        var mapOptions = {
+            zoom: 8,
+            center: new google.maps.LatLng(55.585901, -105.750596)
+        };
+        var map = new google.maps.Map(mapDiv, mapOptions);
+        var options = {
+            componentRestrictions: { country: "ca" }
+        };
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('Address'), options);
+
+        var mid='@Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId))'
+        if (mid > 0) {
+
+            var address = document.getElementById('Address').value;
+            geocoder = new google.maps.Geocoder();
+            if (geocoder) {
+                geocoder.geocode({
+                    'address': address
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
+                            map: map,
+                        });
+                        // To add the marker to the map, call setMap();
+                        marker.setMap(map);
+                        map.setCenter(marker.getPosition())
+
+                    }
+                });
+            }
+
+        }
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
+            var place = autocomplete.getPlace();
+            for (var i = 0; i < place.address_components.length; i++) {
+                for (var j = 0; j < place.address_components[i].types.length; j++) {
+                    if (place.address_components[i].types[j] == "locality") {
+                        document.getElementById('City').value = place.address_components[i].long_name.split(',')[0];
+                    }
+                    if (place.address_components[i].types[j] == "postal_code") {
+                        document.getElementById('Zip').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "country") {
+                        document.getElementById('Country').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "administrative_area_level_1") {
+                        document.getElementById('State').value = place.address_components[i].long_name;
+                    }
+                }
+            }
+            var address = document.getElementById('Address').value;
+
+            geocoder = new google.maps.Geocoder();
+            if (geocoder) {
+                geocoder.geocode({
+                    'address': address
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
+                            map: map,
+                        });
+                        // To add the marker to the map, call setMap();
+                        marker.setMap(map);
+                        map.setCenter(marker.getPosition())
+                        $('#Location').val(results[0].geometry.location.lng() + ', ' + results[0].geometry.location.lat())
+                    }
+                });
+            }
+
+        });
+        var pac_input = document.getElementById('Address');
+        $('#Address').focusout(function (e) {
+            $('#Location').val('');
+            selectFirstAddress(pac_input);
+          
+            geocoder = new google.maps.Geocoder();
+            if (geocoder) {
+                geocoder.geocode({
+                    'address': $(this).val()
+                }, function (results, status) {
+
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
+                            map: map,
+                        });
+                        // To add the marker to the map, call setMap();
+                        marker.setMap(map);
+                        map.setCenter(marker.getPosition())
+                        $('#Location').val(results[0].geometry.location.lng() + ', ' + results[0].geometry.location.lat())
+                    }
+                    else { $('#Location').val(''); }
+                });
+            }
+        });
+        ////Ensuring that only Google Maps adresses are inputted
+        function selectFirstAddress(input) {
+            google.maps.event.trigger(input, 'keydown', { keyCode: 40 });
+            google.maps.event.trigger(input, 'keydown', { keyCode: 13 });
+        }
+
+        (function pacSelectFirst(input) {
+            // store the original event binding function
+            var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+
+            function addEventListenerWrapper(type, listener) {
+                // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
+                // and then trigger the original listener.
+                if (type == "keydown") {
+                    var orig_listener = listener;
+                    listener = function (event) {
+                        var suggestion_selected = $(".pac-item-selected").length > 0;
+                        if ((event.which == 13 || event.which == 9) && !suggestion_selected) {
+                            var simulated_downarrow = $.Event("keydown", {
+                                keyCode: 40,
+                                which: 40
+                            });
+                            orig_listener.apply(input, [simulated_downarrow]);
+                        }
+
+                        orig_listener.apply(input, [event]);
+                    };
+                }
+                _addEventListener.apply(input, [type, listener]);
+            }
+
+            input.addEventListener = addEventListenerWrapper;
+            input.attachEvent = addEventListenerWrapper;
+            var optionsSet = {
+                componentRestrictions: { country: "ca" }
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input, optionsSet);
+
+        })(pac_input);
+    });
+
+
+</script>
+

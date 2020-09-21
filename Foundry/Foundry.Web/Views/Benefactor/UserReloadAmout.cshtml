@@ -1,0 +1,264 @@
+﻿@using Foundry.Domain
+@model Foundry.Web.Models.ReloadRequestModel
+@{
+    ViewData["Title"] = "Reload Request";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+    <link href="~/css/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+</head>
+<body>
+    <div class="mobile-overlay"></div>
+    <section class="wrapper-content">
+        <aside class="left-bar">
+            <div class="main-logo">
+                <a href="@Url.Action("UserReloadAmout","Benefactor")"><img src="~/images/main-logo.png"></a>
+            </div>
+            <div class="menus">
+                <ul id="accordion">
+                    <input type="hidden" id="hdnUserType" value="@ViewBag.UserType" />
+                    <li>
+                        <a id="aLogout" href="javascript:void(0);"><i class="icon-logout icon-menus"></i> </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <section class="right-bar">
+            <header class="header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mobile-menu"><i class="fa fa-bars"></i></div>
+
+                    </div>                    <!--6-->
+
+                    <div class="col-sm-6">
+                        <div class="top-navigation-icon">
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--6-->
+                </div>
+            </header>
+            <section class="page-content">
+
+                <div class="title-section">
+                    <div class="row">
+                        <div class="col-sm-8 ">
+                            <h2></h2>
+                            <span class="note"></span>
+                            @if (ViewBag.MessageResponse != null)
+                            {
+                                <div id="dvResponse" class="alert @(@ViewBag.StatusResponse!=null && @ViewBag.StatusResponse==1 ? "alert-success" : "alert-danger")">
+                                    @ViewBag.MessageResponse
+                                </div>
+                            }
+                        </div>
+                        <div class="col-sm-4 mb-5" style="display:none;">
+                            <div class="current-balance">
+                                <div class="current-balance-box">
+                                    <h2>Current Balance</h2>
+                                    <p id="currentAmount" class="amount">$00.00</p>
+                                    <span>Campus Cash</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <article class="content-wrapper">
+                    <div class="tabing-custom">
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane  active" id="home">
+                                <div class="white-box">
+                                    <div class="balance-load-panel">
+                                        @*<span id="spnRefreshBankAccount">
+                                                @await Component.InvokeAsync("AddBankBalanceReload", new { id = ViewBag.UserId, reloadRequestId = ViewBag.ReloadRequestId, programId = ViewBag.ProgramId, LoggedId = ViewBag.LoggedUserId })
+                                            </span>*@
+                                        <span id="spnRefreshBalanceReload">
+                                            @await Component.InvokeAsync("BalanceReload", new { id = ViewBag.UserId, reloadRequestId = ViewBag.ReloadRequestId, programId = ViewBag.ProgramId, LoggedId = ViewBag.LoggedUserId })
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hdnUserType" name="hdnUserType" value="@ViewBag.UserType" />
+                </article>
+
+            </section>
+
+        </section>
+    </section>
+
+</body>
+
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/js/spectrum.js"></script>
+<script src="~/js/custom.js"></script>
+<script src="~/js/SweetAlert/sweetalert.min.js"></script>
+<script src="~/js/BenefactorNotifications.js"></script>
+<script src="~/js/jquery.validate.1.16.0.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.3.2.6.min.js"></script>
+@*<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>*@
+@*<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>*@
+
+<script type="text/javascript">
+
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({ scrollButtons: { enable: true } });
+        });
+    $(function () {
+
+        $('#IsAutoReload').change(function () {
+            if ($("#IsAutoReload").prop("checked") == true) {
+
+                $('#CheckDroppedAmountdd').attr("disabled", false);
+                $('#AutoReloadAmount').attr("disabled", false);
+                document.querySelector('#btnReloadAmount').innerHTML = 'Pay and Save Auto Reload Rule';
+                $('#btnaddcardpopuprule').show();
+
+            }
+            else {
+                //cancel reload rule
+                var model = {
+                    ReloadUserId: $("#ReloadUserId").val()
+                    //  BenefactorUserId: "3140"
+                };
+                $.post("/Benefactor/PostCancelSubscriptionRule",
+                    model,
+                    function (data) {
+                        $("#dvLoadingGif").hide();
+                        // if (data.status) {
+
+                        titlemessage = 'Your auto reload rule has been cancelled ';
+
+                        swal({
+                            title: titlemessage,
+                            icon: "success"
+                        }, function () {
+                            // window.location.href = window.location.href;
+                        });
+                        // }
+                    });
+
+
+                //
+                $('#AutoReloadAmount').attr("disabled", true);
+                $('#CheckDroppedAmountdd').attr("disabled", true);
+                document.querySelector('#btnReloadAmount').innerHTML = "Add Money";
+                $('#btnaddcardpopuprule').hide();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        if ($("#dvResponse").html() != undefined) {
+            setTimeout(function () {
+                $("#dvResponse").hide("5000")
+            }, 5000);
+        }
+        $(document).on('click', '#aLogout', function () {
+            swal({
+                title: "Are you sure you want to logout?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    window.location.href = '/Account/Signout';
+                }
+            }
+            );
+
+        });
+    });
+        $(document).ready(function () {
+            $("#ReloadUserId").val(@ViewBag.UserId);
+            $("#ReloadRequestId").val(@ViewBag.ReloadRequestId);
+            $("#ProgramId").val(@ViewBag.ProgramId);
+            $("#ActivelinkedId").val(@ViewBag.UserId);
+
+        $("#accordion").find('li').removeClass('active');
+            $("#accordion #liReloadRequest").addClass('active');
+
+    });
+
+
+
+  
+
+    $(document).on("change", "#ddlcardslection", function () {
+        var ddl1 = this.value;
+        //  alert(ddl1);
+        var btn = document.getElementById("myBtn11");
+        if (ddl1 == "seladd") {
+            btn.click();
+        }
+        var txtIpg = $("#txtIpg").val();
+
+        //check bank verified
+
+        var ddl = $("#ddlcardslection option:selected").text();
+        //  alert(ddl);
+        if (ddl.includes('Non Verified')) {
+            // alert(ddl);
+            $("#addverifybankpopup").modal('show');
+            $('#btnReloadAmount').hide();
+        }
+        else if (!ddl.includes('Verified')) {
+            //check ipgid
+
+            $.ajax({
+                url: '/Benefactor/CheckIpgTransactionId',
+                type: 'GET',
+                dataType: 'json',
+                data: { clientToken: ddl1 },
+                success: function (data) {
+
+                    // alert("dd" + data);
+                    var id = $("#txtIpg").val(data);
+                    //  alert(txtIpg);
+                    //  alert("id" + id);
+
+                },
+                error: function () {
+                    //  alert('error');
+                }
+            });
+
+            //
+        }
+        else {
+            //  alert("s");
+            $("#addverifybankpopup").modal('hide');
+            $('#btnReloadAmount').show();
+        }
+    });
+</script>
+
+</html><script src="~/js/ReloadRequest.js"></script>

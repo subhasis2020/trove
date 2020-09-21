@@ -1,0 +1,57 @@
+﻿@using Foundry.Domain
+@model IEnumerable<Foundry.Web.Models.BenefactorNotificationsModel>
+<span id="spnNotifications">
+    @Html.Hidden("hdnNotificationsCount", Model.Count())
+    @if (Model.Count() > 0)
+    {
+        <div id="notifiation-panel" class="collapse notification">
+            <h2>NOTIFICATIONS</h2>
+            <a class="close" href="" data-toggle="collapse" data-target="#notifiation-panel"><img src="~/images/icon-close.png"></a>
+            <div class="notification-listing content-scroll">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <div class="profile-link">
+                                <div class="profile-img">
+                                    <span class="avatar" style="background-image: url(@item.ImagePath)"></span>
+                                </div>
+                                <div class="profile-dis">
+                                    @item.Message
+                                </div>
+                            </div>
+                            <div class="profile-btns">
+                                @if (item.IsInvitation)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-6 col-6">
+                                            <a href="javascript:void(0);" id="aDeleteInvite_@item.UserId" data-ProgramId="@item.ProgramId" class="btn btn-secondary btn-sm clsDeleteInvite">Decline</a>
+
+                                        </div>
+                                        <div class="col-sm-6 col-6">
+                                            <a href="javascript:void(0);" id="aAcceptInvite_@item.UserId"  data-ProgramId="@item.ProgramId" class="btn btn-primary btn-sm  clsAddInvite">Accept</a>
+
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-6 col-6">
+                                        <a href="javascript:void(0);" id="aReloadRequest_@item.UserId" data-id="@item.UserId" data-programId="@item.ProgramId" data-reloadRequestId="@item.ReloadRequestId" class="btn btn-primary btn-sm  clsReloadRequest">Reload Balance</a>
+
+                                    </div>
+                                }
+                            </div>
+                        </li>
+                    }
+
+
+                </ul>
+            </div>
+        </div>
+        <div id="dvResponseNotification">
+
+        </div>
+    }
+
+</span>

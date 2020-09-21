@@ -1,0 +1,62 @@
+﻿@model Foundry.Domain.Dto.OrgnisationWithProgramTypeDto;
+@{
+    ViewData["Title"] = "CreateOrganisations";
+    Layout = "~/Views/Shared/_OrganisationLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+<section class="page-content page-content-org">
+    <article class="content-wrapper">
+        <div class="org-tabbing merchant-tabbing">
+            <div class="filter-option1">Explore Tab</div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-slide-custom" role="tablist">
+                <li class="nav-item orgTab" id="tab_1">
+                    <a class="nav-link main-tab active" data-toggle="tab" href="#home">Detail Information</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_2">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#business-information">Business information</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_3">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#menu2">Promotions</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_4">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#rewards">Rewards</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_5">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#merchant-level-admin">Merchant Level Admin</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_6">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#transactions">Transactions</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <span id="spnMerchantTab">
+                </span>
+            </div><!--last-->
+        </div>
+        <!--org-tabing-->
+        <input id="hdnMerchantId" name="hdnMerchantId" type="hidden" value="@ViewBag.MerchantId">
+        <input id="hdnMerchantName" name="hdnMerchantName" type="hidden" value="@ViewBag.MerchantName">
+        <input id="hdnPrimaryOrgId" name="hdnPrimaryOrgId" type="hidden" value="@ViewBag.PrimaryOrgId">
+        <input id="hdnPrimaryOrgName" name="hdnPrimaryOrgName" type="hidden" value="@ViewBag.PrimaryOrgName">
+        <input id="hdnPrimaryProgramId" name="hdnPrimaryProgramId" type="hidden" value="@ViewBag.PrimaryProgId">
+        <input id="hdnPrimaryProgName" name="hdnPrimaryProgName" type="hidden" value="@ViewBag.PrimaryProgName">
+    </article>
+
+</section>
+<link rel="stylesheet" href="~/css/bootstrap-multiselect.css" type="text/css">
+<link rel="stylesheet" href="~/dropzone/min/basic.min.css" />
+<link rel="stylesheet" href="~/dropzone/min/dropzone.min.css" />
+<script type="text/javascript" src="~/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrNp8Bghna_Ej48-8eGMYrjIOmSfFHpTI&libraries=places"></script>
+<script src="~/js/Moment.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script src="~/js/PhoneMask/jquery-input-mask-phone-number.js"></script>
+<script src="~/dropzone/min/dropzone.min.js"></script>
+<script type="text/javascript" src="~/js/CreateMerchant.js"></script>
+<script>
+    var userRlN = "@Convert.ToString(User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())";
+
+</script>
+

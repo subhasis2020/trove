@@ -1,0 +1,1202 @@
+@media (min-width:1191px) and (max-width:1320px) {
+	.org-boxes-programs h2 { font-size:30px;
+	}
+	.detail-information {
+		margin: 0 20px;
+	}
+
+	.form-group-inner.form-inline .select-control {
+		width: 27.6%;
+		position: relative;
+	}
+
+		.form-group-inner.form-inline .select-control .form-control {
+			font-size: 14px;
+			padding: 0 5px
+		}
+
+	.business-holidays .custom_check_box.check_box-sm {
+		float: none;
+		width: 19%;
+		margin-left: 0;
+		padding-left: 40px;
+		margin-right: 15px;
+		font-size: 14px;
+	}
+
+	.business-holidays .form-group-inner.form-inline .select-control {
+		width: 21%;
+		position: relative;
+	}
+
+	.nav-slide.nav-tabs .nav-item {
+		position: relative;
+		margin: 0 30px;
+		height: 75px;
+		width: 19%;
+	}
+
+	.nav-tabs .nav-link {
+		font-size: 17px;
+	}
+}
+
+@media (min-width:991px) and (max-width:1191px) {
+	.view-rewards .rewards-screen-status {
+		padding: 0 0px;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.detail-information label {
+		font-size: 15px;
+	}
+
+	.nav-tabs .nav-link {
+		border: 0;
+		font-size: 17px;
+	}
+
+	.nav-slide.nav-tabs .nav-item {
+		position: relative;
+		margin: 0 20px;
+		height: 75px;
+		width: 18%;
+	}
+
+	.padding-right {
+		padding-right: 30px !Important;
+	}
+
+	.detail-information {
+		margin: 0 20px;
+	}
+
+	.form-group-inner.form-inline .select-control {
+		width: 27.6%;
+		position: relative;
+	}
+
+		.form-group-inner.form-inline .select-control .form-control {
+			font-size: 14px;
+			padding: 0 5px
+		}
+
+	.business-holidays .custom_check_box.check_box-sm {
+		float: none;
+		width: 19%;
+		margin-left: 0;
+		padding-left: 40px;
+		margin-right: 15px;
+		font-size: 14px;
+	}
+
+	.business-holidays .form-group-inner.form-inline .select-control {
+		width: 21%;
+		position: relative;
+	}
+
+	.tabing-custom .nav-tabs .nav-link i {
+		display: block;
+		vertical-align: middle;
+		padding-top: 7px;
+		padding-left: 5px;
+		font-style: normal;
+		font-size: 12px;
+		word-wrap: break-word;
+		width: 51px;
+	}
+
+	.payment-inputs .form-control {
+		font-size: 13px;
+	}
+
+	.org-boxes-programs h2 {
+		color: #FFFFFF;
+		font-size: 30px;
+		margin-bottom: 10px;
+		text-align: center;
+	}
+
+	.dashboard-widigt.dashboard-widigt-admin .custom-padding {
+		padding: 0 25px;
+	}
+
+	.dashboard-widigt.dashboard-widigt-admin .col-sm-5 {
+		-ms-flex: 0 0 36.666667%;
+		flex: 0 0 41.667%;
+		max-width: 41.667%;
+	}
+}
+@media (min-width:961px) and (max-width:992px) {
+	.dashboard-widigt.dashboard-widigt-admin .custom-padding {
+		padding: 0 15px;
+	}
+	.org-boxes-programs h2 {
+		font-size: 23px;
+	}
+}
+
+	@media (max-width:961px) {
+		.left-bar-admin {
+			background: linear-gradient(208.63deg, #39A1F7 0%, rgba(20,4,185,1) 51.1%, #A875FF 100%);
+		}
+
+		.nav-slide.nav-tabs .nav-item {
+		}
+
+		.nav-tabs.nav-org-prog {
+			margin: 0 0px;
+		}
+
+			.nav-tabs.nav-org-prog.nav-slide .nav-item {
+				position: relative;
+				margin: 0 0px;
+				height: 70px;
+				width: 100%;
+				padding: 0 20px;
+			}
+
+		.org-boxes h6 {
+			color: #6B6F83;
+			font-size: 17px;
+			font-weight: 300;
+			line-height: 28px;
+			text-align: center;
+		}
+
+		.page-content {
+			padding: 30px 20px;
+		}
+
+		.search-list-info {
+			width: 263px;
+		}
+
+		.title-section h2 {
+			font-size: 30px;
+		}
+
+		.search-list-info .input-search .form-control.header-search {
+			font-size: 15px;
+		}
+
+		.org-boxes-programs h2 {
+			font-size: 30px;
+		}
+
+		.nav-slide-custom.nav-tabs {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.nav-drops .plans-menu .dropdown-menu {
+			background-color: #FAFAFA;
+			min-width: 100%;
+			transform: none !important;
+			left: 0 !important;
+		}
+
+		.nav-drops .merchants .dropdown-menu {
+			min-width: 100rem;
+			left: 0 !important;
+			transform: none !important;
+		}
+
+		.table-wrapper {
+			overflow: auto;
+		}
+
+		.nav-drops .account-menu .dropdown-menu {
+			position: static !important;
+			left: 0 !important;
+			margin: 0 !important;
+			transform: none !important;
+			min-width: 100% !Important;
+		}
+
+		.nav-drops .dropdown-menu {
+			position: static !important;
+			left: 0 !important;
+			margin: 0 !important;
+			transform: none !important;
+			min-width: 100% !Important;
+			background-color: transparent;
+			border: 0;
+			box-shadow: none;
+		}
+
+			.nav-drops .dropdown-menu .dropdown-item {
+				display: block;
+				vertical-align: middle;
+				float: none;
+				width: auto;
+				padding: 5px 10px;
+				clear: inherit;
+				font-size: 14px;
+			}
+
+			.nav-drops .dropdown-menu::after {
+				display: none;
+			}
+
+		.nav-slide-custom.nav-tabs .nav-item.dropdown:after {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			text-align: center;
+			margin: 0 auto;
+			border-top: 6px #525252 solid;
+			border-left: 6px transparent solid;
+			border-right: 6px transparent solid;
+			content: '';
+			width: 10px;
+			height: 10px;
+		}
+
+		.main-dropdwown-filter {
+			display: block;
+		}
+
+		.nav-tabs {
+			display: none;
+		}
+
+		.filter-option, .filter-option1 {
+			display: block;
+		}
+
+		.filter-option, .filter-option1 {
+			margin: 40px 20px 20px 20px;
+			padding: 10px;
+			background: linear-gradient(208.63deg, #39A1F7 0%, rgba(20,4,185,0.8) 93.18%, #A875FF 100%);
+			color: #fff;
+			border-radius: 2px;
+		}
+
+		.nav-tabs {
+			margin: 0 20px;
+		}
+
+		.nav-item {
+			position: relative;
+			margin: 0 0;
+			height: auto;
+		}
+
+		.nav-slide-custom.nav-tabs .nav-item {
+			position: relative;
+			margin: 0 0px;
+			height: auto;
+			padding: 0 15px;
+			clear: both;
+		}
+
+		.nav-slide-custom.nav-tabs .nav-link {
+			display: block;
+			padding: 10px 0;
+		}
+
+		.nav-tabs .nav-link {
+			font-size: 16px;
+		}
+
+		.header {
+			padding: 0 20px;
+		}
+
+		.benefactor-boxes {
+			border-radius: 12px;
+			background: linear-gradient(318.43deg, #686EE7 0%, #FB61E2 100%);
+			box-shadow: 0 2px 48px 1px rgba(176,192,237,0.60);
+			padding: 20px;
+			text-align: center;
+			margin: 30px 0;
+		}
+
+		.head-title h2 {
+			font-size: 35px;
+		}
+
+		.custom-padding {
+			padding: 0 35px;
+		}
+
+		.benefactor-boxes h2 {
+			color: #FFFFFF;
+			font-size: 25px;
+			margin-bottom: 8px;
+		}
+
+		.mobile-menu {
+			display: block;
+			position: absolute;
+			left: 10px;
+			top: 2px;
+			background: linear-gradient(208.63deg, #39A1F7 0%, rgba(20,4,185,0.8) 51.1%, #A875FF 100%);
+			color: #fff;
+			padding: 6px 10px;
+			border-radius: 4px;
+			font-size: 11px;
+			z-index: 9999;
+		}
+
+		.input-search {
+			margin-left: 45px;
+		}
+
+		.mobile-menu .fa {
+			font-size: 23px;
+		}
+
+		.open-sidebar .left-bar {
+			margin-left: 0;
+		}
+
+		.left-bar {
+			margin-left: -118px;
+			z-index: 99999;
+			transition: all .5s ease;
+		}
+
+		.open-sidebar .left-bar-admin {
+			margin-left: 0;
+		}
+
+		.left-bar-admin {
+			margin-left: -276px;
+			z-index: 99999;
+			transition: all .5s ease;
+		}
+
+		.right-bar {
+			width: 100%;
+			overflow: hidden;
+			margin-left: 0;
+		}
+
+		.right-bar-admin {
+			width: 100%;
+			overflow: hidden;
+			margin-left: 0;
+		}
+	}
+
+	@media (min-width:768px) and (max-width:991px) {
+		.view-rewards .rewards-screen-status {
+			padding: 0 0px;
+			margin-left: 0;
+			margin-right: 0;
+		}
+		.promotion-schedule li {
+			margin-right: 10px;
+		}
+		.fc-toolbar h2 {
+			font-size: 30px !important;
+		}
+		.promotions-calender #calendar .fc-header-toolbar .fc-center .fc-next-button {
+			right: 15px;
+			top: -10px;
+		}
+		.promotions-calender #calendar .fc-header-toolbar .fc-center .fc-prev-button {
+			left: 15px;
+			background-color: transparent;
+			border-color: transparent;
+			top: -10px;
+		}
+		.nav-slide.nav-tabs .nav-item {
+			position: relative;
+			margin: 0 20px;
+			height: 70px;
+			width: 18%;
+		}
+
+		.nav-tabs .nav-link {
+			font-size: 16px;
+		}
+
+		.detail-information {
+			margin: 0 20px;
+			margin-top: 45px;
+		}
+
+			.detail-information label {
+				font-size: 15px;
+			}
+
+		.amount-options .btn {
+			font-size: 15px;
+		}
+
+		.payment-inputs .form-control {
+			font-size: 11px;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.tabing-custom .nav-tabs .nav-link {
+			padding: 1px 5px;
+		}
+
+			.tabing-custom .nav-tabs .nav-link i {
+				display: block;
+				vertical-align: middle;
+				padding-top: 7px;
+				padding-left: 5px;
+				font-style: normal;
+				font-size: 12px;
+				word-wrap: break-word;
+				width: 51px;
+			}
+
+		.nav-tabs .nav-item {
+			position: relative;
+			margin: 0 36px;
+			height: 53px;
+		}
+
+		.input-amount {
+			margin-top: 20px;
+		}
+	}
+
+	@media (min-width:568px) and (max-width:962px) {
+		.menus {
+			height: 700px;
+			overflow: auto;
+			padding-bottom: 100px;
+		}
+
+			.menus ul {
+				height: 700px;
+			}
+
+			.menus li:last-child {
+				position: static;
+			}
+	}
+
+	@media (max-width:767px) {
+		.profile-accounts em { width:100%;
+		}
+		.view-rewards {
+			margin-top: 30px;
+		}
+		.view-rewards .rewards-screen-status {
+			margin: 0 0px;
+			position: relative;
+			margin-bottom: 50PX;
+		
+			width: 100%;
+		}
+		.promotions-calender #calendar .fc-header-toolbar { margin-bottom:20px;
+		}
+		.mecrchant-view-info {
+			margin-top: 30px;
+		}
+		.custom-promotion-right .btn {
+			min-width: 100%;
+			margin-bottom: 10px;
+		}
+		.promotion-schedule {
+			position: static;
+		}
+			.delete-action { margin:10px 0;
+		}
+		.choose-banner-option .col-banner {
+			margin-bottom: 30px;
+		}
+
+		.modal {
+			padding-right: 0 !important;
+		}
+
+		.promotion-dates.promotion-dates-rewards .date-style {
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+
+		.promotion-dates .date-style {
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+
+		.choose-banner-option .col-banner:first-child .all-text-banner {
+			margin: 0 0;
+		}
+
+		.title-section h6 {
+			font-size: 25px;
+		}
+
+		.prog-list .title-section h2 {
+			font-size: 32px
+		}
+
+		.prog-list .title-section {
+			padding-bottom: 30px;
+		}
+
+		.custom-padding.custom-padding-no {
+			padding: 0 15px;
+		}
+
+		.org-boxes h2 {
+			width: 100px;
+		}
+
+		.org-boxes h6 {
+			width: 100px;
+		}
+
+		.org-boxes-list {
+			padding: 0 5px;
+		}
+
+		.ribbon-text {
+			margin: 0 auto;
+		}
+
+		.modal {
+			z-index: 99999;
+		}
+
+		.right-mobile-rewards {
+			width: 100%;
+			float: none;
+			text-align: center;
+		}
+
+		.left-mobile-rewards {
+			width: 100%;
+			float: none;
+		}
+
+		.rewards-screen-status {
+			text-align: center;
+			margin: 0 auto;
+			display: inline-block;
+			width: 260px;
+		}
+
+		.custom-padding {
+			padding: 0 15px;
+		}
+
+		.customer-account-details-link {
+			padding: 0 0px;
+		}
+
+		#additionalaccounts-action .accounts-action {
+			padding: 10px;
+		}
+
+		.detail-information label {
+			font-size: 14px;
+		}
+
+		.detail-information {
+			margin: 0 20px;
+			margin-top: 0px;
+			margin-top: 45px;
+		}
+
+		.nav-slide.nav-tabs .nav-item {
+			position: relative;
+			margin: 0 20px;
+			height: 70px;
+			width: 100%;
+		}
+
+		.dashboard-widigt.dashboard-widigt-admin .col-sm-5 {
+			-ms-flex: 0 0 36.666667%;
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+
+		.org-boxes-programs {
+			margin: 20px 0 20px 0;
+		}
+
+		.dashboard-widigt.dashboard-widigt-admin .custom-padding {
+			padding: 0 15px;
+		}
+
+		.note {
+			color: #ADB5C7;
+			font-size: 14px;
+		}
+
+		.input-amount {
+			margin-top: 20px;
+		}
+
+		.payment-inputs .pl0 {
+			padding-left: 15px;
+		}
+
+		.pl0 {
+			padding-left: 15px;
+		}
+
+		.nav-tabs .nav-item {
+			position: relative;
+			margin: 6px 0px;
+			height: 53px;
+		}
+
+		.title-section h2 {
+			font-size: 30px;
+		}
+
+		.list-info li {
+			margin-left: 20px;
+		}
+
+		.table tr td {
+			white-space: nowrap;
+		}
+
+		.table tr th {
+			white-space: nowrap;
+		}
+
+		.tabing-custom .nav-tabs .nav-link {
+			border: 1px solid transparent;
+			border-top-left-radius: 0;
+			background: #e5eaee;
+			border-top-right-radius: 0;
+			padding: 0 0 13px 0;
+			padding: 7px 10px 18px 10px;
+		}
+
+		.nav-tabs .nav-item {
+			width: 100%;
+		}
+
+			.nav-tabs .nav-item .nav-link::before {
+				display: none;
+			}
+
+			.nav-tabs .nav-item .nav-link::after {
+				display: none;
+			}
+
+		.table tr td {
+			white-space: nowrap;
+		}
+
+		.table tr th {
+			white-space: nowrap;
+		}
+
+		.padding-right {
+			padding-right: 15px !Important;
+		}
+		.custom-right.custom-promotion-right { float:none;
+		}
+        .view-rewards .rewards-screen-status .org-panel-dropdown ul li {
+            text-align: left;
+        }
+	}
+
+	@media (min-width:320px) and (max-width:576px) {
+        .view-rewards .rewards-screen-status .img-dots-box { right:30px;
+        }
+        .view-rewards .rewards-screen-status .org-panel-dropdown ul li {
+            text-align: left;
+        }
+        .view-rewards .rewards-screen-status .linked-data-actions {
+            right: 30px;
+        }
+        .modal-title {
+            font-size: 20px;
+        }
+		.fc-toolbar h2 {
+			font-size: 20px !important;
+		}
+		.promotions-calender #calendar .fc-header-toolbar .fc-center .fc-next-button, .promotions-calender #calendar .fc-header-toolbar .fc-center .fc-prev-button {
+			top: -11px;
+		}
+		.fc table {
+			font-size: 10px !important;
+		}
+		.mecrchant-view-info {
+			margin-top: 20px;
+		}
+		.form-group-inner.form-inline .select-control, .form-group-inner.form-inline span.input-group-addon {
+			margin-right: 10px;
+		}
+
+		.select-business-hours .input-group-addon, .select-date-hours .input-group-addon {
+			top: 7px;
+		}
+
+		.right-mobile-rewards {
+			width: 260px;
+			float: none;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.form-group-inner.form-inline .select-control {
+			width: 100%;
+			position: relative;
+			margin-bottom: 10PX;
+		}
+
+		.form-group-inner.form-inline .select-control, .form-group-inner.form-inline span {
+			margin-right: 0px;
+			margin-bottom: 10PX;
+		}
+
+		.form-group-inner.form-inline .form-groups-picker {
+			width: 100%;
+			position: relative;
+			margin-right: 0;
+			margin-bottom: 10px;
+		}
+
+		.business-holidays .form-group-inner.form-inline .select-control {
+			width: 100%;
+		}
+
+		.business-holidays .custom_check_box.check_box-sm {
+			float: none;
+			width: 100%;
+			margin-bottom: 40px; padding-left:35px;
+		}
+
+		.admin-browse-image {
+			margin-bottom: 20px;
+		}
+
+		.org-boxes h2 {
+			width: 250px;
+		}
+
+		.org-boxes h6 {
+			width: 250px;
+		}
+
+		.branding-logo {
+			height: 295px;
+			width: 112px;
+			border-radius: 18px 0 0 18px;
+			background: #2353C9;
+			float: left;
+		}
+
+		.branding-card {
+			max-width: 505.12px;
+			border-radius: 18px;
+			background-color: #FFFFFF;
+			box-shadow: 0 3px 4px 0 rgba(0,0,0,0.5);
+			height: 295px;
+			position: relative;
+		}
+
+		.img-branding-logo {
+			width: 85px;
+			height: 85px;
+			background: #fff;
+			border-radius: 100%;
+			display: flex;
+			line-height: normal;
+			text-align: center;
+			margin: 20px auto;
+			vertical-align: middle;
+			justify-content: center;
+			padding-top: 27px;
+		}
+
+		.branding-card-detail {
+			width: calc(100% - 130px );
+			float: right;
+			padding: 20px 0px;
+			margin-right: 10px;
+		}
+
+		.card-info h2 {
+			font-family: 'Another Flight';
+			font-size: 18px;
+			word-break: break-all;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-right: 25px;
+		}
+
+		.input-bar-code .form-inline .form-control {
+			width: 20%;
+			margin-bottom: 5px;
+		}
+
+		.bar-code img {
+			width: 100px;
+			height: 100px;
+		}
+
+		.search-list-info {
+			width: 240px;
+		}
+
+		.list-info.list-info-title.new-title {
+			float: left;
+		}
+
+			.list-info.list-info-title.new-title .search-list-info .input-search {
+				display: block;
+				margin-left: 0;
+			}
+
+		.list-info.list-info-admin li {
+			margin-left: 20px;
+			margin-bottom: 10px;
+		}
+
+		.business-holidays .form-group-inner.form-inline .select-control {
+			width: 100%;
+		}
+
+		.promotion-schedule {
+			position: static;
+			top: 0;
+			right: 0;
+		}
+
+		.modal-dialog.modal-custom-large .org-admin-detail {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.rewards-screen-status {
+			width: 100%;
+			margin-bottom: 50px;
+			padding: 0 0px;
+		}
+
+		.view-rewards .rewards-screen-status {
+			padding: 0 20px; margin-left:0; margin-right:0;
+		}
+		.view-rewards {
+			margin-top: 30PX;
+		}
+
+		.mecrchant-view-info .btn {
+			min-width: 100%;
+		}
+
+		.form-group-inner.form-group-business.form-rewards li {
+			display: inline-block;
+			vertical-align: middle;
+			width: 49%;
+		}
+
+		.custom-right {
+			float: none;
+		}
+
+			.custom-right .btn {
+				width: 100%;
+				min-width: 100%;
+                padding:0;
+                font-size:20px;
+			}
+
+		.list-info.list-info-admin {
+			margin-top: 0;
+			float: left;
+		}
+
+		.org-adminbrowse-detail .detail-information {
+			margin: 0;
+			margin-top: 40px;
+		}
+
+		.detail-information label {
+			font-size: 17px;
+		}
+
+		.detail-information {
+			margin: 0 20px;
+			margin-top: 0px;
+			margin-top: 45px;
+		}
+
+		.payment-methods li {
+			margin: 15px 10px 0 0;
+			padding: 10px 0;
+			display: inline-block;
+			width: 28.3%;
+			text-align: center;
+			vertical-align: middle;
+			border-radius: 12px;
+			background-color: #FFFFFF;
+			box-shadow: 0 2px 16px 0 rgba(176,192,237,0.4);
+		}
+
+		.payment-methods ul {
+			display: inline-block;
+			align-items: center;
+		}
+
+		.current-balance {
+			float: none;
+			margin: 20px 0 0 0;
+		}
+
+		.amount-options .btn-custom-bx {
+			margin-bottom: 20px;
+		}
+
+		.current-balance-box {
+			width: 100%;
+		}
+
+		#notifiation-panel {
+			min-width: 16rem;
+		}
+
+		.nav-tabs .nav-item {
+			position: relative;
+			margin: 6px 0px;
+			height: 53px;
+		}
+
+		.title-section h2 {
+			font-size: 30px;
+		}
+
+		.list-info li {
+			margin-left: 20px;
+		}
+
+		.table tr td {
+			white-space: nowrap;
+		}
+
+		.table tr th {
+			white-space: nowrap;
+		}
+
+		.tabing-custom .nav-tabs .nav-link {
+			border: 1px solid transparent;
+			border-top-left-radius: 0;
+			background: #e5eaee;
+			border-top-right-radius: 0;
+			padding: 0 0 13px 0;
+			padding: 7px 10px 18px 10px;
+		}
+
+		.nav-tabs .nav-item {
+			width: 100%;
+		}
+
+			.nav-tabs .nav-item .nav-link::before {
+				display: none;
+			}
+
+			.nav-tabs .nav-item .nav-link::after {
+				display: none;
+			}
+
+		.page-content {
+			padding: 30px 20px;
+		}
+
+		.head-title h2 {
+			font-size: 35px;
+		}
+
+		.mobile-menu {
+			display: block;
+			position: absolute;
+			left: 10px;
+			top: -2px;
+		}
+
+		.input-search {
+			display: none;
+		}
+
+		#notifiation-panel {
+			right: 0;
+			margin-top: 25px;
+		}
+
+		.mobile-menu {
+			display: block;
+			position: absolute;
+			left: 10px;
+			top: -4px;
+		}
+		
+		.dataTables_wrapper .dataTables_filter input{
+			width:100%;
+		}
+		
+		.dataTables_wrapper .dataTables_filter{
+			text-align:left!important;
+		}
+		
+		.modal-header .close{
+			padding:.2rem;
+		}
+		
+		.login-box .form-control{
+			height:60px;
+		}
+		
+		.bootstrap-timepicker-widget table td input{
+			width:32px!important;
+			-webkit-appearance:none;
+		}
+		
+		#transactions .table-wrapper{
+			min-height:700px;
+		}
+		
+		.img-dots-box, .img-dots:after{
+			padding:20px;
+			background-position:top center!important;
+		}
+	}
+
+	@media (min-width: 1400px) {
+		.head-title {
+			margin: 50px 0 30px 0;
+			text-align: center;
+		}
+
+		.login-box .form-group.form-group-submit {
+			margin: 90px 0 90px 0;
+		}
+
+		.login-box .form-group {
+			margin-bottom: 45px;
+		}
+
+			.login-box .form-group.form-group-last {
+				margin-bottom: 15px;
+			}
+
+		.head-title h2 {
+			margin-bottom: 80px;
+		}
+
+		.head-box {
+			margin-top: 80px;
+			text-align: center;
+		}
+
+		.benefactor-boxes {
+			padding: 40px 50px;
+		}
+
+			.benefactor-boxes h2 {
+				font-size: 45px;
+				margin-bottom: 25px;
+			}
+
+		.benefactor-boxes {
+			margin: 45px 0 45px 0;
+		}
+
+		.title-section.dashboard-title {
+			padding-bottom: 30px;
+		}
+
+		.menus {
+			margin-top: 50px;
+		}
+		/**new**/
+		.rewards-mobile-views {
+			min-height: 500px;
+			max-width: 260px;
+		}
+	}
+
+
+@media (min-width:1700px) and (max-width:3000px) {
+    .all-cards-view .col-lg-6 {
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+}
+
+
+@media ( max-width:991px )  {
+    .title-section01 div[class*="col-"] {
+        max-width: 100%;
+        flex: 0 0 100%;
+        width: 100%;
+        text-align: left !important;
+    }
+
+    .title-section01 .list-info {
+        float: left;
+    }
+        .title-section01  .list-info.list-info-admin li {
+            float: left;
+            margin-right: 18px;
+            margin-left: 0;
+        } 
+
+}
+
+@media ( max-width:1100px ) {
+    .inline-block-button .btn {
+        font-size: 13px;
+        min-width: initial;
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+}
+
+
+@media ( max-width:767px ) {
+    .add-bank-account div[class*="col-"] {
+        max-width: 100%;
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .inline-block-button .btn {
+        font-size: 13px;
+        min-width: initial;
+        padding-right: 16px;
+        width: 100%;
+        margin: 0 0 14px 0 !important;
+        padding-left: 16px;
+    }
+    .add-bank-buttons .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+    .btn {
+        font-size: 13px;
+    }
+}
+
+@media ( max-width:540px ) {
+    
+        .reloadOptionButton .btn.ml-3, .reloadOptionButton .btn.mr-3 {
+            margin: auto !important;
+        }
+    .reloadOptionButton {text-align:center;
+    }
+        .reloadOptionButton .btn {
+            display: block;
+            margin: 0 auto !important;
+        }
+}
+    *:focus, a:focus, button:focus, a:active, a:hover, a:focus, a:focus-within, a:visited {
+        outline: none !important;
+    }
+
+    .business-hours .form-group-inner01 {
+        display: inline-block;
+        width: 100%;
+    } 

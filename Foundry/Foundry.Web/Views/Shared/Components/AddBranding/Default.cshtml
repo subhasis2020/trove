@@ -1,0 +1,154 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.ProgramBrandingModel;
+<div id="branding" class="tab-pane ">
+    <div class="detail-information prog-list pb20">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form", @name = "form" }))
+        {
+            <div class="detail-card-list" id="one-point">
+                <div class="title-section title-section01">
+                    <div class="row">
+                        <div class="col-sm-4 ">
+                            <h6>Organizations: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName))</small></h6>
+                        </div>
+                        <div class="col-sm-4 ">
+                            <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName))</small></h6>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="list-info list-info-admin">
+                                <ul>
+                                    <li>
+                                        <div class="view-cards-detail" id="tab_13">
+                                            <img src="~/images/view-cards.png">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="branding-plan mt-5">
+                    <div class="brands-logo brand-input" id="select-brands">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Account Name*</label>
+                                    <div class="form-group-inner form-select-customs">
+                                        @Html.DropDownListFor(x => x.programAccountID, ViewBag.programAccount as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                        @Html.ValidationMessageFor(x => x.programAccountID)
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Type</label>
+                                    <div class="form-group-inner form-select-customs">
+                                        @Html.TextBoxFor(x => x.accountType, new { @class = "form-control form-control-custom", @readonly = "true" })
+                                    </div>
+                                </div>
+                                <div class="admin-browse-image">
+                                    <label id="lblLogoBranding">Logo*</label>
+                                    <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                        <div class="picture">
+                                            <div class="dz-default dz-message" data-dz-message="">
+                                                <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <p class="mt10" id="pLogoInfo">The logo uploaded will be used for Login and Registration.</p>
+                                    <span id="PostedFileUploadError" style="display:none;" class="field-validation-error">
+                                        <span>*Only Image files allowed.</span>
+                                    </span>
+                                    <span id="input_file_upload_error_img" style="display:none;" class="field-validation-error">
+                                        <span>Maximum image size is 10 MB.</span>
+                                    </span>
+                                    @Html.ValidationMessageFor(x => x.ImagePath)
+                                </div>
+                            </div>
+                            <!--4-->
+                            <div class="col-sm-8 custom-padding custom-padding-no" id="dvBrandingColorPreview" style="display:none;">
+                                <div class="form-group">
+                                    <label>Program Colors</label>
+                                    <div class="form-group mt-3">
+                                        @Html.TextBoxFor(x => x.brandingColor, new { @class = "form-control form-control-custom", @readonly = "true" })
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card branding</label>
+                                    <div class="card-details">
+                                        <div class="branding-card">
+                                            <div class="branding-logo">
+                                                <div class="img-branding-logo"><img src="~/images/icon-profile-lg.png" id="brand-logo" /></div>
+                                            </div>
+                                            <div class="branding-card-detail">
+                                                <div class="card-info">
+                                                    <h2 class="h2-text"> </h2>
+                                                    <span class="spn-text"></span>
+                                                </div>
+                                                <div class="input-bar-code">
+                                                    <div class="row">
+                                                        @Html.TextBoxFor(x => x.cardNumber, new { @class = "form-control", @readonly = "true" })
+                                                    </div>
+                                                </div>
+                                                <div class="bar-code">
+                                                    <img src="~/images/img-barcode.png">
+                                                </div>
+                                            </div>
+                                            <div class="gray-bar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8 custom-padding custom-padding-no" id="dvVIPCardPreview" style="display:none;">
+                                <div class="form-group">
+                                    <label></label>
+                                    <div class="form-group mt-3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>VIP Card Preview</label>
+                                    <div class="card-details">
+                                        <div class="branding-card">
+                                            <img class="clsImgVIPCardPreview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" id="imgVIPCardPreview" name="imgVIPCardPreview" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--4-->
+                        </div>
+                        <!--row-->
+                    </div>
+                    <!--plan-->
+                </div>
+                <div class="row ">
+                    <div class="col-sm-12">
+                        <div class="custom-right">
+                            <button type="submit" class="btn btn-primary btn-login mt-3" id="btnbrandingdetailinfo">ADD</button>
+                            @Html.HiddenFor(m => m.ImagePath)
+                            @Html.HiddenFor(m => m.accountTypeId)
+                            <input type=hidden id="id" value='@Model.id' />
+                            <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                            <input type=hidden id="hdnIsNewUpload" value='1' />
+                            @Html.HiddenFor(m => m.ImageFileName) 
+                        </div>
+                    </div>
+                    <!--row-->
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<style type="text/css">
+    .clsImgVIPCardPreview {
+        max-width: 488.12px;
+        height: 310px;
+        position: static;
+        margin: 10px;
+    }
+</style>
+<script src="~/js/spectrum.js"></script>
+

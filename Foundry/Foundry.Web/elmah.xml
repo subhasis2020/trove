@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<elmah>
+  <errorFilter>
+    <notifiers>
+      <notifier name="Email"/>
+    </notifiers>
+    <test>
+      <or>
+        <!-- Filter 400 errors -->
+        <equal binding="HttpStatusCode" value="400" type="Int32" />
+        <!-- Filter 404 errors -->
+        <equal binding="HttpStatusCode" value="404" type="Int32" />
+      </or>
+    </test>
+  </errorFilter>
+</elmah>

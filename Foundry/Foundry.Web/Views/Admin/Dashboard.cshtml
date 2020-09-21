@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link href="~/css/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/js/SweetAlert/sweetalert.min.js"></script>
+    <script src="~/js/spectrum.js"></script>
+</head>
+
+<body>
+    <div class="mobile-overlay"></div>
+
+    <section class="wrapper-content">
+
+        <aside class="left-bar-admin">
+            <div class="main-logo">
+                <a href="@Url.Action("Dashboard","Admin")"><img src="~/images/logo-admin.png"></a>
+            </div>
+            <div class="menus menu-admin">
+
+                <ul id="accordion">
+                    <li><a id="aLogout" href="javascript:void(0);"><i class="icon-logout icon-menus"></i> <span>Log Out</span></a></li>
+
+                </ul>
+            </div>
+        </aside>
+        <section class="right-bar-admin">
+            <header class="header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mobile-menu"><i class="fa fa-bars"></i></div>
+
+                    </div>
+                    <!--6-->
+                    <div class="col-sm-6">
+                        <div class="top-navigation-icon">
+                            <ul>
+
+                                <li>@User.Identity.Name</li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!--6-->
+                </div>
+            </header>
+
+            <section class="page-content page-content-admin">
+                <div class="title-section dashboard-title">
+                    <h1>Coming soon</h1>
+                </div>
+            </section>
+
+        </section>
+    </section>
+
+</body>
+</html>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/js/custom.js"></script>
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({
+                scrollButtons: {
+                    enable: true
+                }
+            });
+        });
+    })(jQuery);
+    $(document).ready(function () {
+        $(document).on('click', '#aLogout', function () {
+            swal({
+                title: "Are you sure you want to logout?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    window.location.href = '/Account/Signout';
+                }
+            }
+            );
+
+        });
+    });
+</script>

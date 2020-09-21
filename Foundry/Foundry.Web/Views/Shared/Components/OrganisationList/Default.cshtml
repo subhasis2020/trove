@@ -1,0 +1,54 @@
+﻿@using Foundry.Domain;
+@model List<Foundry.Domain.Dto.OrganisationDto>
+<article class="dashboard-widigt org-widigt">
+    @if (Model.Count > 0)
+    {
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            if (i % 3 == 0)
+            {
+                @Html.Raw("<div class='row justify-content-center'>")
+            }
+            <div class="col-sm-4 ">
+                <div class="org-boxes-list">
+
+                    <div class="org-boxes">
+                        <span onclick="window.location.href='@Url.Action("OrganisationsPrograms", "Organisation", new { id = Cryptography.EncryptPlainToCipher(Model[i].Id.ToString()), org = Model[i].OrganisationSubTitle != null ? Cryptography.EncryptPlainToCipher(Model[i].OrganisationSubTitle.ToString()) : "" })'">
+                            <h2>@Model[i].OrganisationSubTitle</h2>
+                            <h6>@Model[i].Name</h6>
+                        </span>
+                        <div class="linked-delete-box">
+                            <div class="linked-down-actions">
+                                <div class="img-dots-box"></div>
+                            </div>
+                            <div class="linked-data-actions">
+
+                                <div class="org-panel-dropdown">
+
+                                    <ul>
+                                        <li><a href="@Url.Action("CreateOrganisations", "Organisation", new { id = Cryptography.EncryptPlainToCipher(Model[i].Id.ToString()), org = Model[i].OrganisationSubTitle != null ? Cryptography.EncryptPlainToCipher(Model[i].OrganisationSubTitle.ToString()) : "" })">Edit Organization</a></li>
+                                        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+                                        {
+                                            <li class="active"><a href="javascript:void(0);" data-JId="@(!string.IsNullOrEmpty(Model[i].JPOS_MerchantId)?Cryptography.EncryptPlainToCipher(Model[i].JPOS_MerchantId):"")" data-org="@Model[i].OrganisationSubTitle" id="@Cryptography.EncryptPlainToCipher(@Model[i].Id.ToString())" class="clsDeleteOrg">Delete Organization</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (i % 3 == 2)
+            {
+                @Html.Raw("</div>")
+            }
+
+        }
+    }
+    else
+    {
+        <h3 class="text-center">
+            @Html.Raw("No data available.")
+        </h3>
+    }
+</article>

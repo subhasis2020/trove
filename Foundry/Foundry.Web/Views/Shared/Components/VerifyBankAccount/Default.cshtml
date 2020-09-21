@@ -1,0 +1,27 @@
+﻿@model Foundry.Web.Models.VerifyBankModel
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmVerifyBankform", @name = "frmVerifyBankform" }))
+{
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.AmountOne, new { @class = "form-control ForDecimals form-control60", @placeholder = "First Amount for verification", @maxlength = 10 })
+                @Html.ValidationMessageFor(x => x.AmountOne)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.AmountTwo, new { @class = "form-control ForDecimals form-control60", @placeholder = "Second Amount for verification", @maxlength = 10 })
+                @Html.ValidationMessageFor(x => x.AmountTwo)
+            </div>
+        </div>
+       
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button type="submit" id="btnVerifyBankAcc" class="btn btn-primary btn-login d-block m-auto" >Verify</button>
+            </div>
+        </div>
+    </div>
+        }

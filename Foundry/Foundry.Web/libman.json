@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "@aspnet/signalr@1.1.2",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "dropzone@5.5.1",
+      "destination": "wwwroot/dropzone/"
+    }
+  ]
+}

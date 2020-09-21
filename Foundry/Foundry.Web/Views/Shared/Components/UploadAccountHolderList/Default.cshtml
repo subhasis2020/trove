@@ -1,0 +1,236 @@
+﻿
+<div id="tab-3-4" class=" tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2> Import Users</h2>
+                </div>
+            </div>
+        </div>
+        <article class="content-wrapper">
+            <!-- Tab panes -->
+
+            <div class="white-box">
+                <div class="upload-pdf-box">
+                    <div class="upload-pdf-box-inner">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="upload-pdf-content">
+                                    <input type="file" id="ExcelFileUpload" name="">
+                                    <img src="~/images/icon-upload-your-pdf.png"> <br><br>
+                                    Step 1  : Upload your File <br>
+                                    <hr>
+                                    <div class="download-info-req">
+                                        <p id="file-name"></p>
+                                        <p>Download Sample file to see the format.<a href="@ViewBag.Url"><img src="~/images/icon-download.png"></a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="upload-pdf-content">
+                                    <img src="~/images/icon-contact-info.png"> <br><br>
+                                    Step 2 : Validate Data <br>
+                                    <hr>
+                                    <div class="download-info-req">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-browse btn-validate" id="validateButton">Validate </a>
+                                        <p style="display:none">This file is having some Data issues , please <a href="javascript:void(0);" id="validate-issue-download"> download </a>it and correct the anomalies and try again.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="upload-pdf-content">
+                                    <img src="~/images/icon-stay-tuned.png"> <br><br>
+                                    Step 3 : Import Users <br>
+                                    <hr>
+                                    <div class="download-info-req">
+                                        <button class="btn btn-primary btn-browse" id="btn-import-pdf" disabled="disabled">Import Users</button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var urlPath = '';
+
+        /* Upload file */
+        $('#ExcelFileUpload').on("change", function () {
+
+            var fileObj = ($(this));
+
+            var fileName = fileObj.val();
+            if (fileName != "") {
+                var fileExt = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                var file = fileObj[0].files[0];
+
+                if (fileExt != 'xls' && fileExt != 'xlsx' && fileExt != 'csv') {
+                    fileObj.value = "";
+                    swal('Allowed file extension is xlsx.', "", "error");
+                    return false;
+                }
+                urlPath = '';
+                var formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: '/Program/UploadExcel',
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $('#file-name').html(result.data.substr(result.data.lastIndexOf('\\')+1));
+                    }, error: function () {
+                        $("#ExcelFileUpload").attr("disabled", false);
+                        $("#ExcelFileUpload").val("");
+                    }
+                });
+                return true;
+            }
+            else {
+                $("#ExcelFileUpload").attr("disabled", false);
+                $("#ExcelFileUpload").val("");
+                return false;
+            }
+        });
+
+        /* Validate button */
+        $('#validateButton').click(function () {
+            $("#dvLoadingGif").show();
+            var fileObj = $('#ExcelFileUpload');
+            var fileName = fileObj.val();
+            if (fileName != "") {
+                var fileExt = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                var file = fileObj[0].files[0];
+
+                if (fileExt != 'xlsx') {
+                    fileObj.value = "";
+                    swal('Allowed file extension is xlsx only.', "", "error");
+                    $("#ExcelFileUpload").val("");
+                    return false;
+                }
+                urlPath = '';
+                var formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: '/Program/ValidateFile',
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (result) {
+                        $("#dvLoadingGif").hide();
+                        if (result.success === true) {
+                            swal({
+                                title: "Your file is validated successfully. \n Click on import user to import the file. \n"+ 
+                                "Note: Duplicate entries will be skipped, status can be validated by downloading the file",
+                                icon: "error"
+                            });
+                            urlPath = result.data.substr(result.data.lastIndexOf("/") + 1);
+                            $('#btn-import-pdf').removeAttr('disabled');
+                            $('#validate-issue-download').parent().css("display", "none");
+                        }
+                        else if (result.success === false && result.message !== '') {
+                            swal({
+                                title: result.message,
+                                icon: "error"
+                            });
+
+                            if (result.data !== undefined) {
+                                $('#validate-issue-download').parent().css("display", "block");
+                                var fileUrl = "/Import/" + result.fileName;
+                                $('#validate-issue-download').attr('href', fileUrl);
+                            }
+
+                            $("#ExcelFileUpload").val("");
+                            $('#file-name').html('');
+                        }
+                        else {
+                            swal({
+                                title: "There is some issue in your excel. Please download and resolve.",
+                                icon: "error"
+                            });
+                            $('#validate-issue-download').parent().css("display", "block");
+                            var fileUrl = "/Import/" + result.fileName;
+                            $('#validate-issue-download').attr('href', fileUrl);
+                            $("#ExcelFileUpload").val("");
+                            $('#file-name').html('');
+                        }
+                    }, error: function () {
+                        $("#dvLoadingGif").hide();
+                        $("#ExcelFileUpload").attr("disabled", false);
+                        $("#ExcelFileUpload").val("");
+                        $('#file-name').html('');
+                    }
+                });
+                return true;
+            }
+            else {
+                swal({
+                    title: "Please select file.",
+                    icon: "error"
+                });
+                $("#ExcelFileUpload").attr("disabled", false);
+                $("#ExcelFileUpload").val("");
+                $("#dvLoadingGif").hide();
+                $('#file-name').html('');
+                return false;
+            }
+        });
+
+        /* Imoprt User button */
+        $('#btn-import-pdf').click(function () {
+            $("#dvLoadingGif").show();
+            if (urlPath !== '') {
+                $.ajax({
+                    url: '/Program/Import?fileName=' + urlPath + '&programId=' + $("#hdnProgramId").val() + '&orgId=' + $("#hdnPrimaryOrgId").val(),
+                    type: "GET",
+                    success: function (result) {
+                        if (result.success === true) {
+                            var url = result.data;
+                            var a = document.createElement("a");
+                            document.body.appendChild(a);
+                            a.href = url;
+                            fileName = url.split("/").pop();
+                            a.download = fileName
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            a.remove();
+
+                            swal({
+                                title: result.message,
+                                icon: "error"
+                            });
+                            $("#ExcelFileUpload").val("");
+                            urlPath = '';
+                            $('#file-name').html('');
+                        }
+                        $("#dvLoadingGif").hide();
+
+                    }, error: function () {
+                        $("#dvLoadingGif").hide();
+                        $('#file-name').html('');
+                        $("#ExcelFileUpload").attr("disabled", false);
+                        $("#ExcelFileUpload").val("");
+                    }
+                });
+            }
+            else {
+                $("#dvLoadingGif").hide();
+                swal({
+                    title: "Please select file.",
+                            icon: "error"
+                });
+                $('#file-name').html('');
+                $("#ExcelFileUpload").val("");
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,71 @@
+﻿@model Foundry.Web.Models.ReloadRequestModel
+@{
+    ViewData["Title"] = "Reload Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="page-content">
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-8 ">
+                <h2>Add Money</h2>
+                <span class="note" style="display:none;">Choose the account you would like to reload</span>
+                @if (ViewBag.MessageResponse != null)
+                {
+                    <div id="dvResponse" class="alert @(@ViewBag.StatusResponse!=null && @ViewBag.StatusResponse==1 ? "alert-success" : "alert-danger")">
+                        @ViewBag.MessageResponse
+                    </div>
+                }
+            </div>
+            <div class="col-sm-4 " style="display:none;">
+                <div class="current-balance">
+                    <div class="current-balance-box">
+                        <h2>Current Balance</h2>
+                        <ul id="ulCurrentBalance" class="currentUserAmount"></ul>
+                        @*<p id="currentAmount" class="amount">$00.00</p>*@
+                        @*<span>Campus Cash</span>*@
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <article class="content-wrapper">
+        <div class="tabing-custom">
+            @*@await Html.PartialAsync("_TabbedLinkedAccountsPartial.cshtml", @ViewData["LinkedUsers"])*@
+            <div class="tab-content">
+                <div class="tab-pane  active" id="home">
+                    <div class="white-box">
+                        <div class="balance-load-panel">
+                            <span id="spnRefreshBalanceReload">
+                              
+                                @await Component.InvokeAsync("BalanceReload", new { id = ViewBag.UserId, reloadRequestId = ViewBag.ReloadRequestId, programId = ViewBag.ProgramId, LoggedId = ViewBag.LoggedUserId })
+
+                            </span>
+                            <!-- Tab panes -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="hdnUserType" name="hdnUserType" value="@ViewBag.UserType" />
+
+    </article>
+
+</section>
+@section ViewScripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ReloadUserId").val(@ViewBag.UserId);
+            $("#ReloadRequestId").val(@ViewBag.ReloadRequestId);
+            $("#ProgramId").val(@ViewBag.ProgramId);
+            $("#ActivelinkedId").val(@ViewBag.UserId);
+
+        $("#accordion").find('li').removeClass('active');
+            $("#accordion #liReloadRequest").addClass('active');
+
+        });
+    </script>
+    <script src="~/js/ReloadRequest.js"></script>
+   
+
+}

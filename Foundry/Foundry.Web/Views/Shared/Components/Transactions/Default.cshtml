@@ -1,0 +1,109 @@
+﻿@using Foundry.Domain;
+@{
+    var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+    var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+}
+<div id="transactions" class="tab-pane active show">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6 id="h2text">Organizations: <small>@primaryOrgName </small></h6>
+                </div>
+                <div class="col-sm-4">
+                    <h6 id="h6text">
+                        Programs: <small> @primaryProgramName</small>
+                    </h6>
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-info list-info-admin">
+                        <ul>
+                            <li>
+                                <a id="aExportTransaction" href="javascript:void(0);">
+                                    <div class="export-section">
+                                        <img src="~/images/icon-export.png"><em>Export File</em>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblTransaction" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="plan-title">
+                                <div class="transactions-dropdown transactions-dropdown-table">
+                                    <a href="" class="plans-date collapsed" data-toggle="collapse" data-target="#transactions-panel-dropdown" aria-expanded="false">  DATE<img src="~/images/img-selection-arrows.png">  </a>
+                                    <div id="transactions-panel-dropdown" class="transactions-card collapse" style="">
+                                        <h2 id="transactionFilter">Transactions</h2>
+                                        <a class="close collapsed" href="" data-toggle="collapse" data-target="#transactions-panel-dropdown" aria-expanded="false"><img src="~/images/icon-close-sm.png"></a>
+                                        <div class="transaction-list-data">
+                                            <h3><a id="all" class="aCheckAllPeriod" onclick='CheckForDate(this.id);' style="color:white;" href="javascript:void(0);">See All</a></h3>
+                                            
+
+                                            <div class="content-scroll scroll-height scroll-list mCustomScrollbar _mCS_1 mCS_no_scrollbar">
+                                                
+
+                                                <ul>
+                                                    <li><a id="@ViewBag.CurrentPeriod" class="aCurrentPeriod" onclick='CheckForDate(this.id);' href="javascript:void(0);">Current period</a></li>
+                                                    @foreach (var item in ViewBag.MonthYear)
+                                                    {
+                                                        <li><a id="@item" onclick='CheckForDate(this.id);' href="javascript:void(0);">@item</a></li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </th>
+                            <th class="text-center">TIME</th>
+                            <th class="text-center">ACCOUNT</th>
+                            <th class="text-center">MERCHANT NAME</th>
+                            <th>AMOUNT</th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    @Html.Hidden("hdnDateMonth", "")
+</div>
+<script src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/vfs_fonts.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>
+<script>
+    //replace hardcoded program id.
+    $(".transactions-dropdown.transactions-dropdown-table").click(function () {
+        
+        $("#transactionFilter").text("TRANSACTIONS");
+    });
+
+    var CheckForDate = function (id) {
+        if (id === 'all') {
+            $("#hdnDateMonth").val('');
+        } else
+            $("#hdnDateMonth").val(id);
+        GetDataTableContent();
+        $("#transactions-panel-dropdown.collapse").collapse('hide');
+    };
+    var GetDataTableContent = function () {
+        oTable = $('#tblTransaction').DataTable();
+        oTable.on('preXhr.dt', function (e, settings, data) {
+            data.dateMonth = $("#hdnDateMonth").val();
+        });
+        oTable.draw();
+    };
+</script>

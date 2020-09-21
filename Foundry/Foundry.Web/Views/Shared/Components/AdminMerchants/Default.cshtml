@@ -1,0 +1,284 @@
+﻿<table class="table" id="merchant" width="100%">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">ID</th>
+            <th class="text-center">MERCHANT NAME</th>
+            <th class="text-center">LOCATION</th>
+            <th class="text-center">LAST TRANSACTION</th>
+            <th>DATE ADDED </th>
+            <th> ACCOUNT TYPE</th>
+            <th class="text-center">ACTIVITY</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#dvLoadingGif").show();
+
+        //$.ajax({
+        //    method: 'GET',
+        //    url: '/Program/MerchantListing',
+        //    data: { ppId: $("#hdnProgramId").val(), poId: $("#hdnPrimaryOrgId").val(), ppN: $("#hdnProgramName").val(), poN: $("#hdnOrgName").val() }
+        //}).done(function (data, statusText, xhdr) {
+        // $("#spnProgramTab").html(data);
+        var primaryorgId = $('#hdnPrimaryOrgId').attr('value');
+        var primaryprogId = $('#hdnProgramId').attr('value');
+        var primaryprogName = $('#hdnProgramName').attr('value');
+        var primaryorgName = $('#hdnOrgName').attr('value');
+        var filename = 'Merchants List';//$('#hdnpon').attr('value') + '-' + $('#hdnppn').attr('value') + '-Merchant List';
+        $("#merchant").DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 10,
+            "order": [[5, "desc"]],
+            "dom": 'Bfrtip',
+            "oLanguage": {
+                "sEmptyTable": "No data available."
+            },
+            "ajax": {
+                "url": "/Merchant/LoadAdminsMerchantData",
+                "data": {},
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+                [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false,
+                        "orderable": false
+                    },
+                {
+                    "targets": [0],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [2],
+                    "visible": true,
+                    "searchable": true,
+                    "orderable": true
+                },
+                {
+                    "targets": [3],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [4],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": true
+                },
+                {
+                    "targets": [5],
+                    "searchable": false,
+                    "orderable": true
+                },
+                {
+                    "targets": [6],
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [7],
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
+                    "targets": [8],
+                    "searchable": false,
+                    "orderable": false
+                }],
+
+            "columns": [
+                { "data": "Id", "id": "Id", "name": "Id", "autoWidth": true, className: "text-center" },
+                { "data": "MerchantId", "name": "MerchantId", "autoWidth": true, className: "text-center" },
+                { "data": "MerchantName", "name": "MerchantName", "autoWidth": true, className: "text-center" },
+                { "data": "Location", "name": "Location", "autoWidth": true, className: "text-center" },
+                {
+                    "className": "text-center",
+                    "name": "LastTransaction",
+                    "autoWidth": true,
+                    "render": function (data, type, full, mets) {
+                        return full.LastTransaction !== '' && full.LastTransaction !== null ? moment(full.LastTransaction).format('DD MMMM YYYY') : "";
+                    }
+                },
+                {
+                    "name": "DateAdded",
+                    "autoWidth": true,
+                    "render": function (data, type, full, mets) { return moment(full.DateAdded).format('DD MMMM YYYY'); }
+                },
+                {
+                    "render": function (data, type, full, mets) {
+                        return $("<div>").html(full.AccountType).text().replace("lt;br />", "");
+                    }
+                },
+                {
+                    "className": "text-center",
+                    "render": function (data, type, full, mets) {
+                        if (full.Activity === 0) {
+                            return "<div class='status-point alert-point'></div>";
+                        }
+                        if (full.Activity === 2) {
+                            return "<div class='status-point orange-point'></div>";
+                        }
+                        if (full.Activity === 1) {
+                            return "<div class='status-point green-point'></div>";
+                        }
+                    }
+                },
+                {
+                    "render": function (data, type, full, mets) {
+                        var param = "'" + full.Id + "','" + full.MerchantName + "'";
+                        return "<div class='linked-delete-custom-action'><div class='linked-down'>" +
+                            "<div class='img-dots'></div></div>" +
+                            "<div class='linked-down-data-s'><div class='plan-panel-dropdown'>" +
+                            "<ul><li><a href='/Merchant/Create/" + full.Id + "?poId=" + primaryorgId.toString() + "&ppId=" + primaryprogId.toString() + "&ppN=" + primaryprogName + "'>Edit Merchant</a></li></ul>" +
+                            "</div></div></div>";
+                        /*<li><a href='#' onclick=DeleteData('" + full.Id + "');>Delete Merchant</a></li><li><a href='#' data-name='" + full.MerchantName + "' onclick=Clone('" + full.Id + "',this)>Clone Merchant</a></li>*/
+                    }
+                }
+            ],
+            initComplete: function () {
+                $('.dataTables_filter').show();
+                var $buttons = $('.dt-buttons').hide();
+                $('#aExport').on('click', function () {
+                    var searchValue = $('.dataTables_filter input').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Program/AdminMerchantExportExcel/?searchValue=" + searchValue + "&ppId=" + primaryprogId,
+                        cache: false,
+                        success: function (data) {
+                            //get the file name for download
+                            if (data.fileName !== "") {
+                                //use window.location.href for redirect to download action for download the file
+                                window.location.href = '/Program/Download/?fileName=' + data.fileName;
+                            }
+                        },
+                        error: function (data) {
+                            alert("Something went wrong.");
+                        }
+                    });
+                });
+            },
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '',
+                    exportOptions: {
+                        format: {
+                            body: function (data, row, column, node) {
+                                // Strip $ from salary column to make it numeric
+                                if (column === 4) {
+                                    return moment(data, 'MMMM - Do - YYYY').format('MM/DD/YYYY');
+                                }
+                                else if (column === 5) {
+                                    return data.replace(/<br\s*\/?>/g, ", ");
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                        },
+                        columns: [1, 2, 3, 4, 5, 6],
+                        modifier: {
+                            search: 'applied',
+                            order: 'applied'
+                        }
+                    },
+                    title: filename
+                }
+            ]//,
+        });
+
+        $("#dvLoadingGif").hide();
+
+        //}).fail(function (xhdr, statusText, errorText) {
+        //    swal({
+        //        title: "Currently unable to process the request! Please try again later.",
+        //        icon: "error"
+        //    });
+        //});
+    });
+</script>
+
+@*@using Foundry.Domain;*@
+@*@{
+        var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+        var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+    }*@
+@*
+    <div id="merchant-list" class=" tab-pane " aria-expanded="false">
+        <div class="detail-information prog-list pb20">
+            <div class="title-section title-section01">
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        @*<h6>Organizations: <small>@primaryOrgName </small></h6>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <h6>
+                            @*Programs: <small> @primaryProgramName</small>
+                        </h6>
+                        @*<hidden id="hdnprimaryOrgId" value="@ViewBag.PrimaryOrgId"></hidden>
+                        <hidden id="hdnprimaryProgId" value="@ViewBag.PrimaryProgId"></hidden>
+                        <hidden id="hdnprimaryProgName" value="@ViewBag.PrimaryProgName"></hidden>
+                        <hidden id="hdnpon" value="@primaryOrgName"></hidden>
+                        <hidden id="hdnppn" value="@primaryProgramName"></hidden>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="list-info list-info-admin">
+                            <ul>
+                                <li>
+                                    <a id="aExport" href="javascript:void(0);">
+                                        <div class="export-section">
+                                            <img src="~/images/icon-export.png"><em>Export File</em>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    @*<a href="@Url.Action("Create","Merchant", new { id =Cryptography.EncryptPlainToCipher("0"), poId = ViewBag.PrimaryOrgId, ppId = ViewBag.PrimaryProgId, ppN = ViewBag.PrimaryProgName})" class="btn btn-small"><img src="~/images/icon-plus-lg.png"></a>
+                                    </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <article class="content-wrapper">
+                        <!-- Tab panes -->
+                        <div class="white-box">
+                            <div class="table-wrapper">
+                                <table class="table" id="merchant" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" width="5%">ID</th>
+                                            <th class="text-center">ID</th>
+                                            <th class="text-center" width="15%">MERCHANT NAME</th>
+                                            <th class="text-center" width="15%">LOCATION</th>
+                                            <th class="text-center" width="15%">LAST TRANSACTION</th>
+                                            <th width="15%">DATE ADDED </th>
+                                            <th width="15%"> ACCOUNT TYPE</th>
+                                            <th class="text-center">ACTIVITY</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
+            </div>*@
+
+

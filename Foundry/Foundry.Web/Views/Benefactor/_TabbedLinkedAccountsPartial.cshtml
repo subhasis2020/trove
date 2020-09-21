@@ -1,0 +1,24 @@
+﻿@model List<Foundry.Web.Models.LinkedUsersModel>
+<div class="tabing-custom">
+    @{var i = 0;
+        <ul class="nav nav-tabs">
+            @foreach (var item in Model)
+            {
+                <li class="nav-item">
+                    <a class="nav-link nameTab" data-toggle="tab" data-CanViewTransaction="tab_@item.CanViewTransaction" id="tab_@item.linkedUserId" href="javascript:void(0);"><span class="avatar" style="background-image: url(@item.ImageUserPath)"></span><i>@string.Concat(@item.UserFirstName, " ", @item.UserLastName)</i></a>
+                    @if (i == 0)
+                    {
+                        i++;
+                    }
+                </li>
+
+            }
+            @Html.Hidden("ActivelinkedId")
+            <input id="ActiveCanViewTransaction" name="ActiveCanViewTransaction" type="hidden" value="@ViewBag.CanViewTransaction">
+        </ul>
+    }
+
+</div>
+
+
+

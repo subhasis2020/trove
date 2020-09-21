@@ -1,0 +1,160 @@
+﻿@using Foundry.Domain;
+@{
+    ViewData["Title"] = "OrganisationsPrograms";
+    Layout = "~/Views/Shared/_OrganisationLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+<script src="~/js/Moment.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/vfs_fonts.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>
+<script src="~/js/OrganisationProgramsList.js"></script>
+<section class="page-content">
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-4 ">
+                <h2>@ViewBag.OrganisationName</h2>
+                <h6>Programs</h6>
+            </div>
+            <div class="col-sm-8">
+                <div class="list-info list-info-admin">
+                    <ul>
+                        @if (ViewBag.OrganisationName == "Sodexo")
+                        {
+                            <li>
+                                <button type="button" id="btnRefreshIssuer" class="btn btn-primary">Refresh Program</button>
+                            </li>
+                        }
+                        <li>
+                            <a id="aExport" href="javascript:void(0);">
+                                <div class="export-section">
+                                    <img src="~/images/icon-export.png"><em>Export File</em>
+                                </div>
+                            </a>
+                        </li>
+                        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+                        {
+                            <li>
+                                <a href="/Program/Index/@Cryptography.EncryptPlainToCipher("0")?poId=@ViewBag.OrganisationId&poN=@(!string.IsNullOrEmpty(Convert.ToString(ViewBag.OrganisationName)) ? Cryptography.EncryptPlainToCipher(ViewBag.OrganisationName) : "")" class="btn btn-small"><img src="~/images/icon-plus-lg.png"></a>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <article class="content-wrapper">
+        <!-- Tab panes -->
+        <div class="white-box">
+            <div class="table-wrapper">
+                @await Component.InvokeAsync("AddedOrganisationProgram", new { id = @ViewBag.OrganisationId })
+            </div>
+        </div>
+        <input id="hdnOrganisationId" name="hdnOrganisationId" type="hidden" value="@ViewBag.OrganisationId">
+        <input id="hdnOrganisationName" name="hdnOrganisationName" type="hidden" value="@Cryptography.EncryptPlainToCipher(ViewBag.OrganisationName)">
+    </article>
+
+</section>
+<script>
+    var userRlN = '@User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()';
+    $(document).ready(function () {
+        $("#accordion").find('li').removeClass('active');
+        $("#accordion #liOrgName").addClass('active');
+
+        $("#btnRefreshIssuer").on("click", function () {
+             $("#dvLoadingGif").show();
+            $.post("/Organisation/UpdateIssuer",
+                function (data) {
+                    $("#dvLoadingGif").hide();
+                    alert('Successfully refreshed');
+                    RefreshProgramTable();
+                }); s
+        });
+    });
+    function RefreshProgramTable() {
+        var orgProgramListColumnDefs = [{ "targets": [0], "visible": false, "searchable": false, "orderable": false }, { "targets": [1], "visible": true, "searchable": true, "orderable": true }, { "targets": [2], "visible": true, "searchable": true, "orderable": true }, { "targets": [3], "visible": true, "searchable": false, "orderable": true }, { "targets": [4], "visible": true, "searchable": true, "orderable": true }, { "targets": [5], "visible": true, "searchable": true, "orderable": true }, { "targets": [6], "searchable": false, "orderable": false }];
+                    var urlForOrgProgramList = "/Organisation/LoadAllOrgProgram";
+                    $("#tblOrgnisationProgram").DataTable({
+        "processing": true, // for show progress bar
+        "serverSide": true, // for process server side
+        "filter": true, // this is for disable filter (search box)
+        "orderMulti": false, // for disable multiple column at once
+         "pageLength": 10,
+        "bDestroy": true,
+        "order": [[4, "desc"]],
+        "dom": 'Bfrtip',
+        "oLanguage": {
+            "sEmptyTable": "No data available."
+        },
+        "ajax": {
+            "url": urlForOrgProgramList,
+            "data": { id: $("#hdnOrganisationId").val() },
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columnDefs": orgProgramListColumnDefs,
+        "columns": [
+            { "data": "ProgramId", "id": "ProgramId", "name": "ProgramId", "autoWidth": true },
+            {
+                "data": "ProgramName", "name": "ProgramName", "autoWidth": true,
+                "render": function (data, type, full) {
+                    return '<a href=/Program/Index/' + full.strProgramId + "?poId=" + $("#hdnOrganisationId").val() + "&ppN=" + full.EncProgName + "&poN=" + ($("#hdnOrganisationName").val() !== '' ? $("#hdnOrganisationName").val() : '') +'>' + full.ProgramName + '</a>';
+                }
+            },
+            { "data": "ProgramCodeId", "name": "ProgramCodeId", "autoWidth": true },
+            {
+                "data": "AccountListCount", "name": "AccountListCount", "autoWidth": true,
+                "render": function (data, type, full) {
+                    return '<a href=/Program/Index/' + full.strProgramId + "?poId=" + $("#hdnOrganisationId").val() + "&ppN=" + full.EncProgName + "&poN=" + ($("#hdnOrganisationName").val() !== '' ? $("#hdnOrganisationName").val() : '') + "&sal=" + ($("#hdnOrganisationName").val() !== '' ? $("#hdnOrganisationName").val() : '') + '>' + full.AccountListCount + '</a>';
+                }
+            },
+            { "name": "DateAdded", "autoWidth": true, "render": function (data, type, full, mets) { return moment(full.DateAdded).format('MMMM - Do - YYYY'); } }, { "data": "ProgramType", "name": "ProgramType", "autoWidth": true },
+            {
+                "render": function (data, type, full, mets) {
+                    var linkDataContentEditDelete = "<div class='linked-delete-custom-action'><div class='linked-down'>" +
+                        "<div class='img-dots'></div></div>" +
+                        "<div class='linked-down-data-s'><div class='plan-panel-dropdown'>" +
+                        "<ul><li><a href='/Program/Index/" + full.strProgramId + "?poId=" + $("#hdnOrganisationId").val() + "&ppN=" + full.EncProgName + "&poN=" + ($("#hdnOrganisationName").val() !== '' ? $("#hdnOrganisationName").val() : '') + "'>Edit</a></li>";
+                    if (userRlN.toLowerCase() === "super admin") {
+                    //    linkDataContentEditDelete += "<li><a href='#' data-org='" + full.ProgramName + "' onclick=DeleteData(this,'" + full.ProgramId + "','" + $("#hdnOrganisationId").val() + "');>Delete</a></li></ul></div></div></div>"; //   Commented for sodexho
+                    }
+                    else {
+                        linkDataContentEditDelete += "</ul></div></div></div>";
+                    }
+                    return linkDataContentEditDelete;
+
+
+                }
+            }],
+        initComplete: function () {
+            $('.dt-buttons').hide();
+            $('#aExport').on('click', function () {
+                var searchValue = $('.dataTables_filter input').val();
+                var organisationId = $("#hdnOrganisationId").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Organisation/OrganisationProgramExportExcel/?searchValue=" + searchValue + "&id=" + organisationId,
+                    cache: false,
+                    success: function (data) {/*get the file name for download*/ if (data.fileName !== "") { /* use window.location.href for redirect to download action for download the file*/                            window.location.href = '/Organisation/Download/?fileName=' + data.fileName;
+                        }
+                    },
+                    error: function (data) {swal({title: "There is some issue in processing!",icon: "error"});
+                    }
+                });
+
+            });
+        },
+        buttons: [{ extend: 'excel', text: '', exportOptions: { format: { body: function (data, row, column, node) { /* Strip $ from salary column to make it numeric */  return column === 2 ? moment(data, 'MMMM - Do - YYYY').format('MM/DD/YYYY') : data; }}, columns: [1, 2, 3, 4], modifier: {search: 'applied', order: 'applied' }},  title: 'Organization Program List'}]
+    });
+    }
+</script>
+
+

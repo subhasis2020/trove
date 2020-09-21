@@ -1,0 +1,245 @@
+﻿@using static Foundry.Domain.Constants;
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration;
+@using Foundry.Domain;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link href="~/css/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/SweetAlert/sweetalert.min.js"></script>
+    <script src="~/js/spectrum.js"></script>
+    <style type="text/css">
+        /*div#dvLoadingGif img {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div#dvLoadingGif {
+            position: fixed;
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.2);
+        }*/
+        #dvLoadingGif {
+            Position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,.2);
+            text-align: center;
+            width: 100%;
+            bottom: 0;
+            height: 100%;
+            z-index: 9999;
+        }
+
+            #dvLoadingGif img {
+                top: calc(40% - 10px);
+                position: fixed;
+                left: 0;
+                right: 0;
+                text-align: center;
+                /* width: auto; */
+                margin: 0 auto;
+            }
+
+            #dvLoadingGif img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 150px;
+                height: 150px;
+                margin: -60px 0 0 -60px;
+                -webkit-animation: spin 4s linear infinite;
+                -moz-animation: spin 4s linear infinite;
+                animation: spin 4s linear infinite;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-overlay"></div>
+    <section class="wrapper-content">
+        <aside class="left-bar-admin">
+            <div class="main-logo">
+                <a href="@Url.Action("Dashboard", "Admin")"><img id="imgAdminLogo"></a>
+            </div>
+            <div class="menus menu-admin">
+                <ul id="accordion">
+                    @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull))
+                    {
+                        <li><a title="Organizations" href="@Url.Action("GetOrganisations", "Organisation")"><i class="icon-orgnanization-ad icon-menus"></i> <span>Organizations</span></a></li>
+                    }
+                    @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull) || User.IsInRole(Roles.ProgramFull) || User.IsInRole(Roles.MerchantFull))
+                    {
+                        <li><a title="Programs" href="@Url.Action("Programs", "Program")"><i class="icon-programs-ad icon-menus"></i> <span>Programs</span></a></li>}
+                    <li><a id="ahrefReport" title="Reports" href="javascript:void(0);" target="_blank" id="aReportMenu"> <img class="image-menu" id="imgReportingSide"> <span>Reports</span></a></li>
+                    <li><a id="aLogout" href="javascript:void(0);"><i class="icon-logout icon-menus"></i> <span>Log Out</span></a></li>
+                </ul>
+            </div>
+        </aside>
+        <section class="right-bar-admin">
+            <header class="header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mobile-menu"><i class="fa fa-bars"></i></div>
+                    </div>
+                    <!--6-->
+                    <div class="col-sm-6">
+                        <div class="top-navigation-icon">
+                            <ul>
+                                <li>@User.Identity.Name</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--6-->
+            </header>
+            <section class="page-content page-content-admin">
+                <div class="title-section dashboard-title">
+                    <h2></h2>
+                    <span class="note">Click on the buttons to start</span>
+                </div>
+                <article class="dashboard-widigt dashboard-widigt-admin">
+                    <div class="row justify-content-center">
+                        @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull))
+                        {
+                            <div class="col-sm-5 custom-padding">
+                                <a href="@Url.Action("GetOrganisations", "Organisation")">
+                                    <div class="org-boxes-programs org-green-box">
+                                        <h2>Organizations</h2>
+                                        <img id="imgOrg">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull) || User.IsInRole(Roles.ProgramFull) || User.IsInRole(Roles.MerchantFull))
+                        {
+                            <div class="col-sm-5 custom-padding">
+                                <a href="@Url.Action("Programs", "Program")">
+                                    <div class="org-boxes-programs prog-green-box">
+                                        <h2>Programs</h2>
+                                        <img id="imgPrograms">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        @{
+                            var baseReportURL = @Configuration["ReportURL"];
+                            <div class="col-sm-5 custom-padding">
+                                @Html.Hidden("baseRpt", (object)baseReportURL)
+                                <a id="ahrefReport" href="javascript:void(0);" target="_blank" style="cursor:pointer">
+                                    <div class="org-boxes-programs prog-green-box">
+                                        <h2>Reports</h2>
+                                        <img id="imgReportingCard" class="image-white">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </article>
+            </section>
+        </section>
+    </section>
+    <div id="dvLoadingGif" style="display:none;">
+        @*<img id="dvLoaderGif" />*@
+        <img src="~/images/loader.gif" />
+    </div>
+</body>
+</html>
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({
+                scrollButtons: {
+                    enable: true
+                }
+            });
+        });
+    })(jQuery);
+    $(document).ready(function () {
+       // $("#dvLoaderGif").attr('src', '/images/loader.gif');
+        $("#imgAdminLogo").attr('src', '/images/logo-admin.png');
+        $("#imgReportingSide").attr('src', '/images/Reporting.png');
+        $("#imgOrg").attr('src', '/images/img-organizations.png');
+        $("#imgPrograms").attr('src', '/images/icon-programs.png');
+        $("#imgReportingCard").attr('src', '/images/Reporting.png');
+
+
+        $(document).on('click', '#aLogout', function () {
+            swal({
+                title: "Are you sure you want to logout?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    window.location.href = '/Account/Signout';
+                }
+            }
+            );
+        });
+
+        $.getJSON("https://api.ipify.org/?format=json", function (e) {
+            $("#dvLoadingGif").show();
+           $.ajax({
+                method: 'GET',
+                url: '/Organisation/GetCryptographicData',
+                data: { value: e.ip }
+                }).done(function (data, statusText, xhdr) {
+                    var ipAd = data.data;
+                    var uId = '@ViewBag.UId';
+                    var rId ='@ViewBag.RId';
+           $("#ahrefReport,#aReportMenu").attr('href', $("#baseRpt").val() + "dashboard.aspx?auth=" + ipAd + "|" + uId + "|" + rId);
+                    $("#dvLoadingGif").hide();
+                    //setTimeout(function () {
+                    //$("#dvLoadingGif").hide();
+                    //}, 6000);
+                }).fail(function (xhdr, statusText, errorText) {
+                    $("#ahrefReport,#aReportMenu").attr('href', "javascript:void(0);");        
+                    setTimeout(function () {
+                    $("#dvLoadingGif").hide();
+                    }, 6000);
+                });
+          
+        });
+    });
+
+    function GetIPAddress() {
+        $.getJSON("https://api.ipify.org/?format=json", function (e) {
+            $.ajax({
+                method: 'GET',
+                url: '/Organisation/GetCryptographicData',
+                data: { value: e.ip }
+            }).done(function (data, statusText, xhdr) {
+                return data.data;
+                }).fail(function (xhdr, statusText, errorText) {
+                          return "";
+            });
+        });
+    }
+</script>

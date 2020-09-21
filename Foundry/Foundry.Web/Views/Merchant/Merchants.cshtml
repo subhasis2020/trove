@@ -1,0 +1,65 @@
+﻿@using Foundry.Domain;
+@{
+    ViewData["Title"] = "Merchants";
+    Layout = "~/Views/Shared/_OrganisationLayout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+<script src="~/js/Moment.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/vfs_fonts.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>
+<section class="page-content">
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-6 ">
+                <h2>Merchants</h2>
+            </div>
+            <div class="col-sm-6 ">
+                <div class="list-info list-info-admin">
+                    <ul>
+                        <li>
+                            <a id="aExport" href="javascript:void(0);">
+                                <div class="export-section">
+                                    <img src="~/images/icon-export.png" class="excelexport"><em>Export File</em>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <article class="content-wrapper">
+        <!-- Tab panes -->
+        <div class="white-box">
+            <div class="table-wrapper">
+                @await Component.InvokeAsync("AdminMerchants", new { })
+            </div>
+        </div>
+        <input type="hidden" id="hdnPrimaryOrgId" value="@ViewBag.PrimaryOrgId" />
+        <input type="hidden" id="hdnProgramId" value="@ViewBag.ProgramId" />
+        <input type="hidden" id="hdnProgramName" value="@ViewBag.ProgramName" />
+        <input type="hidden" id="hdnOrgName" value="@ViewBag.PrimaryOrgName" />
+    </article>
+
+</section>
+<script>
+
+        var userRlN = '@Convert.ToString(User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())';
+        @*@if ((User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "organistionId".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())!="") {*@
+            var OrgMerEncId =@(User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "organistionId".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()==""?"0":@Cryptography.EncryptPlainToCipher(User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "organistionId".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()));
+        //}
+    $(document).ready(function () {    $("#accordion").find('li').removeClass('active');
+        $("#accordion #liPrgName").addClass('active');
+    });
+</script>
+
+
+

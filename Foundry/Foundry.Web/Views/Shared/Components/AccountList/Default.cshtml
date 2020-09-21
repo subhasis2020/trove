@@ -1,0 +1,68 @@
+﻿@using Foundry.Domain;
+@{
+    var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+    var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+}
+<div id="tab-012" class="tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Organizations: <small>@primaryOrgName</small></h6>
+                </div>
+                <div class="col-sm-4">
+                    <h6>
+                        Programs: <small>@primaryProgramName</small>
+                    </h6>
+                    <hidden id="hdnprimaryOrgId" value="@ViewBag.PrimaryOrgId"></hidden>
+                    <hidden id="hdnprimaryProgId" value="@ViewBag.PrimaryProgId"></hidden>
+                    <hidden id="hdnprimaryProgName" value="@ViewBag.PrimaryProgName"></hidden>
+                    <hidden id="hdnpon" value="@primaryOrgName"></hidden>
+                    <hidden id="hdnppn" value="@primaryProgramName"></hidden>
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-info list-info-admin">
+                        <ul>
+                            <li>
+                                <a id="aExport" href="javascript:void(0);">
+                                    <div class="export-section">
+                                        <img src="~/images/icon-export.png"><em>Export File</em>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-small add-prog-acc" data-id="@Cryptography.EncryptPlainToCipher("0")"><img src="~/images/icon-plus-lg.png"></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <article class="content-wrapper">
+            <!-- Tab panes -->
+            <div class="white-box">
+                <div class="table-wrapper">
+                    <table class="table" id="programaccount" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="5%">ID</th>
+                                <th class="text-center" width="20%">ID</th>
+                                <th class="text-center" width="20%">ACCOUNT NAME</th>
+                                <th class="text-center" width="20%">ACCOUNT TYPE</th>
+                                <th class="text-center" width="20%">PLANS ASSOCIATED</th>
+                                <th width="10%">STATUS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </article>
+    </div>
+
+</div>

@@ -1,0 +1,124 @@
+﻿.field-validation-error {
+    color: red;
+    display: block;
+    padding-top: 5px;
+    font-size: 15px;
+}
+.dataTables_length {
+    margin: 20px;
+}
+.error {
+    color: #e04040 !important;
+}
+
+#dvLoadingGif {
+    Position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.2);
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    height: 100%;
+    z-index: 9999;
+}
+
+    #dvLoadingGif img {
+        top: calc(40% - 10px);
+        position: fixed;
+        left: 0;
+        right: 0;
+        text-align: center;
+        /* width: auto; */
+        margin: 0 auto;
+    }
+
+    #dvLoadingGif img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin: -60px 0 0 -60px;
+        -webkit-animation: spin 4s linear infinite;
+        -moz-animation: spin 4s linear infinite;
+        animation: spin 4s linear infinite;
+    }
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+    /**import-users**/
+    .btn.btn-browse {
+        min-width: 140px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .btn.btn-browse.btn-validate {
+        background: green;
+    }
+
+    .upload-pdf-box-inner .col-sm-4:after {
+        position: absolute;
+        top: 50%;
+        right: -15px;
+        content: '';
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 20px solid #d7d6d6;
+    }
+
+    .upload-pdf-box-inner .col-sm-4:last-child:after {
+        display: none;
+    }
+
+    .upload-pdf-box-inner {
+        max-width: 850px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 18px;
+        color: #525252;
+        line-height: normal;
+        font-weight: 500;
+    }
+
+    .upload-pdf-box, .upload-pdf-contact {
+        max-width: 1000px;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 60px 0;
+    }
+
+    .download-info-req p {
+        font-size: 14px;
+        font-style: italic;
+        color: #6B6F83;
+    }
+
+    .dropzone .dz-preview .dz-image img {
+        height: 120px;
+        width: 120px;
+        object-fit: cover;
+    }
+
+    .dz-details {
+        display: none;
+    }

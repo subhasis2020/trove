@@ -1,0 +1,233 @@
+﻿@model List<Foundry.Web.Models.SiteLevelOverrideSettingViewModel>;
+@{
+    ViewData["Title"] = "Default";
+}
+
+<div class="tab-content">
+    <input type="text" value="@ViewBag.programid" id="txtpId" style="display:none;"> 
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "formsitelevel", @name = "formsitelevel" }))
+    {
+        <div id="loyality" class="tab-pane active show">
+
+            <div class="card organization_setting">
+                <div class="card-header">
+                    Organization Global Settings
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h4 class="title_box mb-4">Loyality Reward Structure</h4>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">Global Loyality Threshold:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.loyalityThreshhold" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">Global Reward $:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.globalReward" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">Global Rate Pts per $:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.globalRatePoints" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">First Transaction Bonus:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.FirstTransactionBonus" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <h4 class="title_box mb-4">Tender Ratios</h4>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">Default Bite pay Ratio:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.bitePayRatio" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">Default DCB/Flex Ratio:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.dcbFlexRatio" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <h4 class="title_box mb-4">User Status Ratios</h4>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">User Status Regular:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.userStatusRegularRatio" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row align-items-center">
+                                    <label class="col-sm-7 text-right">User Status VIP:</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" type="text" value="@ViewBag.userStatusVipRatio" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card organization_setting mt-3">
+                <div class="card-header">
+                    Site Level Override Settings
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                             
+
+                                <div class="form-group">
+
+                                    <div class="row align-items-center">
+                                        <label class="col-sm-7 text-right">First Transaction Bonus:</label>
+                                        <div class="col-sm-5">
+                                            @Html.TextBoxFor(m => item.FirstTransactionBonus, new { @class = "form-control", @maxlength = 10, @id = "siteLevelFirstTransactionBonus", onkeypress = "javascript:return isNumber(event)" })
+                                            <span id="spnErrorsiteLevelFirstTransactionBonus" style="display:none;" class="error">*</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></div>
+                            <div class="row">
+
+
+                                <div class="col-sm-4">
+                                    <h4 class="title_box mb-4">Tender Ratios</h4>
+
+                                    <div class="form-group">
+
+                                        <div class="row align-items-center">
+                                            <label class="col-sm-7 text-right">Site Level Bite pay Ratio:</label>
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(m => item.siteLevelBitePayRatio, new { @class = "form-control", @maxlength = 10, @id = "siteLevelBitePayRatio", onkeypress = "javascript:return isNumber(event)" })              
+                                                <span id="spnErrorsiteLevelBitePayRatio" style="display:none;" class="error">*</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row align-items-center">
+                                            <label class="col-sm-7 text-right">Site Level DCB/Flex Ratio:</label>
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(m => item.siteLevelDcbFlexRatio, new { @class = "form-control", @maxlength = 10, @id = "siteLevelDcbFlexRatio", onkeypress = "javascript:return isNumber(event)" })
+                                                <span id="spnErrorsiteLevelDcbFlexRatio" style="display:none;" class="error">*</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4 class="title_box mb-3 mt-4">User Status Ratios</h4>
+                                    <div class="form-group">
+                                        <div class="row align-items-center">
+                                            <label class="col-sm-7 text-right">Site Level User Status VIP:</label>
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(m => item.siteLevelUserStatusVipRatio, new { @class = "form-control", @maxlength = 10, @id = "siteLevelUserStatusVipRatio", onkeypress = "javascript:return isNumber(event)" })
+                                                <span id="spnErrorsiteLevelUserStatusVipRatio" style="display:none;" class="error">*</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row align-items-center">
+                                            <label class="col-sm-7 text-right">Site Level User Status Regular:</label>
+                                            <div class="col-sm-5">
+                                                @Html.TextBoxFor(m => item.siteLevelUserStatusRegularRatio, new { @class = "form-control", @maxlength = 10, @id = "siteLevelUserStatusRegularRatio", onkeypress = "javascript:return isNumber(event)" })
+                                                <span id="spnErrorsiteLevelUserStatusRegularRatio" style="display:none;" class="error">*</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <div class="row align-items-center">
+                                            <label class="col-sm-7 text-right"></label>
+                                            <div class="col-sm-5">
+                                                <input type="submit" class="btn btn-primary" value="Apply Override" id="btnSaveApplyOverride">
+                                                @Html.Hidden("hdnSitesettingid", item.id)
+                                                @Html.Hidden("hdnprogramId", item.programId)
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-7 ml-auto">
+                                    <div class="override_result_box">
+                                        <h4 class="title_box">Override Result</h4>
+                                        <h5>Points Earn on $50 Spending</h5>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>DCB</th>
+                                                    <th>Bite Pay</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>VIP</th>
+                                                    <td>@ViewBag.VipDcb</td>
+                                                    <td>@ViewBag.VipBitePay</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Regular</th>
+                                                    <td>@ViewBag.RegularDcb</td>
+                                                    <td>@ViewBag.RegulatBitePay</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                }
+                </div>
+
+        </div>
+    }
+</div>
+<script>
+    // WRITE THE VALIDATION SCRIPT.
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+        return true;
+    }
+</script>
+
+
+
+
+
+
+
+
+

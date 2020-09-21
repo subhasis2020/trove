@@ -1,0 +1,153 @@
+﻿@using Foundry.Domain;
+@using static Foundry.Domain.Constants;
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <link rel="stylesheet" href="~/css/SweetAlert/sweetalert.css" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/SweetAlert/sweetalert.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/spectrum.js"></script>
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script src="~/js/custom.js"></script>
+</head>
+
+<body>
+    <div class="mobile-overlay"></div>
+    <section class="wrapper-content">
+        <aside class="left-bar">
+            <div class="main-logo">
+                <a href="@Url.Action("Dashboard","Admin")"><img src="~/images/main-logo.png"></a>
+            </div>
+            <li class="menus">
+                <ul id="accordion">
+                    @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull))
+                    {
+                        <li id="liOrgName"><a title="Organizations" href="@Url.Action("GetOrganisations", "Organisation")"><i class="icon-orgnanization-ad icon-menus"></i> </a></li>
+                    }
+                    @if (User.IsInRole(Roles.SuperAdmin) || User.IsInRole(Roles.OrganizationFull) || User.IsInRole(Roles.ProgramFull))
+                    {
+                        <li id="liPrgName"><a title="Programs" href="@Url.Action("Programs", "Program")"><i class="icon-programs-ad icon-menus"></i> </a></li>
+                    }
+                    @{
+                        var baseReportURL = @Configuration["ReportURL"];
+                        <li id="liReports">
+                            @Html.Hidden("baseRpt", (object)baseReportURL)
+                            <a id="ahrefReport" title="Reports" href="#" target="_blank" style="cursor:pointer">
+                                <img class="image-menu" src="~/images/Reporting.png">
+                            </a>
+                        </li>
+                    }
+                    <li><a id="aLogout" href="javascript:void(0);"><i class="icon-logout icon-menus"></i> </a></li>
+
+                </ul>
+                </div>
+        </aside>
+        <section class="right-bar">
+            <header class="header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mobile-menu"><i class="fa fa-bars"></i></div>
+
+                        <div class="input-icon input-search">
+
+                        </div>
+                    </div>
+                    <!--6-->
+                    <div class="col-sm-6">
+                        <div class="top-navigation-icon">
+                            <ul>
+                                <li>@User.Identity.Name</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!--6-->
+                </div>
+            </header>
+
+            @RenderBody()
+
+        </section>
+    </section>
+    <div id="dvLoadingGif" style="display:none;">
+
+        <img src="~/images/loader.gif" />
+    </div>
+
+</body>
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({
+                scrollButtons: {
+                    enable: true
+                }
+            });
+        });
+    })(jQuery);
+    $(document).ready(function () {
+        $(document).on('click', '#aLogout', function () {
+            swal({
+                title: "Are you sure you want to logout?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    window.location.href = '/Account/Signout';
+                }
+            }
+            );
+
+        });
+
+         $.getJSON("https://api.ipify.org/?format=json", function (e) {
+             $("#dvLoadingGif").show();
+            $.ajax({
+                method: 'GET',
+                url: '/Organisation/GetCryptographicData',
+                data: { value: e.ip }
+            }).done(function (data, statusText, xhdr) {
+                var ipAd = data.data;
+            var uId = '@Cryptography.EncryptPlainToCipher(Convert.ToString(User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "sub".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value))';
+            var rId ='@Cryptography.EncryptPlainToCipher(@User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())';
+
+                $("#ahrefReport,#aReportMenu").attr('href', $("#baseRpt").val() + "dashboard.aspx?auth=" + ipAd + "|" + uId + "|" + rId);
+                $("#dvLoadingGif").hide();
+            }).fail(function (xhdr, statusText, errorText) {
+                $("#ahrefReport,#aReportMenu").attr('href', "#");
+                $("#dvLoadingGif").hide();
+            });
+
+        });
+
+    });
+    function hideLoader() {
+        $('#dvLoadingGif').hide();
+    }
+    function showLoader() {
+        $('#dvLoadingGif').show();
+    }
+</script>
+@RenderSection("ViewScripts", required: false)
+</html>

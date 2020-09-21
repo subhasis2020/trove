@@ -1,0 +1,275 @@
+﻿@model Foundry.Web.Models.OrganisationAdminDetailModel;
+
+<div id="menu3" class=" tab-pane fade">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2 id="lblOrgName"></h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblOrganisationAdmins" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th class="text-center">EMAIL</th>
+                            <th class="text-center">PHONE NUMBER</th>
+                            <th>DATE ADDED</th>
+                            <th>PROGRAMS ACCESSIBILITY</th>
+                            <th>ACCESS ROLE</th>
+                            <th>STATUS</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+        {
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmOrgAdminLevelDetail", enctype = "multipart/form-data", @name = "frmOrgAdminLevelDetail" }))
+            {
+                <div class="org-admin-detail">
+                    <h2 class="clsHeaderForm mb20">New Admin</h2>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="admin-browse-image">
+                                <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                    <div class="dz-default dz-message" data-dz-message="">
+                                        <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                    </div>
+
+                                </div>
+                                <span id="PostedFileUploadError" style="display:none;" class="field-validation-error">
+                                    <span>Only Image files allowed.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <!--6-->
+                        <div class="col-sm-9">
+                            <div class="org-admin-form">
+                                <div class="detail-information mt20">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>First name*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.Name, new { @class = "form-control form-control-custom", @maxlength = 100, @placeholder = "First name" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.Name)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Last name*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.LastName, new { @class = "form-control form-control-custom", @maxlength = 100, @placeholder = "Last name" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.LastName)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Email*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.EmailAddress, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Email" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.EmailAddress)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+
+                                    </div>
+                                    <!--row-->
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Phone number*</label>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m => m.adminLevelModel.PhoneNumber, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.PhoneNumber)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Program(s) access*</label>
+                                                <div class="form-group-inner first">
+                                                    @Html.DropDownListFor(m => m.ProgramsAccessibility, ViewBag.ProgramType as List<SelectListItem>, new { @multiple = "multiple", @class = "dropdown dropdown-multiselect show clsListBox" })
+                                                    @Html.ValidationMessageFor(m => m.ProgramsAccessibility)
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>User access role*</label>
+                                                <div class="form-group-inner form-select-customs">
+                                                    @Html.DropDownListFor(m => m.adminLevelModel.RoleId, ViewBag.Role as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                                    @Html.ValidationMessageFor(m => m.adminLevelModel.RoleId)
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+
+                                    </div>
+                                    <!--row-->
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="custom-right">
+                                                <button type="submit" id="btnOrganisationAdminLevelDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                                                <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                                                <input type=hidden id="hdnIsNewUpload" value='1' />
+                                                <input type=hidden id="hdnIsFormSubmitted" value='false' />
+                                                @Html.HiddenFor(m => m.adminLevelModel.UserId)
+                                                @Html.HiddenFor(m => m.adminLevelModel.UserImagePath)
+
+                                            </div>
+
+                                        </div>
+                                        <!--row-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form-->
+                        </div>
+                        <!--6-->
+                    </div>
+                </div>
+
+            }
+        }
+
+    </div>
+</div>
+@*<script src="~/js/StandardPhoneFormat/jquery.caret.js"></script>
+    <script src="~/js/StandardPhoneFormat/jquery.mobilePhoneNumber.js"></script>*@
+<script type="text/javascript">
+    var validatorForm;
+
+    $(document).ready(function () {
+        $('#ProgramsAccessibility').multiselect({ includeSelectAllOption: true, numberDisplayed: 2 });
+        //$('#PhoneNumber').mobilePhoneNumber();
+        //  $("#PhoneNumber").mask("(999) 999-9999");
+
+        validatorForm = $("#frmOrgAdminLevelDetail").validate();
+    });
+    function EditUserAdminData(userId) {
+        $("#dvLoadingGif").hide();
+        $.ajax({
+            type: "GET",
+            url: "/Organisation/UserAdminInfo/",
+            data: { 'userId': userId },
+            dataType: "json",
+            //    contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+
+                if (data.data != null || data.data != undefined) {
+                    $("#adminLevelModel_Name").val(data.data.FirstName);
+                    $("#adminLevelModel_LastName").val(data.data.LastName);
+                    $("#adminLevelModel_EmailAddress").val(data.data.Email);
+                    $('#adminLevelModel_EmailAddress').attr('readonly', 'readonly');
+                    $("#adminLevelModel_PhoneNumber").val(data.data.PhoneNumber);
+                    $('#adminLevelModel_PhoneNumber').attr('readonly', 'readonly');
+                    $('#adminLevelModel_PhoneNumber').attr('disabled', 'disabled');
+                    $("#adminLevelModel_RoleId").val(data.data.RoleId);
+                    var imgDropzone = Dropzone.forElement("#my-awesome-dropzone");
+                    imgDropzone.removeAllFiles();
+                    if (data.data.ImageFileName != null && data.data.ImageFileName != '') {
+                        $("#hdnIsNewUpload").val(2);
+                        // $("#my-awesome-dropzone").html('');
+
+
+                        var mockFile = {
+                            name: data.data.ImageFileName,
+                            size: 12,
+                            accepted: true,
+                            kind: 'image'
+                        };
+
+                        imgDropzone.options.maxFiles = 1;
+                        //imgDropzone.RemoveAllFiles();
+                        imgDropzone.emit("addedfile", mockFile);
+                        imgDropzone.files.push(mockFile);
+                        //imgDropzone.createThumbnailFromUrl(mockFile, data.data.UserImagePath, function () {
+                        //    imgDropzone.emit("complete", mockFile);
+                        //});
+                        // And optionally show the thumbnail of the file:
+                        imgDropzone.emit("thumbnail", mockFile, data.data.UserImagePath);
+
+                        //imgDropzone.options.thumbnail.call(imgDropzone, mockFile, data.data.UserImagePath);
+
+                        imgDropzone.emit("complete", mockFile);
+                        imgDropzone._updateMaxFilesReachedClass();
+                        $("#adminLevelModel_UserImagePath").val(data.data.ImageFileName);
+                    } else { $("#adminLevelModel_UserImagePath").val(''); }
+
+                    // $('#wizardPicturePreview').attr('src', data.data.UserImagePath);
+                    $("#adminLevelModel_UserId").val(data.data.UserId);
+                    if ($("#adminLevelModel_UserId").val() != '0') {
+                        $('#adminLevelModel_PhoneNumber').remove('mobilePhoneNumber');
+                    }
+                    var queryArrStr = '';
+                    $(".clsHeaderForm").html('Edit Admin');
+                    $("#btnOrganisationAdminLevelDetail").html('UPDATE');
+                    $('#ProgramsAccessibility').multiselect("deselectAll", false);
+
+                    $('#ProgramsAccessibility').multiselect('refresh');
+                    // validatorForm.resetForm();
+                    $('.field-validation-error').html('');
+                    $('.linked-delete-custom-action').children(".linked-down-data-s").hide();
+                    $(data.data.UserProgramType).each(function (index) {
+                        var _locationId = index;
+                        var _locName = data.data.UserProgramType[index].ProgramTypeId;
+
+                        queryArrStr += _locName + ',';
+
+                    });
+
+                    var dataarray = queryArrStr.trimRight(',').split(",");
+
+
+                    $("#ProgramsAccessibility").val(dataarray);
+                    $("#ProgramsAccessibility").multiselect("refresh");
+
+                    $('html,body').animate({
+                        scrollTop: $("#adminLevelModel_Name").offset().top
+                    }, 'slow');
+                    $("#dvLoadingGif").hide();
+
+                } else {
+                    swal({
+                        title: "Currently unable to process the request! Please try again later.",
+                        icon: "error"
+
+                    });
+                    $("#dvLoadingGif").hide();
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Currently unable to process the request! Please try again later.",
+                    icon: "error"
+
+                });
+                $("#dvLoadingGif").hide();
+            }
+        });
+    }
+</script>

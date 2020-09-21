@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon-icon.ico">
+    <link rel="stylesheet" href="css/styles.css">
+    <style type="text/css">
+        body {
+            background: #FCFDFF;
+        }
+
+        .error-page {
+            padding: 7% 0;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+            .error-page h3 {
+                font-size: 50px;
+                margin: 40px 0;
+            }
+
+        .btn.btn-back {
+            min-width: 160px;
+            border-radius: 4px;
+            background: linear-gradient(208.63deg, #39A1F7 0%, rgba(20,4,185,0.8) 93.18%, #A875FF 100%);
+            box-shadow: 0 10px 20px 0 rgba(0,0,0,0.1);
+            height: 45px;
+            font-size: 32px;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.61px;
+            line-height: 45px;
+            text-align: center;
+            padding: 0;
+            border: 0;
+            font-family: 'Conv_avenir';
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body class="login">
+    <div class="error-page">
+        <div class="eerror-bg"></div>
+        <div class="head-box">
+            <img src="~/images/login-logo.png">
+        </div>
+        <div class="error-head">
+            <!-- <h1>404</h1> -->
+            <h3>Access Denied !</h3>
+            @using (Html.BeginForm("AccessDeniedUser", "Account"))
+            {
+                <a href="@Url.Action("Dashboard","Admin")" class="btn btn-primary btn-login btn-back">Back to Home</a>
+            }
+        </div>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="js/custom.js"></script>
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({ scrollButtons: { enable: true } });
+        });
+    })(jQuery);
+</script>
+</html>

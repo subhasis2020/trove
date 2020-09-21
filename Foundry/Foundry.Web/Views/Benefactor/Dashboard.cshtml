@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var linked = ViewBag.Linked;
+}
+
+<section class="page-content">
+    @if (!string.IsNullOrEmpty(linked))
+    {
+        <hidden id="hdnlinked" value="@linked"></hidden>
+    }
+    <div class="title-section dashboard-title">
+        <h2>Benefactor</h2>
+        <span class="note">Click on the buttons to start</span>
+    </div>
+
+    <article class="dashboard-widigt">
+        <div class="row justify-content-center">
+            <div class="col-sm-6 custom-padding">
+                <a href="@Url.Action("Transactions","Benefactor")">
+                    <div class="benefactor-boxes">
+                        <h2>Transactions</h2>
+                        <img src="~/images/img-transfer.png">
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 custom-padding">
+                <a href="@Url.Action("ReloadRequest","Benefactor")">
+                    <div class="benefactor-boxes money-box">
+                        <h2>Add Money</h2>
+                        <img src="~/images/img-wallet.png">
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 custom-padding">
+                <a href="@Url.Action("LinkedAccounts","Benefactor")">
+                    <div class="benefactor-boxes account-box">
+                        <h2>Linked Accounts</h2>
+                        <img src="~/images/img-account.png">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </article>
+</section>
+<script src="~/js/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/BenefactorDashboard.js"></script>

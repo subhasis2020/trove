@@ -1,0 +1,270 @@
+﻿@using Foundry.Domain;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_organisationLayout.cshtml";
+}
+
+    <section class="page-content page-content-org">
+        <article class="content-wrapper">
+            <div class="org-tabbing">
+                <div class="filter-option">Explore Tab</div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-slide-custom nav-drops" role="tablist">
+                    <li class="nav-item  progtab" id="tab_1">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#program-info">Program Info</a>
+                    </li>
+                    <li class="nav-item progtab" id="tab_2">
+                        <a class="nav-link main-tab " href="#plan-info" data-toggle="tab">Plans</a>
+                    </li>
+                    <li class="nav-item plans-menu dropdown ">
+                        <a class="nav-link dropdown-toggle accholder" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account holders</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="main-dropdwown-filter">
+                                <a class="dropdown-item progtab" href="#tab-3-4" id="tab_4" data-toggle="tab" aria-expanded="false">Account Holder List</a>
+                                <a class="dropdown-item main-tab progtab add-accountholder" data-id="@Cryptography.EncryptPlainToCipher("0")" id="tab_5" href="#tab-3-5" data-toggle="tab" aria-expanded="false">Add Account Holders</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="tab_Accounts" class="nav-item dropdown account-menu ">
+                        <a class="nav-link dropdown-toggle accs" id="dropdownMenuButton" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accounts </a>
+                        <div class="dropdown-menu arrowSetting" aria-labelledby="dropdownMenuButton">
+                            <div class="main-dropdwown-filter">
+                                <a class="dropdown-item main-tab  progtab" id="tab_7" href="#tab-012" data-toggle="tab" aria-expanded="false">Account List</a>
+                                <a class="dropdown-item main-tab  progtab" data-id="@Cryptography.EncryptPlainToCipher("0")" id="tab_8" href="#tab-013" data-toggle="tab" aria-expanded="false">Add account </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown merchants">
+                        <a class="nav-link dropdown-toggle merchant" id="dropdownMenuButton" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Merchants </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="main-dropdwown-filter">
+                                <a class="dropdown-item progtab" href="#merchant-list" id="tab_9">Merchant List</a>
+                                <a class="dropdown-item hrefMerchant" href="@Url.Action("Create","Merchant", new { id = Cryptography.EncryptPlainToCipher("0"), poId = ViewBag.PrimaryOrgId, ppId = ViewBag.ProgramId, ppN = ViewBag.ProgramName})">Add a new merchant </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item progtab" id="tab_23">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#loyality">Loyalty</a>
+                    </li>
+                    <li class="nav-item progtab" id="tab_10">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#branding">Branding</a>
+                    </li>
+                    <li class="nav-item progtab" id="tab_11">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#program">Program Level Admin</a>
+                    </li>
+                    <li class="nav-item progtab" id="tab_12">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#transactions">Transactions</a>
+                    </li>
+                    @*@{ var isCardHolderAgreementShow = ViewBag.CardHolderAgreementViewCheck == 1 ?}
+                    @if (ViewBag.CardHolderAgreementViewCheck == 1)
+                    {*@
+                    <li id="liCardHolderAgreementMenu" class="nav-item dropdown account-menu " @(ViewBag.CardHolderAgreementViewCheck == 1 ? "style=display:block" : "style=display:none")>
+                        <a class="nav-link dropdown-toggle accs" id="dropdownMenuButton" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CardHolder Agreement</a>
+                        <div class="dropdown-menu arrowSetting" aria-labelledby="dropdownMenuButton">
+                            <div class="main-dropdwown-filter">
+                                <a class="dropdown-item main-tab  progtab" id="tab_20" href="#cardholderagreement" data-toggle="tab" aria-expanded="false">CardHolder Agreement Editor</a>
+                                <a class="dropdown-item main-tab  progtab" id="tab_21" href="#cardholderagreementHistory" data-toggle="tab" aria-expanded="false">Cardholder Agreement User History</a>
+                            </div>
+                        </div>
+                    </li>
+                    @*<li class="nav-item progtab" id="tab_20">
+                        <a class="nav-link main-tab" data-toggle="tab" href="#cardholderagreement">CardHolder Agreement</a>
+                    </li>*@
+                    @*}*@
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <span id="spnProgramTab">
+                    </span>
+                </div><!--last-->
+            </div>
+            <!--org-tabing-->
+        </article>
+        <input type="hidden" id="hdnPrimaryOrgId" value="@ViewBag.PrimaryOrgId" />
+        <input type="hidden" id="hdnProgramId" value="@ViewBag.ProgramId" />
+        <input type="hidden" id="hdnProgramName" value="@ViewBag.ProgramName" />
+        <input type="hidden" id="hdnOrgName" value="@ViewBag.PrimaryOrgName" />
+
+        <input type="hidden" id="hdnIsExecuted" value="false" />
+    </section>
+
+<link rel="stylesheet" href="~/css/bootstrap-multiselect.css" type="text/css">
+<link rel="stylesheet" href="~/dropzone/min/basic.min.css" />
+<link rel="stylesheet" href="~/dropzone/min/dropzone.min.css" />
+<script type="text/javascript" src="~/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrNp8Bghna_Ej48-8eGMYrjIOmSfFHpTI&libraries=places"></script>
+<script src="~/js/Moment.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script src="~/js/PhoneMask/jquery-input-mask-phone-number.js"></script>
+<script src="~/dropzone/min/dropzone.min.js"></script>
+<script src="~/Component/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+<script src="~/js/Program.js"></script>
+<style>
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+</style>
+<script>
+     var userRlN = '@User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()';
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({
+                scrollButtons: {
+                    enable: true
+                }
+            });
+        });
+
+    })(jQuery);
+</script>
+<script>
+    function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+    }
+     $(document).ready(function () {
+        var org_id = @ViewBag.OrgId;
+         if (org_id == "1111111") {
+             $("#tab_23").hide();
+             $("#tab_2").show();
+             $("#tab_Accounts").show();
+        }
+         else {
+             $("#tab_23").show();
+             $("#tab_2").hide();
+             $("#tab_Accounts").hide();
+         }
+    });
+    $(document).ready(function () {
+
+        $("#programInfo").click(function () {
+            $('.tab-content').load("/Program/ProgramInfo", function () {
+            });
+        });
+
+        $("#addPlan").click(function () {
+            $('.tab-content').load("/Program/AddPlan", function () {
+                $('.datetimepicker').datepicker();
+                $('.timepicker').timepicker();
+            });
+        });
+
+        $("#addAccount").click(function () {
+
+            $('.tab-content').load("/Program/AddAccount", function () {
+                ;
+            });
+        });
+
+
+    });
+
+    var urlPath = '';
+    $('#ExcelFileUpload').on("change", function () {
+
+        var fileObj = ($(this));
+
+        var fileName = fileObj.val();
+        if (fileName != "") {
+            var fileExt = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+            var file = fileObj[0].files[0];
+
+            if (fileExt != 'xls' && fileExt != 'xlsx' && fileExt != 'csv') {
+                fileObj.value = "";
+                swal('Allowed file extensions are xls, xlsx, and csv only.', "", "error");
+                return false;
+            }
+            urlPath = '';
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: '/Program/UploadExcel',
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+
+                    urlPath = result;
+                }, error: function () {
+                    $("#ExcelFileUpload").attr("disabled", false);
+                    $("#ExcelFileUpload").val("");
+                    $("#siteDocUploader").hide();
+                }
+            });
+            return true;
+        }
+        else {
+            $("#siteDocUploader").hide();
+            $("#ExcelFileUpload").attr("disabled", false);
+            $("#ExcelFileUpload").val("");
+            return false;
+        }
+    });
+
+    $('#validateButton').click(function () {
+        var fileObj = $('#ExcelFileUpload');
+        var fileName = fileObj.val();
+        if (fileName != "") {
+            var fileExt = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+            var file = fileObj[0].files[0];
+
+            if (fileExt != 'xls' && fileExt != 'xlsx' && fileExt != 'csv') {
+                fileObj.value = "";
+                swal('Allowed file extensions are xls, xlsx, and csv only.', "", "error");
+                return false;
+            }
+            urlPath = '';
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: '/Program/ImportUser',
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result) {
+
+                    urlPath = result;
+                }, error: function () {
+                    $("#ExcelFileUpload").attr("disabled", false);
+                    $("#ExcelFileUpload").val("");
+                    $("#siteDocUploader").hide();
+                }
+            });
+            return true;
+        }
+        else {
+            $("#siteDocUploader").hide();
+            $("#ExcelFileUpload").attr("disabled", false);
+            $("#ExcelFileUpload").val("");
+            return false;
+        }
+    });
+
+    $(document).ready(function () {        
+        if (getUrlVars()["sal"] != null) {
+            setInterval(function () {
+                if ($("#hdnIsExecuted").val() == "false") {
+                    GetTabViewComponent("4", $("#hdnProgramId").val());
+                    $("#hdnIsExecuted").val("true");
+                }
+            }, 2000);
+        }
+    });
+
+</script>
+

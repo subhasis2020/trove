@@ -1,0 +1,323 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.ProgramAccountModel;
+@{
+    var a = Model.isPassExchangeEnabled;
+}
+<div class="tab-content">
+    <div id="tab-013" class="tab-pane fade active show" aria-expanded="false">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "form", @name = "form" }))
+        {
+            <div class="detail-information prog-list pb20">
+                <div class="title-section">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <h2>Add Account</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="detail-information1 mt-3">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Account name*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.accountName, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.accountName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--3-->
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Account type*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.accountTypeId, ViewBag.accountType as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.accountTypeId)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-pass-type">
+                            <div class="form-group">
+                                <label>Pass type*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.passType, ViewBag.lstPassType as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.passType)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-initial-balance" style="display:none">
+                            <div class="form-group">
+                                <label>Initial Balance*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.intialBalanceCount, new { @class = "form-control form-control-custom", @maxlength = "4" }) <label id="lblAccountTypeName">Meals</label>
+                                    @Html.ValidationMessageFor(x => x.intialBalanceCount)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+
+                    </div>
+                    <!--row-->
+
+                    <div class="row row-pass" style="display:none">
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-block" style="display:none">
+                            <div class="form-group">
+                                <label>Max pass per month*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.maxPassPerMonth, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.maxPassPerMonth)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-reset-period" style="display:none">
+                            <div class="form-group">
+                                <label>Reset Period*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.resetPeriodType, ViewBag.ResetPeriod as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.resetPeriodType)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-reset-day-week" style="display:none">
+                            <div class="form-group">
+                                <label id="lblday">Reset day of week*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.resetDay, ViewBag.WeekDays as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.resetDay)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-reset-time" style="display:none">
+                            <div class="form-group">
+                                <label id="lbltime">Reset time*</label>
+                                <div class="form-group-inner form-group-select">
+
+                                    <div class="input-group bootstrap-timepicker ">
+                                        @Html.TextBoxFor(x => x.resetTime, new { @class = "form-control form-control-custom timepicker", @readonly = "true" })
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.resetTime)
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-reset-date-month" style="display:none">
+                            <div class="form-group">
+                                <label>Reset date of month*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.resetDateOfMonth, new { @class = "form-control form-control-custom datetimepicker", @placeholder = "Date", @readonly = "true", @maxlength = "10" })
+                                    @Html.ValidationMessageFor(x => x.resetDateOfMonth)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-maxpass-day" style="display:none">
+                            <div class="form-group">
+                                <label>Max Pass per day*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.maxPassUsage, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.maxPassUsage)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-maxpass-week" style="display:none">
+                            <div class="form-group">
+                                <label>Max Pass per week*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.maxPassPerWeek, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.maxPassPerWeek)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+
+                    </div>
+                    <div class="row row-flex" style="display:none">
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <div class="form-group">
+                                <label>Is role over</label>
+                                <div class="form-group-inner form-group-exchange">
+                                    <label class="custom_check_box  check_box-sm mt-3">
+                                        @Html.CheckBoxFor(m => m.isRollOver.Value)
+                                        <span></span>Yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label>Max spend per day*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.flexMaxSpendPerDay, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.flexMaxSpendPerDay)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label id="lblday">Max spend per week*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.flexMaxSpendPerWeek, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.flexMaxSpendPerWeek)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label id="lbltime">Max spend per month*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.flexMaxSpendPerMonth, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.flexMaxSpendPerMonth)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                    </div>
+                    <div class="row row-vpl" style="display:none">
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label>Max balance*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.vplMaxBalance, new { @class = "form-control form-control-custom", @maxlength = "7" })
+                                    @Html.ValidationMessageFor(x => x.vplMaxBalance)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label id="lblday">Max add value amount*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.vplMaxAddValueAmount, new { @class = "form-control form-control-custom", @maxlength = "7" })
+                                    @Html.ValidationMessageFor(x => x.vplMaxAddValueAmount)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2">
+                            <div class="form-group">
+                                <label id="lbltime">Max number of add value transaction per day*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.TextBoxFor(x => x.vplMaxNumberOfTransaction, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.vplMaxNumberOfTransaction)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                    </div>
+                    <!--row-->
+                    <div class="row row-exchange" style="display:none">
+                        <div class="col-sm-12 col-md-12 col-lg-3">
+                            <div class="form-group">
+                                <label>Pass exchange enabled*</label>
+                                <div class="form-group-inner form-group-exchange">
+
+                                    <label class="custom_check_box  check_box-sm mt-3">
+                                        @Html.RadioButtonFor(m => m.isPassExchangeEnabled, true)
+                                        <span></span>Yes
+                                    </label>
+                                    <label class="custom_check_box  check_box-sm mt-3">
+                                        @Html.RadioButtonFor(m => m.isPassExchangeEnabled, false)
+                                        <span></span>No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-3 dv-exchange">
+                            <div class="form-group">
+                                <label>How many exchanges*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.exchangePassValue, new { @class = "form-control form-control-custom", @maxlength = "4" })
+                                    @Html.ValidationMessageFor(x => x.exchangePassValue)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-exchange">
+                            <div class="form-group">
+                                <label>Exchange reset*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.exchangeResetPeriodType, ViewBag.ExResetPeriod as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.exchangeResetPeriodType)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-exreset-day-week" style="display:none">
+                            <div class="form-group">
+                                <label id="lblday">Reset day of week*</label>
+                                <div class="form-group-inner form-group-select">
+                                    @Html.DropDownListFor(x => x.exchangeResetDay, ViewBag.WeekDays as List<SelectListItem>, "--Select--", new { @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(x => x.exchangeResetDay)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-exreset-time" style="display:none">
+                            <div class="form-group">
+                                <label id="lbltime">Reset time*</label>
+                                <div class="form-group-inner form-group-select">
+                                    <div class="input-group bootstrap-timepicker ">
+                                        @Html.TextBoxFor(x => x.exchangeResetTime, new { @class = "form-control form-control-custom timepicker", @readonly = "true" })
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.exchangeResetTime)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="col-sm-3 col-md-3 col-lg-2 dv-exreset-date-month" style="display:none">
+                            <div class="form-group">
+                                <label>Reset date of month*</label>
+                                <div class="form-group-inner">
+                                    @Html.TextBoxFor(x => x.exchangeResetDateOfMonth, new { @class = "form-control form-control-custom datetimepicker", @placeholder = "Date", @readonly = "true" })
+                                    @Html.ValidationMessageFor(x => x.exchangeResetDateOfMonth)
+                                </div>
+                            </div>
+                        </div>
+                        <!--3-->
+
+                    </div>
+                    <!--row-->
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="custom-right mt5">
+                                <button type="submit" class="btn btn-primary btn-login btn-lg mt-3" id="btnProgramAccountDetail">SELECT MERCHANTS</button>
+                                <input type="hidden" value="@ViewBag.PaId" id="id" />
+                                @Html.HiddenFor(m => m.Jpos_ProgramAccountEncId)
+                                <input type="hidden" id="hdnAccountTypeAccount" />
+                            </div>
+
+                        </div>
+                        <!--row-->
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+<script>
+    $('.timepicker').timepicker({ defaultTime: '12:00 AM', minuteStep: 1 });
+    $('.timepicker').timepicker('update');
+</script>

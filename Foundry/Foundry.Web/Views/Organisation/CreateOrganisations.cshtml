@@ -1,0 +1,89 @@
+﻿@*@model Foundry.Domain.Dto.OrgnisationWithProgramTypeDto;*@
+@{
+    ViewData["Title"] = "CreateOrganisations";
+    Layout = "~/Views/Shared/_OrganisationLayout.cshtml";
+}
+
+<section class="page-content page-content-org">
+
+    <article class="content-wrapper">
+
+        <div class="org-tabbing">
+            <div class="filter-option">Explore Tab</div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-slide nav-org-prog" role="tablist">
+                <li class="nav-item orgTab " id="tab_1">
+                    <a class="nav-link active main-tab" data-toggle="tab" href="#home">Detail Information</a>
+                </li>
+                <li class="nav-item plans-menu dropdown ">
+                    <a class="nav-link dropdown-toggle accholder" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account holders</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="main-dropdwown-filter">
+                            <a class="dropdown-item progtab" href="#tab-3-4" id="tab_41" onclick="AccountHolderList()" data-toggle="tab" aria-expanded="false">Account Holder List</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item orgTab" id="tab_2">
+                    <a class="nav-link main-tab" id="aProgram" data-toggle="tab" href="#menu1">Programs</a>
+                </li>
+
+                <li class="nav-item orgTab" id="tab_3">
+                    <a class="nav-link main-tab" id="aSettings" data-toggle="tab" href="#menu2">Global Settings</a>
+                </li>
+
+                <li class="nav-item orgTab" id="tab_4">
+                    <a class="nav-link main-tab" data-toggle="tab" href="#menu3">Organization Level Admin</a>
+                </li>
+                <li class="nav-item orgTab" id="tab_5">
+                    <a class="nav-link main-tab" id="aNotilogs" data-toggle="tab" href="#menu5">Notification Log</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <span id="spnOrganisationsTab">
+
+                </span>
+            </div>
+
+            <input id="hdnOrganisationId" name="hdnOrganisationId" type="hidden" value="@ViewBag.OrganisationId">
+            <input id="hdnOrganisationName" name="hdnOrganisationName" type="hidden" value="@ViewBag.OrgName">
+            <input id="hdnSodexhonOrgId" name="hdnSodexhonOrgId" type="hidden" value="@ViewBag.OrgId">
+
+        </div>
+        <!--org-tabing-->
+
+    </article>
+
+
+</section>
+
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/dropzone/min/basic.min.css" />
+<link rel="stylesheet" href="~/dropzone/min/dropzone.min.css" />
+<script src="~/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+<script src="~/js/Moment.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+<script src="~/js/PhoneMask/jquery-input-mask-phone-number.js"></script>
+<script src="~/dropzone/min/dropzone.min.js"></script>
+<script src="~/js/CreateOrganisation.js"></script>
+
+<script>
+    var userRlN = '@User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()';
+
+    $(document).ready(function () {
+        $("#accordion").find('li').removeClass('active');
+        $("#accordion #liOrgName").addClass('active');        
+    });
+
+    $(document).ready(function () {
+        var org_id = @ViewBag.OrgId;
+
+        if (org_id =="1111111") {
+            $("#tab_3").hide();
+        }
+        else { $("#tab_3").show();}
+    });
+</script>

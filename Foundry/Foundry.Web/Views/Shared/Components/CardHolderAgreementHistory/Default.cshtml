@@ -1,0 +1,82 @@
+﻿
+@using Foundry.Domain;
+@model Foundry.Web.Models.CardHolderAgreeementModel;
+@{
+    var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+    var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+}
+
+<div id="program" class="tab-pane active show">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Organizations: <small>@primaryOrgName </small></h6>
+                </div>
+                <div class="col-sm-4">
+                    <h6>
+                        Programs: <small>@primaryProgramName</small>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblCardHolderAgreementHistory" width="100%">
+                    <thead>
+                        <tr>
+                            <th>UserId</th>
+                            <th class="text-center">Sr. No.</th>
+                            <th class="text-center">Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:25px;color:black;"><label id="lblUserNameVersion"></label>'s Versions History</h4>
+            </div>
+            <div class="modal-body">
+                <div class="white-box mt20">
+                    <div class="table-wrapper">
+                        <table class="table" id="tblCardHolderAgreementHistoryVersions" width="100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Sr. No.</th>
+                                    <th class="text-center">Version</th>
+                                    <th class="text-center">Date Accepted</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    // $.validator.setDefaults({ ignore: '' });
+    $(document).ready(function () {
+
+    });
+
+    function displaySwalAlert(title, icon) {
+        swal({
+            title: title,
+            icon: icon
+        });
+    }
+</script>

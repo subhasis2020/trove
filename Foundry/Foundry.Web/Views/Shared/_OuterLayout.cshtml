@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+</head>
+<body class="login">
+    <section class="wrapper">
+        <article class="container">
+            @RenderBody()
+        </article>
+    </section>
+
+    <!-- End Footer -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/spectrum.js"></script>
+    <script src="~/js/custom.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($("#dvResponse").html() != undefined) {
+                setTimeout(function () {
+                    $("#dvResponse").hide("6000")
+                }, 6000);
+                if ($("#hdnStatus").val() != undefined && $("#hdnStatus").val() == "1" && $("#hdnRedirect").val() != undefined && $("#hdnRedirect").val() != '') {
+                    if ($("#IsLink").val() != undefined && $("#IsLink").val() == "True") {
+                        window.location.href = "/Account/Login?islink=" + $("#IsLink").val() + "&id=" + $("#UserId").val().toString();
+                    }
+                    else {
+                        window.location.href = "/Account/Login";
+                    }
+                }
+            }
+
+        });
+
+
+    </script>
+</body>
+@RenderSection("ViewScripts", required: false)
+</html>

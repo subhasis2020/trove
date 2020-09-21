@@ -1,0 +1,102 @@
+﻿@using Foundry.Domain;
+<div id="tab-3-4" class="tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.PrimaryOrgName)))
+                    {<h6 id="hOrgName">Organizations: <small>@Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) </small></h6>}
+                </div>
+                <div class="col-sm-4">
+                    @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.ProgramName)))
+                    {<h6 id="hPrgName">Programs: <small>@Cryptography.DecryptCipherToPlain(ViewBag.ProgramName)</small></h6>}
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-info list-info-admin">
+                        <ul>
+                            <li>
+                                <a href="#" id="rdct-import">
+                                    <div class="export-section">
+                                        <img src="~/images/icon-import.png"><em>Import File</em>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="aExport" href="javascript:void(0);">
+                                    <div class="export-section">
+                                        <img src="~/images/icon-export.png"><em>Export File</em>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn btn-small add-accountholder" data-id="@Cryptography.EncryptPlainToCipher("0")"><img src="~/images/icon-plus-lg.png"></a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <article class="content-wrapper">
+            <!-- Tab panes -->
+            <div class="white-box">
+                <div class="table-wrapper">
+                    <table id="tblAccountHolder" width="100%" class="table table_left_td">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th class="text-center nowrap">STUDENT ID</th>
+                                <th width="20%">NAME</th>
+                                <th class="text-center">EMAIL</th>
+                                <th class="text-center" width="20%">DATE ADDED</th>
+                                <th class="text-center plan-title" width="14%">
+                                    <div class="transactions-dropdown transactions-dropdown-table nowrap">
+                                        <a href="" class="plans-date" data-toggle="collapse" data-target="#transactions-panel-dropdown">
+                                            PLAN NAME<img src="~/images/img-selection-arrows.png">
+                                        </a>
+                                        <div id="transactions-panel-dropdown" class="collapse transactions-card">
+
+                                            <a class="close" href="" data-toggle="collapse" data-target="#transactions-panel-dropdown"><img src="~/images/icon-close-sm.png"></a>
+                                            <div class="transaction-list-data">
+                                                <h3><a id="All" class="aCurrentPeriod" onclick='CheckForPlan(null);' style="color:white;" href="javascript:void(0);">All Plans</a></h3>
+                                                <div class="content-scroll scroll-height scroll-list">
+                                                    <ul>
+                                                        @foreach (var item in ViewBag.PlansDetails)
+                                                        {
+                                                            <li><a id="@item.StrId" onclick='CheckForPlan(@item.StrId);' href="javascript:void(0);">@item.Name</a></li>
+                                                        }
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </th>
+                                <th class="text-center">
+                                    <div class="invite-selector">
+                                        <a href="javascript:void(0);" onclick="return inviteAllAccountHolder();" class="invite-all-btn selected clsInviteAll">Invite all</a>
+                                    </div>
+                                </th>
+
+                                <th class="text-center">STATUS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+
+        </article>
+    </div>
+</div>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jszip.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/pdfmake.min.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/vfs_fonts.js"></script>
+<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>
+<script src="~/js/AccountHolder.js"></script>

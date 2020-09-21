@@ -1,0 +1,133 @@
+﻿@model List<Foundry.Web.Models.LinkedUsersModel>
+@{
+    ViewData["Title"] = "Transactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="page-content">
+
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-6 col-6">
+                <h2>Transactions</h2>
+            </div>
+            <div class="col-sm-6 col-6">
+                <div class="list-info">
+                    <ul>
+                        <li>
+                            <a id="aExportUsers" href="javascript:void(0);">
+                                <div class="export-section">
+                                    <img src="~/images/icon-export.png"><em>Export File</em>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="transactions-dropdown">
+                                <a href="" data-toggle="collapse" data-target="#transactions-panel-dropdown">
+                                    <img src="~/images/icon-dots.png">
+                                </a>
+                                <div id="transactions-panel-dropdown" class="collapse transactions-card">
+                                    <h2>Transactions</h2>
+                                    <a class="close" href="" data-toggle="collapse" data-target="#transactions-panel-dropdown"><img src="~/images/icon-close-sm.png"></a>
+
+                                    <div class="transaction-list-data">
+                                        <h3><a id="@ViewBag.CurrentPeriod" class="aCurrentPeriod" onclick='CheckForDate(this.id);' style="color:white;" href="javascript:void(0);">Current period</a></h3>
+                                        <div class=" content-scroll scroll-list">
+                                            <ul>
+                                                @foreach (var item in ViewBag.MonthYear)
+                                                {
+                                                    <li><a id="@item" onclick='CheckForDate(this.id);' href="javascript:void(0);">@item</a></li>
+                                                }
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <article class="content-wrapper">
+        @await Html.PartialAsync("_TabbedLinkedAccountsPartial.cshtml", Model)
+        <div class="tabing-custom">
+
+            <!-- Tab panes -->
+            <div class="tab-content white-box">
+                <div class="tab-pane  active" id="home">
+                    <div class="table-wrapper table-top">
+                        <table class="table" id="tblTransactions" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>MERCHANT NAME</th>
+                                    <th>PERIOD</th>
+                                    <th>AMOUNT</th>
+                                    <th>DATE</th>
+                                    <th>TIME</th>
+                                    <th class="plan-title">
+                                        PLAN NAME
+
+                                        <a href="" id="planAnchor" class="plan-down filterPlan" data-toggle="collapse" data-target="#plan-panel-dropdown">
+                                            <img src="~/images/icon-arrow.png">
+                                        </a>
+                                        <div id="plan-panel-dropdown" class="collapse plan-data">
+                                            @Html.Hidden("hdnPlan", "")
+                                            <div id="Filters" class="plan-panel-dropdown  filterPlan">
+                                                <h2><a id="all" href="javascript:void(0);" style="color:white;" title="" class="categoryFilter">See All</a></h2>
+                                                <ul>
+
+                                                    <li><a id="passes" href="javascript:void(0);" title="Meal Passes" class="categoryFilter">Meal Passes</a></li>
+
+                                                    <li><a id="discretionary" href="javascript:void(0);" title="Discretionary Points" class="categoryFilter">Discretionary Points</a></li>
+
+                                                    <li><a id="mealplan" href="javascript:void(0);" title="Flex Spending" class="categoryFilter">Flex Spending</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                        <div id="dvHeight" class="distance"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @Html.Hidden("hdnDateMonth", "")
+    </article>
+</section>
+@section ViewScripts {
+
+
+    <link rel="stylesheet" type="text/css" href="~/js/Datatables/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ActivelinkedId").val(@ViewBag.UserId);
+            var newValue =@(ViewBag.CanViewTransaction);
+            $("#ActiveCanViewTransaction").val(@(ViewBag.CanViewTransaction));
+            $("#accordion").find('li').removeClass('active');
+            $("#accordion #liTransactionIcon").addClass('active');
+
+        });
+    </script>
+    <script src="~/js/Tabbing.js"></script>
+
+}

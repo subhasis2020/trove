@@ -1,0 +1,290 @@
+ @media (min-width:991px) and (max-width:1191px){
+     .tabing-custom .nav-tabs .nav-link i {
+         display: block;
+         vertical-align: middle;
+         padding-top: 7px;
+         padding-left: 5px;
+         font-style: normal;
+         font-size: 12px;
+         word-wrap: break-word;
+         width: 51px;
+    }
+     .payment-inputs .form-control {
+         font-size:13px;
+    }
+}
+ @media (max-width:961px) {
+     .header{
+         padding:0 20px;
+    }
+     .benefactor-boxes {
+         border-radius: 12px;
+         background: linear-gradient(318.43deg, #686EE7 0%, #FB61E2 100%);
+         box-shadow: 0 2px 48px 1px rgba(176,192,237,0.60);
+         padding: 20px;
+         text-align: center;
+         margin: 30px 0;
+    }
+     .head-title h2{
+         font-size:35px;
+    }
+     .custom-padding {
+         padding: 0 35px;
+    }
+     .benefactor-boxes h2 {
+         color: #FFFFFF;
+         font-size: 25px;
+         margin-bottom: 8px;
+    }
+     .mobile-menu{
+         display: block;
+         position: absolute;
+         left: 10px;
+         top: 2px;
+         background: linear-gradient(208.63deg, #39A1F7 0%, rgba(20,4,185,0.8) 51.1%, #A875FF 100%);
+         color: #fff;
+         padding: 6px 10px;
+         border-radius: 4px;
+         font-size: 11px;
+         z-index: 9999;
+    }
+     .input-search {
+         margin-left:45px;
+    }
+     .mobile-menu .fa {
+         font-size: 23px;
+    }
+     .open-sidebar .left-bar {
+         margin-left: 0;
+    }
+     .left-bar {
+         margin-left: -118px;
+         z-index: 99999;
+         transition: all .5s ease;
+    }
+     .right-bar {
+         width: 100%;
+         overflow: hidden;
+         margin-left: 0;
+    }
+}
+ @media (min-width:768px) and (max-width:991px){
+     .amount-options .btn{
+         font-size:15px;
+    }
+     .payment-inputs .form-control {
+         font-size: 11px;
+         padding-left: 5px;
+         padding-right: 5px;
+    }
+     .tabing-custom .nav-tabs .nav-link{
+         padding: 1px 5px;
+    }
+     .tabing-custom .nav-tabs .nav-link i {
+         display: block;
+         vertical-align: middle;
+         padding-top: 7px;
+         padding-left: 5px;
+         font-style: normal;
+         font-size: 12px;
+         word-wrap: break-word;
+         width: 51px;
+    }
+     .nav-tabs .nav-item {
+         position: relative;
+         margin: 0 36px;
+         height: 53px;
+    }
+     .input-amount {
+         margin-top:20px;
+    }
+}
+ @media (max-width:767px) {
+    .table-top { margin-top:30px;
+    }
+    .table-wrapper { overflow:auto;
+    }
+    .distance {
+        height: 120px;
+    }
+    .note {
+        color: #ADB5C7;
+        font-size: 14px;
+    }
+     .input-amount {
+         margin-top:20px;
+    }
+     .payment-inputs .pl0 {
+         padding-left: 15px;
+    }
+     .pl0 {
+         padding-left: 15px;
+    }
+     .nav-tabs .nav-item {
+         position: relative;
+         margin: 6px 0px;
+         height: 53px;
+    }
+     .title-section h2 {
+         font-size:30px;
+    }
+     .list-info li {
+         margin-left:20px;
+    }
+     .table tr td {
+         white-space: nowrap;
+    }
+     .table tr th {
+         white-space: nowrap;
+    }
+     .tabing-custom .nav-tabs .nav-link {
+         border: 1px solid transparent;
+         border-top-left-radius: 0;
+         background: #e5eaee;
+         border-top-right-radius: 0;
+         padding: 0 0 13px 0;
+         padding: 7px 10px 18px 10px;
+    }
+     .nav-tabs .nav-item{
+         width:100%;
+    }
+     .nav-tabs .nav-item .nav-link::before{
+         display:none;
+    }
+     .nav-tabs .nav-item .nav-link::after{
+         display:none;
+    }
+     .table tr td {
+         white-space: nowrap;
+    }
+     .table tr th {
+         white-space: nowrap;
+    }
+}
+ @media (min-width:320px) and (max-width:576px){
+    #transactions-panel-dropdown h2 { font-size:15px;   
+    }
+    .payment-methods li {
+        margin: 15px 10px 0 0;
+        padding: 10px 0;
+        display: inline-block;
+        width: 28.3%;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 12px;
+        background-color: #FFFFFF;
+        box-shadow: 0 2px 16px 0 rgba(176,192,237,0.4);
+    }
+     .payment-methods ul {
+         display: inline-block;
+         align-items: center;
+    }
+     .current-balance {
+         float: none;
+         margin: 20px 0 0 0;
+    }
+     .amount-options .btn-custom-bx{
+         margin-bottom:20px;
+    }
+     .current-balance-box{
+         width:100%;
+    }
+     #notifiation-panel {
+         min-width: 16rem;
+    }
+     .nav-tabs .nav-item {
+         position: relative;
+         margin: 6px 0px;
+         height: 53px;
+    }
+     .title-section h2 {
+         font-size:30px;
+    }
+     .list-info li {
+         margin-left:20px;
+    }
+     .table tr td {
+         white-space: nowrap;
+    }
+     .table tr th {
+         white-space: nowrap;
+    }
+     .tabing-custom .nav-tabs .nav-link {
+         border: 1px solid transparent;
+         border-top-left-radius: 0;
+         background: #e5eaee;
+         border-top-right-radius: 0;
+         padding: 0 0 13px 0;
+         padding: 7px 10px 18px 10px;
+    }
+     .nav-tabs .nav-item{
+         width:100%;
+    }
+     .nav-tabs .nav-item .nav-link::before{
+         display:none;
+    }
+     .nav-tabs .nav-item .nav-link::after{
+         display:none;
+    }
+     .page-content {
+         padding:30px 20px;
+    }
+     .head-title h2{
+         font-size:35px;
+    }
+     .mobile-menu {
+         display: block;
+         position: absolute;
+         left: 10px;
+         top: -2px;
+    }
+     .input-search {
+         display:none;
+    }
+     #notifiation-panel{
+         right:0;
+         margin-top: 25px;
+    }
+     .mobile-menu {
+         display: block;
+         position: absolute;
+         left: 10px;
+         top: -4px;
+    }
+}
+ @media (min-width: 1400px) {
+     .head-title {
+         margin: 50px 0 30px 0;
+         text-align: center;
+    }
+     .login-box .form-group.form-group-submit {
+         margin:90px 0 90px 0;
+    }
+     .login-box .form-group{
+         margin-bottom:45px;
+    }
+     .login-box .form-group.form-group-last{
+         margin-bottom:15px;
+    }
+     .head-title h2{
+         margin-bottom:80px;
+    }
+     .head-box{
+         margin-top:80px;
+         text-align:center;
+    }
+     .benefactor-boxes {
+         padding:40px 50px;
+    }
+     .benefactor-boxes h2{
+         font-size:45px;
+         margin-bottom:25px;
+    }
+     .benefactor-boxes{
+         margin:45px 0 45px 0;
+    }
+     .title-section.dashboard-title {
+         padding-bottom: 30px;
+    }
+}
+ 

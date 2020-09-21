@@ -1,0 +1,168 @@
+﻿
+@using Foundry.Domain;
+@model Foundry.Web.Models.CardHolderAgreeementModel;
+@{
+    var primaryOrgName = !string.IsNullOrEmpty(ViewBag.PrimaryOrgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName) : "";
+    var primaryProgramName = !string.IsNullOrEmpty(ViewBag.PrimaryProgName) ? Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName) : "";
+}
+
+<div id="program" class="tab-pane active show">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Organizations: <small>@primaryOrgName </small></h6>
+                </div>
+                <div class="col-sm-4">
+                    <h6>
+                        Programs: <small>@primaryProgramName</small>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblCardHolderAgreement" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">Sr. No.</th>
+                            @*<th class="text-center">Cardholder Agreement</th>*@
+                            <th class="text-center">Version No.</th>
+                            <th class="text-center">Created Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() || User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Organization Full".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+        {
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmCardHolderAgreementDetail", enctype = "multipart/form-data" }))
+            {
+                <div class="org-admin-detail org-adminbrowse-detail">
+
+                    <div class="row">
+
+                        <!--6-->
+                        <div class="col-sm-12">
+                            <div class="org-admin-form ">
+                                <div class="detail-information mt0">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <h2 class="mb20 class-haed">Add Card Holder Agreement Content*</h2>
+                                                <div class="form-group-inner">
+                                                    <div id="toolbar-container"></div>
+
+                                                    <!-- This container will become the editable. -->
+                                                    @Html.TextAreaFor(model => model.CardHolderAgreementContent, new { @class = "text-editor" })
+                                                    @Html.ValidationMessageFor(m => m.CardHolderAgreementContent)
+
+                                                    <script type="text/javascript" language="javascript">
+                                                        CKEDITOR.replace(@Html.IdFor(model => model.CardHolderAgreementContent), {
+                                                            //removePlugins: 'save',
+                                                            removeButtons:'Source,Save,NewPage,DocProps,Preview,Print,Templates,document,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField'
+                                                        });
+                                                      //  CKEDITOR.editorConfig = function (config) { };
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>                                        <!--3-->
+
+                                    </div>
+                                    <!--row-->
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Version No. <label id="lblVersionNo"></label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="custom-right">
+                                                <button type="submit" id="btnCardHolderAgreementDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                                                @Html.HiddenFor(x => x.CardHolderAgreementId)
+                                            </div>
+                                        </div>
+                                        <!--row-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form-->
+                        </div>
+                        <!--6-->
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    // $.validator.setDefaults({ ignore: '' });
+    $(document).ready(function () {
+        // $('#PhoneNumber').mobilePhoneNumber();
+        // $("#PhoneNumber").mask("(999) 999-9999");
+
+        $("#btnCardHolderAgreementDetail").click(function () {
+
+            CKEDITOR.instances["CardHolderAgreementContent"].updateElement();
+            $("#CardHolderAgreementContent").show();
+            if ($("#frmCardHolderAgreementDetail").validate() && $("#frmCardHolderAgreementDetail").valid()) {
+                $("#dvLoadingGif").show();
+                var programId = $("#hdnProgramId").val();
+                //    $('#').ckeditorGet().updateElement();
+
+                var CardholderAgreementDetail = {
+                    CardHolderAgreementId: $("#CardHolderAgreementId").val(),
+                    ProgramIdEnc: programId,
+                    VersionNo: $("#lblVersionNo").html(),
+                    CardHolderAgreementContent: $("#CardHolderAgreementContent").val()
+                };
+
+                $.post("/Program/PostCardHolderAgreementDetailInformation",
+                    CardholderAgreementDetail,
+
+                    function (data, message) {
+
+                        $("#dvLoadingGif").hide();
+                        if (data.data !== "" && data.data !== "0" && data.data !== null) {
+                            var dataSplit = data.data.split('_');
+                            $("#frmCardHolderAgreementDetail").trigger("reset");
+
+                            $('#lblVersionNo').html(dataSplit[1]);
+                            $("#CardHolderAgreementId").val(dataSplit[0]);
+                            $("h2.class-haed").text("Add Card Holder Agreement Content*");
+                            $("#hdnIsFormSubmitted").val('true');
+                            $("#btnCardHolderAgreementDetail").text("Add");
+                            displaySwalAlert(data.message, "success");
+                            //if ($("#UserId").val() !== '' && $("#UserId").val() !== '0') {
+                            //    displaySwalAlert("Admin details has been updated successfully.", "success")
+                            //    $("#UserId").val('0');
+                            //} else {
+                            //    displaySwalAlert("Admin details has been submitted successfully.", "success")
+                            //    $("#UserId").val('0');
+                            //}
+
+                            oTable = $('#tblCardHolderAgreement').DataTable();
+                            oTable.draw();
+                        }
+                        else if (data.data === "0") {
+                            displaySwalAlert(data.message, "error")
+                        }
+                        else {
+                            displaySwalAlert("Currently unable to process the request! Please try again later.", "error");
+                        }
+                    });
+                return false;
+                //ajaxcall
+            }
+            else return false;
+        });
+    });
+
+    function displaySwalAlert(title, icon) {
+        swal({
+            title: title,
+            icon: icon
+        });
+    }
+</script>

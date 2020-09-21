@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Foundry Payments</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon-icon.ico">
+    <!-- <link rel="stylesheet" href="css/styles.css"> -->
+    <link rel="stylesheet" href="https://foundrystageweb.essentialdemo.com/css/styles.css">
+    <style type="text/css">
+
+        img.visa-img {
+            width: 100%;
+        }
+
+        h4.custom-heading-form {
+            font-size: 17px;
+            padding-bottom: 20px;
+        }
+
+        .add_credit {
+            padding: 20px !important;
+            min-width: 213px;
+            border-radius: 4px;
+            height: 54px;
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 0.61px;
+            line-height: 12px;
+            margin-top: 20px;
+        }
+
+        .bank {
+            float: right;
+            margin-top: 30px;
+        }
+
+        .box-drop-tag {
+            width: 90%;
+            display: block;
+            margin-top: 10px;
+            border-radius: 3px;
+            border: 1px solid #d8d8d8;
+            position: absolute;
+            top: 67px;
+            display: none;
+        }
+
+            .box-drop-tag.show-box-onclick {
+                display: block;
+            }
+
+            .box-drop-tag ul li {
+                padding: 10px;
+            }
+
+                .box-drop-tag ul li:nth-child(even) {
+                    background: #d8d8d8;
+                }
+
+        .card-box-tag a.box-show {
+            width: 100%;
+            line-height: 1.5;
+            display: block;
+            border: 1px solid #d8d8d8;
+            padding: 7px 50px;
+            border-radius: 3px;
+            color: black;
+            padding-left: 10px;
+        }
+
+        .custom-svg-form {
+            float: right;
+            margin-top: 33px;
+        }
+
+        .switch-reload.switch_reload_rile.cutom-togale em {
+            font-size: 12px;
+            color: black;
+            font-weight: 500;
+        }
+
+        .switch-reload.switch_reload_rile.cutom-togale {
+            padding-bottom: 8px;
+        }
+
+        .custom-form-svg svg {
+            width: 48px;
+            margin-left: -13px;
+            margin-top: 14px;
+        }
+
+        .switch-reload.switch_reload_rile.cutom-togale em {
+            font-size: 13px;
+            color: black;
+            font-weight: 500;
+        }
+
+        .cutom-togale em {
+            font-size: 11px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .cutom-togale {
+            margin-bottom: 0px;
+        }
+
+        .custom-margin {
+            margin-top: 60px;
+        }
+
+        .organization_setting .form-group label {
+            font-size: 14px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .organization_setting .form-group {
+            margin-bottom: 15px;
+        }
+
+        .title_box {
+            font-size: 18px;
+            color: #121958;
+        }
+
+        .override_result_box {
+            float: left;
+            width: 100%;
+        }
+
+            .override_result_box h5 {
+                font-size: 17px;
+                padding-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .override_result_box .table {
+                border: 1px solid #CCC;
+            }
+
+                .override_result_box .table th, .override_result_box .table td {
+                    padding: 5px;
+                    font-size: 14px;
+                    border-right: 1px solid #CCC;
+                }
+
+        .organization_setting .btn-primary {
+            min-width: auto;
+            font-size: 13px;
+            min-height: inherit;
+            height: auto;
+            line-height: normal;
+            padding: 14px 11px;
+        }
+
+        .organization_setting .card-header {
+            font-size: 18px;
+            color: #121986;
+        }
+
+        .modal-header h5 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #405bd7;
+        }
+
+        @media ( max-width: 767px ) {
+            .organization_setting div[class*="col-"] {
+                flex: 0 0 100%;
+                max-width: 100%;
+                -ms-flex: 0 0 100%;
+                margin-bottom: 5px;
+            }
+
+            .custom-svg-form {
+                width: 42px;
+                margin-top: 27px;
+            }
+
+            .organization_setting .form-group label {
+                padding-left: 15px !important;
+                text-align: left !important
+            }
+
+            img.visa-img {
+                width: 100%;
+                margin-top: 24px;
+            }
+        }
+    </style>
+</head>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+<body>
+    <div class="mobile-overlay"></div>
+    <section class="wrapper-content">
+        <aside class="left-bar">
+            <div class="main-logo">
+                <a href=""><img src="images/main-logo.png"></a>
+            </div>
+            <div class="menus">
+                <ul id="accordion">
+                    <li><a href=""><i class="icon-transaction icon-menus"></i> </a></li>
+                    <li><a href=""><i class="icon-money icon-menus"></i> </a></li>
+                    <li><a href=""><i class="icon-accounts icon-menus"></i> </a></li>
+                    <li><a href=""><i class="icon-logout icon-menus"></i> </a></li>
+                </ul>
+            </div>
+        </aside>
+        <section class="right-bar">
+            <section class="page-content page-content-org">
+                <article class="content-wrapper">
+                    <div class="org-tabbing">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div id="home" class="container tab-pane">
+                                <br>
+                                <div class="card organization_setting">
+                                    <div class="card-header">
+                                        Add Bank Account
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h4 class="title_box mb-4">Loyalty Reward Structure</h4>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">Global Loyalty Threshold:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">Global Reward $:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">Global Rate Pts per $:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h4 class="title_box mb-4">Tender Ratios</h4>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">Default Bite pay Ratio:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">Default DCB/Flex Ratio:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h4 class="title_box mb-4">User Status Ratios</h4>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">User Status Regular:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row align-items-center">
+                                                        <label class="col-sm-7 text-right">User Status VIP:</label>
+                                                        <div class="col-sm-5">
+                                                            <input class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu1" class="container tab-pane active">
+                                <br>
+                                <div class="card  mt-3">
+                                    <div class="card-header">
+                                        MY PAYMENT
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-2 px-0">
+                                                            <img src="visa.png" width="50" class="visa-img">
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlInput1">Add credit card</label>
+                                                                <input type="number" class="form-control" placeholder="Credit Card Number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <img src="~/images/user.png" width="40" class="bank">
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <button id="myBtn" data-toggle="modal" data-target="#exampleModal" class="add_credit btn btn-primary ">Add credit card</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <h4 class="custom-heading-form mt-3">ADD NEW PAYMENT</h4>
+                                            <div class="container px-0">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="row">
+                                                            <div class="col-2">
+                                                                <img src="~/images/bank.png" width="40" class="bank">
+                                                            </div>
+                                                            <div class="col-10">
+                                                                <button   id="myBtn " class="add_credit btn btn-primary ">Bank Account</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <button id="myBtn" class="btn btn-primary mt-4 ">Done</button>
+                                                </div>
+                                            </div>
+                                            <div class="balance-load-panel">
+                                                <span id="spnRefreshBalanceReload">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </span>
+                            <!-- Tab panes -->
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div><!--org-tabing-->
+                    </div>
+            </section>
+        </section>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5> Add credit card</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Credit Card Number</label>
+                                    <input type="number" class="form-control" placeholder="Credit Card Number">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Credit Card Nickname</label>
+                                    <input type="text" class="form-control" placeholder="Credit Card Nickname">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+
+                                <div class="form-group ">
+                                    <label for="inputPassword4">mm/yy</label>
+                                    <input type="date" class="form-control" placeholder="mm/yy">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Security code</label>
+                                    <input type="number" class="form-control" placeholder="Security code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a class=" d-block m-auto">    <button id="myBtn" class="btn btn-primary d-block m-auto">Save and pay</button></a>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</body>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="../js/custom.js"></script>
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({ scrollButtons: { enable: true } });
+        });
+    })(jQuery);
+</script>
+<script>
+    $(document).ready(function () {
+        $(".box-show").click(function () {
+            $(".box-drop-tag").toggleClass("show-box-onclick");
+        });
+    });
+</script>
+</html>

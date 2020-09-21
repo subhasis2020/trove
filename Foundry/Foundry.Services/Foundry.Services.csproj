@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AutoReloadTrigger\**" />
+    <Compile Remove="LinkAccounts\**" />
+    <Compile Remove="UserProgram\**" />
+    <EmbeddedResource Remove="AutoReloadTrigger\**" />
+    <EmbeddedResource Remove="LinkAccounts\**" />
+    <EmbeddedResource Remove="UserProgram\**" />
+    <None Remove="AutoReloadTrigger\**" />
+    <None Remove="LinkAccounts\**" />
+    <None Remove="UserProgram\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="IRepositoryBase.cs" />
+    <Compile Remove="RepositoryBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Benefactors\BenefactorService.cs~RFbf15c53.TMP" />
+    <None Remove="Benefactors\InvitationService.cs~RF39d01b83.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.104.14" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.4.0" />
+    <PackageReference Include="Sendgrid" Version="9.12.0" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="Twilio" Version="5.28.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Foundry.Domain\Foundry.Domain.csproj" />
+    <ProjectReference Include="..\Foundry.LogService\Foundry.LogService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,140 @@
+﻿@using Foundry.Domain;
+@model List<Foundry.Web.Models.ProgramBrandingModel>;
+<!--first-->
+
+<div id="branding" class=" tab-pane ">
+    <div class="detail-information prog-list pb20">
+
+
+        <div class="detail-card-view" id="second-point">
+            <div class="title-section title-section01">
+                <div class="row">
+                    <div class="col-sm-4">
+
+                        <h6>Organizations: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName))</small></h6>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName))</small></h6>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="list-info list-info-admin">
+                            <ul>
+                                <li>
+                                    <div class="btn btn-small show-card-detail" id="tab_10"><img src="~/images/icon-plus-lg.png"></div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="all-cards-view">
+                @if (Model.Count > 0)
+                {
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <div class="card-details">
+                                <div class="branding-card">
+                                    @if (item.accountTypeId != 4)
+                                    {<div class="branding-logo" style="background-color:@(item.brandingColor)">
+                                            <div class="img-branding-logo"><img src="@item.ImagePath" /></div>
+                                        </div>
+                                        <div class="branding-card-detail">
+                                            <div class="card-info">
+                                                <h2 style="color:@(item.brandingColor)">@item.accountName </h2>
+                                                <span style="color:@(item.brandingColor)">@item.accountType</span>
+                                            </div>
+                                            <div class="cards-edits">
+                                                <div class="linked-delete-custom-action">
+                                                    <div class="linked-down ">
+                                                        <div class="img-dots"></div>
+                                                    </div>
+                                                    <div class="linked-down-data-s">
+
+                                                        <div class="plan-panel-dropdown">
+
+                                                            <ul>
+                                                                <li><a href="JavaScript:Void(0);" id="edtBranding" value="@(item.id)">Edit Branding</a></li>
+                                                                <li class="active"><a href="JavaScript:Void(0);" class="clsDeleteBranding" data-org="@item.accountName" id="@(item.id)">Delete Branding</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-bar-code">
+                                                <div class="row">
+                                                   
+                                                    @item.cardNumber
+                                                </div>
+                                            </div>
+                                            <div class="bar-code">
+                                                <img src="~/images/img-barcode.png">
+                                            </div>
+                                        </div>
+                                        <div class="gray-bar"></div>}
+                                    else
+                                    {
+                                        
+                                        <div class="vipbranding-card-detail">
+                                            <div class="card-info">
+                                                <img class="clsImgVIPCardPreview" src="@item.ImagePath" id="imgVIPCardPreview" name="imgVIPCardPreview" />
+                                            </div>
+                                            <div class="cards-edits">
+                                                <div class="linked-delete-custom-action">
+                                                    <div class="linked-down ">
+                                                        <div class="img-dots"></div>
+                                                    </div>
+                                                    <div class="linked-down-data-s">
+
+                                                        <div class="plan-panel-dropdown">
+
+                                                            <ul>
+                                                                <li><a href="JavaScript:Void(0);" id="edtBranding" value="@(item.id)">Edit Branding</a></li>
+                                                                <li class="active"><a href="JavaScript:Void(0);" class="clsDeleteBranding" data-org="@item.accountName" id="@(item.id)">Delete Branding</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-bar-code">
+                                                <div class="row">
+                                                                                                       
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                       
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div><!---4-->
+                    }
+                    </div>
+                }
+                </div>
+
+        </div><!--view-->
+    </div>
+</div>
+<style type="text/css">
+    .clsImgVIPCardPreview {
+        max-width: 460.12px;
+        height: 285px;
+        position: static;
+        margin: 10px;
+    }
+
+    .vipbranding-card-detail {
+        width: calc(100% - 0px );
+        float: right;
+        padding: 20px 0;
+    }
+</style>
+<!--second-->

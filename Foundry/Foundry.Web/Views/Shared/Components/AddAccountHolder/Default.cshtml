@@ -1,0 +1,256 @@
+﻿@model Foundry.Web.Models.AccountHolderModel;
+<div id="tab-3-5" class="tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2>Add Account Holders</h2>
+                </div>
+            </div>
+        </div>
+        <div class="org-admin-detail">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "AccountHolderForm" }))
+            {
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4 padding-right">
+                        <div class="mecrchant-view-address">
+                            <div class="admin-browse-image">
+                                <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                    <div class="dz-default dz-message" data-dz-message="">
+                                        <span><img src="~/images/icon-profile-lg.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group mt40">
+                                <label>Add plan(s) to account holders</label>
+                                <div class="form-group-inner form-select-customs">
+
+                                    @Html.ListBoxFor(m => m.SelectedPlanIds, ViewBag.PlansList as List<SelectListItem>, new { @multiple = "multiple", @class = "form-control form-control-custom" })
+                                    @Html.ValidationMessageFor(m => m.SelectedPlanIds)
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!---4--->
+
+                    <div class="col-sm-12 col-md-6 col-lg-8 padding-right">
+                        <div class="mecrchant-view-info">
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>First name*:</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "First name" })
+                                            @Html.ValidationMessageFor(m => m.FirstName)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Last name*:</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "Last name" })
+                                            @Html.ValidationMessageFor(m => m.LastName)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--row-->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Account holder ID*</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.AccountHolderID, new { @class = "form-control form-control-custom", @maxlength = 20, @placeholder = "Account holder id", @readonly = true })
+                                            @Html.ValidationMessageFor(m => m.AccountHolderID)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Mobile Phone Number*</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control form-control-custom", @maxlength = 20, @placeholder = "(XXX) XXX-XXXX" })
+                                            @Html.ValidationMessageFor(m => m.PhoneNumber)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--row-->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Primary email*</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Primary email" })
+                                            @Html.ValidationMessageFor(m => m.Email)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Secondary email</label>
+                                        <div class="form-group-inner">
+                                            @*<input type="text" class="form-control form-control-custom">*@
+                                            @Html.TextBoxFor(m => m.SecondaryEmail, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Secondary email" })
+                                            @Html.ValidationMessageFor(m => m.SecondaryEmail)
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--row-->
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <div class="form-group-inner">
+                                            @Html.DropDownListFor(m => m.GenderId, ViewBag.GenderList as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            @Html.ValidationMessageFor(m => m.GenderId)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBoxFor(m => m.DateOfBirth, "{0:MM/dd/yyyy}", new { @class = "form-control form-control-custom datetimepicker", @maxlength = 80, @placeholder = "" })
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="dvAddCustomProgramFields">
+
+                            </div>
+                            <!--row-->
+                            <!--row-->
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="col-sm-12 col-md-12 col-lg-12 ">
+
+                        <div class="form-group-inner custom-right mt-5">
+                            <button type="submit" id="btnAccountHolderDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                            <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                            <input type=hidden id="hdnIsNewUpload" value='1' />
+                            @Html.HiddenFor(m => m.ProgramCustomJsonFields)
+                            @Html.HiddenFor(m => m.UserCustomJsonValue)
+                            @Html.HiddenFor(m => m.UserEncId)
+                            @Html.HiddenFor(m => m.UserImagePath)
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/js/bootstrap-multiselect.js"></script>
+
+<script src="~/js/AccountHolder.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#SelectedPlanIds').multiselect({ includeSelectAllOption: true });
+        $("#PhoneNumber").mask("(999) 999-9999");
+
+        if ($("#ProgramCustomJsonFields").val() !== '' && $("#ProgramCustomJsonFields").val() !== '[]') {
+
+            var arrayCustomFields = JSON.parse($("#ProgramCustomJsonFields").val());
+            var arrayCustomFieldsValue = [];
+            if ($("#UserCustomJsonValue").val() != '' && $("#UserCustomJsonValue").val() !== '[]')
+                arrayCustomFieldsValue = JSON.parse($("#UserCustomJsonValue").val());
+
+            var MainRowDiv = '';
+            var j = 0;
+            for (var i = 0; i < arrayCustomFields.length; i++) {
+
+                if (i % 2 === 0) {
+                    j++;
+                    MainRowDiv = $('<div id="dv_' + j + '" class="row"></div>');
+
+                }
+                var markRequired = '';
+                if (arrayCustomFields[i].CustomFieldIsRequired == "true")
+                    markRequired = '*';
+                var InputElementCreate = fnInputOnDataType(arrayCustomFields[i].CustomFieldName, arrayCustomFields[i].CustomFieldDataType, arrayCustomFields[i].CustomFieldLength, arrayCustomFields[i].CustomFieldIsRequired, arrayCustomFields[i].CustomFieldUniqueColumnID, i, arrayCustomFieldsValue);
+
+                var dynamicDiv = $("<div class='col-sm-6'><div class='form-group'><label>" +
+                    arrayCustomFields[i].CustomFieldName + markRequired
+                    + "</label><div class='form-group-inner' id='dvInputInner_" + i + "'></div></div></div>");
+
+
+                if (i % 2 === 0) {
+                    // MainRowDiv = '';
+                    MainRowDiv.appendTo("#dvAddCustomProgramFields");
+                }
+                $("#dv_" + j + "").append(dynamicDiv);
+                $("#dvInputInner_" + i + "").append(InputElementCreate);
+
+                if (arrayCustomFields[i].CustomFieldIsRequired === "true") {
+                    if (InputElementCreate.attr("type") != "hidden") {
+                        InputElementCreate.attr("data-val", "true");
+                        InputElementCreate.attr("data-val-required", "Please enter " + arrayCustomFields[i].CustomFieldName + ".");
+                        InputElementCreate.after(
+                            '<span data-valmsg-for="' +
+                            arrayCustomFields[i].CustomFieldUniqueColumnID + "^" + i +
+                            '" data-valmsg-replace="true" class="field-validation-valid"></span>'
+                        );
+                        InputElementCreate.rules('add', {
+                            required: true,
+                            messages: {
+                                required: "Please enter " + arrayCustomFields[i].CustomFieldName + "."
+                            }
+                        });
+                    }
+                }
+                $("#AccountHolderForm").removeData("validator").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse($("#AccountHolderForm"));
+                //$("#AccountHolderForm").validate({
+                //    errorPlacement: function (error, element) {
+                //        error.appendTo(element.parent().next());
+                //    }
+                //});
+
+            }
+        }
+    });
+
+
+
+</script>

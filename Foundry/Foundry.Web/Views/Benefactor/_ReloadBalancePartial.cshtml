@@ -1,0 +1,238 @@
+﻿@model Foundry.Web.Models.ReloadRequestModel
+@using Foundry.Domain.ApiModel;
+<div class="tab-content">
+    <div class="tab-pane  active" id="home">
+        <div class="white-box">
+            <div class="balance-load-panel">
+
+                <div class="cash-amount payment-inputs add-bank-account">
+                    @if (((List<I2CCardBankAccountModel>)ViewBag.UserBankAccount).Count <= 0)
+                    {
+                        <button type="submit" class="btn btn-primary btn-login">Add a Bank Account</button>
+                    }
+                    else
+                    {
+                        <label class="head">Choose bank account: </label>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-login">Add a Bank Account</button>
+                                </div>
+                            </div>
+                        </div>}
+                </div>
+
+                <div class="cash-amount payment-inputs add-bank-account">
+                    <label class="head">Add bank account: </label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" placeholder="Account Number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" placeholder="Account Title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>Account Type</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" placeholder="Account Nick Name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>ACH Type</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" placeholder="Bank Name" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input type="text" placeholder="Routing Number " class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <textarea type="text" placeholder="Comments" class="form-control"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="add-bank-buttons text-right">
+                        <button type="submit" class="btn btn-primary btn-login">Add Bank Account</button> <button type="submit" class="btn btn-secondary btn-login">Cancel</button>
+                    </div>
+                </div>
+                <div class="cash-amount mb20">
+                    <label class="head">Choose an amount: </label>
+                    <div class="amount-options">
+                        <div class="row">
+                            <div class="col-sm-3 col-md-3 col-lg-2">
+                                <label class="btn-custom-bx beds-baths-1 radio-active amount_label">
+                                    <input type="radio" name="options" id="option1" autocomplete="off">
+
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point reloadVal">$50</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                                    <input type="radio" name="options" id="option2" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point reloadVal">$100</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                                    <input type="radio" name="options" id="option3" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point reloadVal">$150</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                                    <input type="radio" name="options" id="option3" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point reloadVal">$200</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-6 col-md-5 col-lg-3">
+                                <div class="input-amount input-currency">
+                                    <span class="currency-amount">$</span>
+                                    @Html.TextBoxFor(m => m.ReloadAmount, new { @class = "form-control input", @placeholder = "Enter an amount" })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.ReloadAmount)
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--first-->
+
+                <div class="cash-amount cash-amount-filled">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="switch-reload">
+                                <em>AUTO RELOAD</em>
+                                <label class="switch">
+
+                                    @Html.CheckBoxFor(m => m.IsAutoReload)
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--row-->
+                    <label class="head">When your balance drops to: </label>
+                    @Html.ValidationMessageFor(m => m.CheckDroppedAmount)
+
+                    <div class="amount-options1 amount-option-filled">
+                        @{string styleAuto = "";}
+
+                        <div class="row" id="dvAutoReloadOptions" style="@styleAuto">
+                            @Html.HiddenFor(m => m.CheckDroppedAmount)
+                            <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                                <label class="btn-custom-bx beds-baths-1 radio-active1 autoLabel">
+                                    <input type="radio" name="options1" id="option11" autocomplete="off">
+
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point choose_autoreload 50">$20</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                                <label class="btn-custom-bx beds-baths-1 radio-active1 autoLabel">
+                                    <input type="radio" name="options1" id="option12" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point choose_autoreload 50">$50</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel">
+                                    <input type="radio" name="options1" id="option13" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point choose_autoreload 100">$100</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel">
+                                    <input type="radio" name="options1" id="option14" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point choose_autoreload 150">$150</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                                <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel">
+                                    <input type="radio" name="options1" id="option15" autocomplete="off">
+                                    <span class="icon icon-blank-space"></span>
+                                    <span class="choose-no-point choose_autoreload 200">$200</span>
+                                </label>
+
+                            </div>
+                            <div class="col-sm-6 col-md-5 col-lg-3">
+                                <div class="input-amount input-currency">
+                                    <span class="currency-amount">$</span>
+                                    @Html.TextBoxFor(m => m.AutoReloadAmount, new { @class = "form-control form-control-sm input", @placeholder = "Enter amount to be refilled" })
+
+                                </div>
+                                @Html.ValidationMessageFor(m => m.AutoReloadAmount)
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7 col-md-8 col-lg-8 pl0">
+                                <label class="custom_check_box mt-3">
+
+                                </label>
+
+                            </div>
+
+                            <div class="col-sm-5 col-md-4 col-lg-3 pl0">
+
+                                <button type="submit" class="btn btn-primary btn-login mt-3">SAVE & PROCEED</button>
+                            </div>
+
+                            <div class="col-sm-1 col-md-1 col-lg-1 pl0">
+                                @Html.HiddenFor(m => m.ReloadUserId)
+                                @Html.HiddenFor(m => m.ReloadRequestId)
+                                @Html.HiddenFor(m => m.ProgramId)
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!--first-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

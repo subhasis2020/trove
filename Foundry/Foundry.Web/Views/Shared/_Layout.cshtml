@@ -1,0 +1,143 @@
+﻿@using Foundry.Domain
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pay with Trove</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon-icon.ico">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+    <link href="~/css/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/spectrum.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/SweetAlert/sweetalert.min.js"></script>
+    <script src="~/js/BenefactorNotifications.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+</head>
+
+<body>
+    <div class="mobile-overlay"></div>
+    <div class="mobile-overlay"></div>
+    <section class="wrapper-content">
+
+        <aside class="left-bar">
+            <div class="main-logo">
+                <a href="@if (User.IsInRole(Constants.Roles.Benefactor)) { @Url.Action("Dashboard","Benefactor") } else { @Url.Action("ReloadRequest","Benefactor")} "><img src="~/images/main-logo.png"></a>
+            </div>
+            <div class="menus">
+                <ul id="accordion">
+                    @if (User.IsInRole(Constants.Roles.Benefactor))
+                    {
+                        <input type="hidden" id="hdnRole" value="benefactor" />
+                        <li id="liTransactionIcon"><a href="@Url.Action("Transactions", "Benefactor")"><i class="icon-transaction icon-menus"></i> </a></li>
+                        <li id="liReloadRequest"><a href="@Url.Action("ReloadRequest", "Benefactor")"><i class="icon-money icon-menus"></i> </a></li>
+                        <li id="liLinkedAccounts"><a href="@Url.Action("LinkedAccounts", "Benefactor")"><i class="icon-accounts icon-menus"></i> </a></li>
+                    }
+                    else if (User.IsInRole(Constants.Roles.BasicUser))
+                    {
+                        <input type="hidden" id="hdnRole" value="basicuser" />}
+                    <li><a id="aLogout" href="javascript:void(0);"><i class="icon-logout icon-menus"></i> </a></li>
+
+                </ul>
+            </div>
+        </aside>
+        <section class="right-bar">
+            <header class="header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mobile-menu"><i class="fa fa-bars"></i></div>
+                        @if (@Context.Request.Path.ToString().Trim().Equals("/benefactor/dashboard", StringComparison.OrdinalIgnoreCase) || @Context.Request.Path.ToString().Trim().Equals("/benefactor/transactions", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <div class="input-icon input-search">
+                                <img src="~/images/icon-search.png">
+
+                                <input type="search" class="form-control header-search" placeholder="Search for asset or transaction">
+
+                            </div>
+                        }
+                    </div>
+                    <!--6-->
+
+                    <div class="col-sm-6">
+                        <div class="top-navigation-icon">
+
+                            <ul>
+                                <li>@User.Identity.Name</li>@if (User.IsInRole(Constants.Roles.Benefactor))
+                                {
+                                    <li class="notiication-count">
+                                        <a href="" data-toggle="collapse" data-target="#notifiation-panel">
+                                            <img src="~/images/icon-notification.png">                                      <span id="spnNotificationsCount" class="count"></span>
+                                        </a>
+
+                                    </li>
+
+                                    <span id="spnNotifications">
+
+
+                                    </span>}
+                                @*
+                                    {
+                                        @await Component.InvokeAsync("BenefactorNotification")
+
+                                *@
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--6-->
+                </div>
+            </header>
+            @RenderBody()
+
+        </section>
+    </section>
+    <div id="dvLoadingGif" style="display:none;">
+
+        <img src="~/images/loader.gif" />
+    </div>
+</body>
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $(".content-scroll").mCustomScrollbar({ scrollButtons: { enable: true } });
+        });
+    })(jQuery);
+
+    $(document).ready(function () {
+        if ($("#dvResponse").html() != undefined) {
+            setTimeout(function () {
+                $("#dvResponse").hide("5000")
+            }, 5000);
+        }
+        $(document).on('click', '#aLogout', function () {
+            swal({
+                title: "Are you sure you want to logout?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    window.location.href = '/Account/Signout';
+                }
+            }
+            );
+
+        });
+    });
+
+</script>
+@RenderSection("ViewScripts", required: false)
+</html>

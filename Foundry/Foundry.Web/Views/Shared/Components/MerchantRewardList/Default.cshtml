@@ -1,0 +1,105 @@
+﻿@using Foundry.Domain;
+@model List<Foundry.Web.Models.MerchantRewardModel>;
+<!--first-->
+
+<div class="detail-information prog-list" id="view-rewards-list">
+    <div class="title-section title-section01">
+        <div class="row">
+            <div class="col-sm-4">
+                <h6>Organizations: <small>@ViewBag.PrimaryOrgName</small></h6>
+            </div>
+            <div class="col-sm-4 text-center">
+                <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName))</small></h6>
+                @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) > 0)
+                {
+                    <h6>Merchant: <small id="hmerchantname"></small></h6>
+                }
+            </div>
+            <div class="col-sm-4">
+                <div class="list-info list-info-admin">
+                    <ul>
+                        <li>
+                            <div class="btn btn-small show-rewards-detail" id="tab_8"><img src="~/images/icon-plus-lg.png"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--title-->
+
+    <div class="view-rewards">
+        @if (Model.Count > 0)
+        {
+            <div class="row">
+                @*@foreach (var item in Model)*@
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="col-sm-4">
+                        <div class="rewards-screen-status">
+                            @if (!Model[i].IsPublished)
+                            {
+                                <div class="linked-delete-box">
+                                    <div class="linked-down-actions">
+                                        <div class="img-dots-box"></div>
+                                    </div>
+                                    <div class="linked-data-actions">
+                                        <div class="org-panel-dropdown">
+                                            <ul>
+                                                <li><a href="JavaScript:Void(0);" id="edtPromotion" value="@(Cryptography.EncryptPlainToCipher(Model[i].Id))">Edit</a></li>
+                                                <li class="active"><a href="JavaScript:Void(0);" class="clsDeleteRewards" data-org="@Model[i].RewardTitle" id="@Cryptography.EncryptPlainToCipher(Model[i].Id)" id="edtPromotion">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="mobile-data">
+                                <div class="rewards-mobile-views" style="background-color:@Model[i].BackGroundColor">
+                                    <div class="rewards-screen-card">
+                                        <h5>
+                                            @Model[i].RewardTitle
+                                        </h5>
+                                        <h2>@Model[i].RewardSubTitle</h2>
+                                        <div class="display-icon">
+                                            @{
+                                                var img = Model[i].BusinessIconPath.Split("/")[2];
+                                                var ext = img.Split(".")[1];
+                                                var imagename = ViewBag.BaseL.TrimEnd('/') + "/images/" + img.Split(".")[0] + "-white." + ext;
+                                            }
+                                            <img src="@imagename">
+                                        </div>
+                                        <p>@Model[i].Description</p>
+                                        <a href="javascript:void(0);" class="btn btn-redeem">Tap to redeem</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="float:left;margin-left: 75px;margin-top:5px;" class="form-group-inner">
+                                <div class="switch-reload mt0">
+                                    <label class="switch">
+                                        @{string isChecked = @Model[i].IsActive ? "checked='checked'": "";
+                                            string chkIdNName = "chk_" + Cryptography.EncryptPlainToCipher(Model[i].Id);
+
+                                            <input type="checkbox" class="chkChangeActiveReward" @isChecked id=@chkIdNName name=@chkIdNName />
+                                            <span class="slider  slider-round round"></span>}
+                                    </label>
+                                    <label>Active</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                }
+            </div>
+        }
+        else
+        {
+            <h3 class="text-center">
+                @Html.Raw("No data available.")
+            </h3>
+        }
+    </div>
+    <!--view-rewards-->
+</div>
+<!--second-->

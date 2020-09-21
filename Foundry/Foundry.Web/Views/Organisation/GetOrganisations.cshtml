@@ -1,0 +1,126 @@
+﻿@using Foundry.Domain;
+@model List<Foundry.Domain.Dto.OrganisationDto>
+@{
+    ViewData["Title"] = "Organisations";
+    Layout = "~/Views/Shared/_OrganisationLayout.cshtml";
+}
+
+<section class="page-content">
+    <div class="title-section">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <h2>Organizations</h2>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+                {
+                    <div class="list-info list-info-title new-title">
+                        <div class="search-list-info">
+
+                            <div class="input-icon input-search" id="dvlstOrganisation">
+                                <img src="~/images/icon-search.png">
+                                <input type="search" id="txtSearch" class="form-control header-search" placeholder="Search an organization">
+                                <br />
+                            </div>
+                        </div>
+                        <a href="@Url.Action("CreateOrganisations","Organisation")" class="btn btn-small"><img src="~/images/icon-plus-lg.png"></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <span id="spnOrganisationListComponent">
+        @await Component.InvokeAsync("OrganisationList", new { searchOrgText = "" })
+    </span>
+</section>
+<script>
+    $(document).ready(function () {
+
+        $("#accordion").find('li').removeClass('active');
+        $("#accordion #liOrgName").addClass('active');
+
+        $(document).on('click', '.clsDeleteOrg', function () {
+            var orgId = $(this).attr('id');
+            var orgName = $(this).attr('data-org');
+            var jposOrg = $(this).attr('data-JId');
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().parent().parent().prev().removeClass('active1');
+            swal({
+                title: "Are you sure you want to delete " + orgName + "?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-danger',
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'Ok',
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (result) {
+                if (result === true) {
+                    DeleteOrg(orgId, jposOrg);
+
+                }
+            }
+            );
+        });
+
+        $(document).on('keyup', '#txtSearch', function () {
+            var orgSearch = $(this).val();
+
+            RefreshOrgListComponent(orgSearch);
+        });
+    });
+
+    function RefreshOrgListComponent(searchText) {
+
+        $.ajax({
+            method: 'GET',
+            url: '/Organisation/GetOrganisationListViewComponent',
+            data: { search: searchText }
+        }).done(function (data, statusText, xhdr) {
+
+            $("#spnOrganisationListComponent").html(data);
+
+            $("#dvLoadingGif").hide();
+        }).fail(function (xhdr, statusText, errorText) {
+            swal({
+                title: "Currently unable to process the request! Please try again later.",
+                icon: "error"
+
+            });
+        });
+
+    }
+
+    function DeleteOrg(orgId, jposOrg) {
+        $("#dvLoadingGif").show()
+        $.ajax({
+            type: "POST",
+            url: "/Organisation/DeleteOrganisation/",
+            data: { 'organisationId': orgId, 'JposId': jposOrg },
+            dataType: "json",
+            success: function (data) {
+                $("#dvLoadingGif").hide()
+                if (data.data > 0 && data.success) {
+                    swal({
+                        title: "Organization has been deleted successfully!",
+                        icon: "success"
+                    });
+                    RefreshOrgListComponent('');
+                } else {
+                    swal({
+                        title: "Currently unable to process the request! Please try again later.",
+                        icon: "error"
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Currently unable to process the request! Please try again later.",
+                    icon: "error"
+                });
+            }
+        });
+    }
+</script>
+

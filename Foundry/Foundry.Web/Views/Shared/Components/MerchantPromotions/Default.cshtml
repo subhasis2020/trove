@@ -1,0 +1,360 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.PromotionDetailModel;
+
+<div id="promotions" class=" tab-pane fade">
+    <div class="detail-information prog-list">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4 ">
+                    <h6>Organizations: <small>@ViewBag.PrimaryOrgName</small></h6>
+
+
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName))</small></h6>
+
+                </div>
+                <div class="col-sm-4 text-right">
+                    @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.MerchantId)) > 0)
+                    {
+                        <h6>Merchant: <small id="hmerchantname"></small></h6>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="promotions-section">
+            <div class="promotion-schedule">
+                <ul>
+                    <li>
+                        <a href="" id="daily"><img src="~/images/img-daily-promotion.png"></a>
+                    </li>
+                    <li>
+                        <a href="" id="multi"><img src="~/images/img-multi-promotion.png"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="promotions-calender">
+                <div id="calendar"></div>
+            </div>
+        </div>
+        <!--promotions-section-->
+    </div>
+
+</div>
+
+<div class="modal fade" id="signle-schedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-custom-large " role="document">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSchedulePromotion", enctype = "multipart/form-data", @name = "frmSchedulePromotion" }))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><span id="spnModalTitle">Schedule Daily Promotion</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modalValidDv" class="modal-body">
+                    <div class="org-admin-detail">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-3 ">
+                                <div class="mecrchant-view-address">
+                                    <div class="admin-browse-image">
+                                        <div class="picture-container picture-container-lg dropzone" id="my-awesome-dropzone" enctype='multipart/form-data' action="@Url.Action("UploadImage", "Account")">
+                                            <div class="dz-default dz-message" data-dz-message="">
+                                                <span><img src="~/images/icon-profile-lgx.png" class="picture-src" id="wizardPicturePreview" title=""></span>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <span id="PostedFileUploadError" style="display:none;" class="field-validation-error">
+                                        Only Image files allowed.
+                                    </span>
+                                    <span id="input_file_upload_error_img" style="display:none;" class="field-validation-error">
+                                        Maximum image size is 10 MB.
+                                    </span>
+                                </div>
+                            </div>
+                            <!---4--->
+
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="mecrchant-view-info">
+                                    <div class="form-group">
+                                        <label>Description of promo* <em>(Max 25 characters)</em></label>
+                                        <div class="form-group-inner">
+                                            @Html.TextAreaFor(m => m.PromotionDescription, new { @class = "form-control form-control-custom", @maxlength = 25, @placeholder = "Description of promo" })
+                                            @Html.ValidationMessageFor(m => m.PromotionDescription)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Details of the promo</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextAreaFor(m => m.PromoDetail, new { @class = "form-control form-control-custom", @maxlength = 250, @placeholder = "Details of promo" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <label class="col-sm-12">Status </label>
+                                            <div class="col-sm-12">
+                                                <div class="form-group-inner">
+                                                    <div class="switch-reload mt0">
+                                                        <label class="switch">
+                                                            @Html.CheckBoxFor(x => x.IsActive, new { @checked = Model.IsActive == true ? "checked" : "" })
+                                                            <span class="slider  slider-round round"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--4-->
+                            <div class="col-sm-12 col-md-12 col-lg-5 ">
+                                <div class="mecrchant-view-info">
+
+                                    <div class="promotion-dates">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="date-style ">
+                                                    <label>Start Date</label>
+                                                    <div class="form-groups-picker form-group-date">
+                                                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control datetimepicker", @placeholder = "MM/DD/YYYY", @autocomplete = "off", @readonly = "true" })
+                                                        @Html.ValidationMessageFor(m => m.StartDate)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--6-->
+
+                                            <div class="col-sm-6">
+                                                <div class="date-style date-style-time timepicker-height">
+                                                    <label>Start Time</label>
+
+                                                    <div class="select-control">
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            @Html.TextBoxFor(x => x.StartTime, new { @class = "form-control input-small timepicker", @readonly = "true" })
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--6-->
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="promotion-dates">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="date-style">
+                                                    <label>End Date</label>
+                                                    <div class="form-groups-picker form-group-date">
+                                                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control datetimepicker  ", @placeholder = "MM/DD/YYYY", @autocomplete = "off", @readonly = "true" })
+                                                        @Html.ValidationMessageFor(m => m.EndDate)
+                                                        <span id="spnEndDateGreater" style="display:none;" class="error">
+                                                            <span>End date must be greater than start date.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--6-->
+                                            <!--6-->
+
+                                            <div class="col-sm-6">
+                                                <div class="date-style date-style-time timepicker-height">
+                                                    <label>End Time</label>
+                                                    <div class="select-control">
+                                                        <div class="input-group bootstrap-timepicker">
+                                                            @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control input-small timepicker", @readonly = "true" })
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+
+                                                        </div>
+                                                        <span id="spnEndTimeGreater" style="display:none;" class="error">
+                                                            <span>End time must be greater than start time.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div id="dvRepeatDay" class="form-group">
+                                        <label>Repeat</label>
+                                        <div class="form-group-inner form-select-customs">
+                                            @Html.DropDownListFor(m => m.RepeatDay, ViewBag.WeekDay as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            <span id="spnRepeatDayError" style="display:none;" class="error">
+                                                <span>Please select the day comes under the date range.</span>
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--4-->
+                        </div>
+                    </div>
+                    <!--row-->
+                    <div class="choose-banner-option">
+                        <label>
+                            Choose design*
+                            @Html.HiddenFor(m => m.BannerTypeId)
+                            @Html.ValidationMessageFor(m => m.BannerTypeId)
+                        </label>
+                        <div class="row">
+                            @{ var i = 0;}
+                            @foreach (var item in Model.OfferCodes)
+                            {
+                                <div class="col-sm-4 col-banner">
+                                    <div class="all-text-banner">
+                                        <div class="banner-format">
+                                            <label class="custom_check_box mt-3">
+                                                @Html.RadioButton("BannerType", item.id, i == 0 ? true : item.isCheckedCodeOffer)<span></span>@item.offerName
+                                            </label>
+                                            <div class="clearfix"></div>
+                                            @if (item.offerName.ToLower() == "banner")
+                                            {
+                                                <div class="banner-text dataBannerSet">
+                                                </div>
+                                            }
+                                            else if (item.offerName.ToLower() == "stamp")
+                                            {
+                                                <div class="stamp-text dataBannerSet">
+                                                </div>}
+                                            else if (item.offerName.ToLower() == "ribbon")
+                                            {
+                                                <div class="ribbon-text dataBannerSet">
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                i++;
+                            }
+
+                        </div>
+                    </div>
+                    <!--choose-banner-->
+                    <div class="row mt40">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>
+                                    Banner Description* <em>(Max 18 characters)</em>
+                                </label>
+                                <div class="form-group-inner">
+                                    @Html.TextAreaFor(m => m.BannerDescription, new { @class = "form-control form-control-custom", @maxlength = 18, @placeholder = "Description of banner" })
+                                    @Html.ValidationMessageFor(m => m.BannerDescription)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="custom-right custom-promotion-right">
+                                <button type="submit" id="btnSchedulePromotion" class="btn btn-primary">ADD</button>
+                                <button type="button" class="btn btn-primary clsDeletePromotion" style="display:none;">DELETE</button>
+                                <input type=hidden id="hdnUserImageType" value='@ViewBag.UserEntityImageType' />
+                                <input type=hidden id="hdnIsNewUpload" value='1' />
+                                @Html.HiddenFor(m => m.PromotionImagePath)
+                                @Html.HiddenFor(m=>m.ImageFileName)
+                                @Html.HiddenFor(m => m.PromotionId)
+                                @Html.HiddenFor(m => m.PromotionTypeId)
+                                @Html.HiddenFor(m => m.IsDaily)
+                                @Html.HiddenFor(m => m.encPromId)
+                                @Html.Hidden("DefaultDateCalendar")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+
+<link href="~/css/FullCalendar/Core/main.css" rel="stylesheet" />
+<link href="~/css/FullCalendar/DayGrid/main.css" rel="stylesheet" />
+<script src='~/js/FullCalendar/Core/main.js'></script>
+<script src='~/js/FullCalendar/interaction/main.js'></script>
+<script src='~/js/FullCalendar/daygrid/main.js'></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var eve = [];
+        $.ajax({
+            url: '/Merchant/GetMerchantPromotions',
+            data: { "merchantId": $("#hdnMerchantId").val() },
+            type: "GET",
+            dataType: "JSON",
+            async: true,
+            cache: false,
+            success: function (data) {
+
+                $.each(data.data, function (i, dt) {
+                    if (dt.IsDailyPromotion != null && dt.IsDailyPromotion == true) {
+                        eve.push(
+                            {
+                                id: dt.encPromId,
+                                title: dt.BannerDescription,
+                                description: dt.BannerDescription,
+                                startRecur: moment(dt.StartDate).format('YYYY-MM-DD'),
+                                endRecur: moment(dt.EndDate).add(1, 'day').format('YYYY-MM-DD'),
+                                backgroundColor: "#f3f3f3",
+                                borderColor: "#f3f3f3",
+                                textColor: "#ff0a7f",
+                                daysOfWeek: [dt.RepeatDailyDay],
+
+                            });
+                    }
+                    else {
+                        eve.push(
+                            {
+                                id: dt.encPromId,
+                                title: dt.BannerDescription,
+                                description: dt.BannerDescription,
+                                start: moment(dt.StartDate).format('YYYY-MM-DD'),
+                                end: moment(dt.EndDate).add(1, 'day').format('YYYY-MM-DD'),
+                                backgroundColor: "#2D323E;",
+                                borderColor: "#2D323E",
+                                textColor: "#FFFFFF"
+                            });
+                    }
+                });
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+                    header: {
+                        left: '',
+                        center: 'prev,title,next',
+                        right: ''
+                    },
+                    defaultDate: calendarDefaultDate,
+                    editable: true,
+                    navLinks: true, // can click day/week names to navigate views
+                    eventLimit: true, // allow "more" link when too many events
+                    events: eve,
+                    eventClick: function (arg) {
+                        GetPromotionDetailById(arg.event.id);
+                    }
+
+
+
+                });
+
+                calendar.render();
+            }
+        });
+
+    });
+
+</script>

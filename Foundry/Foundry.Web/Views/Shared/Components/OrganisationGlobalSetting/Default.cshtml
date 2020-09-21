@@ -1,0 +1,154 @@
+﻿@using Foundry.Domain;
+@using Foundry.Domain.Dto;
+@model List<Foundry.Web.Models.LoyalityGlobalSettingDetailModel>;
+@{
+    ViewData["Title"] = "Default";
+}
+
+
+<div id="menu2" class=" tab-pane fade">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "formorgglobal", @name = "formorgglobal" }))
+    {
+    <div class="card organization_setting mt-3">
+        <div class="card-header">
+            Organization - Sodexo
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">First Transaction Bonus:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.FirstTransactionBonus, new { @class = "form-control", @maxlength = 10, @id = "FirstTransactionBonus", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.FirstTransactionBonus)
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <h4 class="title_box mb-4">Loyalty Reward Structure</h4>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">Global Loyalty Threshold:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.loyalityThreshhold, new { @class = "form-control", @maxlength = 10, @id = "loyalityThreshhold", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.loyalityThreshhold)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">Global Reward $:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.globalReward, new { @class = "form-control", @maxlength = 10, @id = "globalReward", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.globalReward)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">Global Rate Pts per $:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.globalRatePoints, new { @class = "form-control", @maxlength = 10, @id = "globalRatePoints", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.globalRatePoints)
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="title_box mb-3 mt-4">Tender Ratios</h4>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">Default Bite Pay Ratio:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.bitePayRatio, new { @class = "form-control", @maxlength = 10, @id = "bitePayRatio", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.bitePayRatio)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">Default DCB/Flex Ratio:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.dcbFlexRatio, new { @class = "form-control", @maxlength = 10, @id = "dcbFlexRatio", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.dcbFlexRatio)
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="title_box mb-3 mt-4">User Status Ratios</h4>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">User Status VIP:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.userStatusVipRatio, new { @class = "form-control", @maxlength = 10, @id = "userStatusVipRatio", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.userStatusVipRatio)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right">User Status Regular:</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => item.userStatusRegularRatio, new { @class = "form-control", @maxlength = 10, @id = "userStatusRegularRatio", onkeypress = "javascript:return isNumber(event)" })
+                                    @Html.ValidationMessageFor(m => item.userStatusRegularRatio)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <div class="row align-items-center">
+                                <label class="col-sm-7 text-right"></label>
+                                <div class="col-sm-5">
+                                    <input type="submit" id="btnSaveGlobalSettings" class="btn btn-primary" value="Save Global Settings">
+                                    @Html.Hidden("hdnsettingid", item.id)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-7 ml-auto">
+                        <div class="override_result_box">
+                            <h4 class="title_box">Global Settings Result</h4>
+                            <h5><b>Default % Discount  <span>@ViewBag.RegularUserBitePayDiscount%</span></b></h5>
+                            <p>Bite Pay transactions receive <span>@ViewBag.Result1</span> times as many points as DCB transactions</p>
+                            <p class="mt-3">Bite VIP users receive <span>@ViewBag.Result2</span> times as many points as regular Bite Users</p>
+                            <h5><b>Points Earn on $50 Spending </b></h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th></th>
+                                        <th>DCB</th>
+                                        <th>Bite Pay</th>
+                                    </tr>
+                                    <tr>
+                                        <th>VIP</th>
+                                        <td>@ViewBag.VipDcb</td>
+                                        <td>@ViewBag.VipBitePay</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Regular</th>
+                                        <td>@ViewBag.RegularDcb</td>
+                                        <td>@ViewBag.RegulatBitePay</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        }
+        </div>
+    }
+</div>
+<script>
+    // WRITE THE VALIDATION SCRIPT.
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;       
+        return true;
+    }
+</script>

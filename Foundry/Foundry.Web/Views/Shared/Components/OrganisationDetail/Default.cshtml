@@ -1,0 +1,194 @@
+﻿
+@model Foundry.Web.Models.OrganisationDetailModel;
+@{
+    var a = ViewBag.ProgramType;
+}
+<div id="home" class="tab-pane active">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmOrgDetail" }))
+    {
+        <div class="detail-information">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Organization name*:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.OrganisationSubTitle, new { @class = "form-control form-control-custom", @maxlength = 20, @placeholder = "Short name" })
+                            @Html.ValidationMessageFor(m => m.OrganisationSubTitle)
+                        </div>
+                    </div>
+
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Organization title:</label>
+                        <div class="form-group-inner">
+
+                            @Html.TextBoxFor(m => m.OrganisationName, new { @class = "form-control form-control-custom", @maxlength = 100, @placeholder = "Title" })
+                            @Html.ValidationMessageFor(m => m.OrganisationName)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Address*:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control form-control-custom", @maxlength = 445, @placeholder = "Address" })
+                            @Html.ValidationMessageFor(m => m.Address)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Website:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.Website, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "http(s)://domain" })
+                            @Html.ValidationMessageFor(m => m.Website)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+
+            </div>
+            <!--row-->
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Contact name*:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control form-control-custom", @maxlength = 50, @placeholder = "Contact name" })
+                            @Html.ValidationMessageFor(m => m.ContactName)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Contact title:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.ContactTitle, new { @class = "form-control form-control-custom", @maxlength = 50, @placeholder = "Contact title" })
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Contact number*:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control form-control-custom", @maxlength = 15, @placeholder = "" })
+                            @Html.ValidationMessageFor(m => m.ContactNumber)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Contact email address*:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control form-control-custom", @maxlength = 80, @placeholder = "Email address" })
+                            @Html.ValidationMessageFor(m => m.EmailAddress)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+            </div>
+            <!--Social Media Controls-->
+            <!--row-->
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Facebook link:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.FacebookURL, new { @class = "form-control form-control-custom", @maxlength = 200, @placeholder = "http(s)://domain" })
+                            @Html.ValidationMessageFor(m => m.FacebookURL)
+                        </div>
+                    </div>
+
+                </div>
+                <!--3-->
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Twitter link:</label>
+                        <div class="form-group-inner">
+
+                            @Html.TextBoxFor(m => m.TwitterURL, new { @class = "form-control form-control-custom", @maxlength = 200, @placeholder = "http(s)://domain" })
+                            @Html.ValidationMessageFor(m => m.TwitterURL)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Skype:</label>
+                        <div class="form-group-inner">
+                            @Html.TextBoxFor(m => m.SkypeHandle, new { @class = "form-control form-control-custom", @maxlength = 150 })
+
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+
+
+
+            </div>
+            <!--row-->
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label>Description/ Remarks:</label>
+                        <div class="form-group-inner">
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control form-control-custom", @maxlength = 500, @placeholder = "Description" })
+                            @Html.ValidationMessageFor(m => m.Description)
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+            </div>
+
+            <!--row-->
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>Program types*:</label>
+                        <div class="program-list">
+                            @Html.ListBoxFor(m => m.SelectedOrganisationProgramType, ViewBag.ProgramType as List<SelectListItem>, new { @multiple = "multiple" })
+                            @Html.ValidationMessageFor(m => m.SelectedOrganisationProgramType)
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--3-->
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="custom-right">
+                        <button type="submit" id="btnOrganisationDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                        @Html.HiddenFor(m => m.JPOS_MerchantId)
+                    </div>
+                </div>
+                <!--row-->
+            </div>
+        </div>
+    }
+    <input id="hdnOrgProgramType" name="hdnOrgProgramType" type="hidden" value="@ViewBag.OrgProgramType">
+</div>
+@*<script src="~/js/StandardPhoneFormat/jquery.caret.js"></script>
+<script src="~/js/StandardPhoneFormat/jquery.mobilePhoneNumber.js"></script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#SelectedOrganisationProgramType').multiselect({ includeSelectAllOption: true });
+       // $('#ContactNumber').mobilePhoneNumber();
+     //   $("#ContactNumber").mask("(999) 999-9999");
+        if (parseInt($("#hdnOrganisationId").val()) > 0) {
+            $('#ContactNumber').attr('readonly', 'readonly');
+            $('#ContactNumber').attr('disabled', 'disabled');
+        }
+    });
+
+</script>
+

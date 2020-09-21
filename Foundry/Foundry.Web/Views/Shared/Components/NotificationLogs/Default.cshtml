@@ -1,0 +1,67 @@
+﻿@using Foundry.Domain;
+@model Foundry.Domain.ApiModel.PartnerApiModel.PartnerNotificationsLogModel;
+<link href="~/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/js/bootstrap-datepicker.min.js"></script>
+<script src="~/js/bootstrap-timepicker.min.js"></script>
+
+<script src="~/js/spectrum.js"></script>
+<div id="notificationlogs" class="tab-pane fade active show" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="mb-4 log-action-detail">
+            <div class="row">
+                <div class="col-sm-2 form-groups-picker form-group-date">
+                    @Html.TextBoxFor(x => x.CreatedDate, new { @class = "form-control datetimepicker", @readonly = "false", @placeholder = "YYYY-MM-DD", @maxlength = "10", @id = "txtdate" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(m => m.ApiName, ViewBag.ApiNames as List<SelectListItem>, " --Select Api--", new { @class = "form-control", @id = "ddlApiName" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(m => m.Status, ViewBag.Status as List<SelectListItem>, " --Select Status--", new { @class = "form-control", @id = "ddlStatus" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.DropDownListFor(m => m.programModel.name, ViewBag.Prg as List<SelectListItem>, " --Select Program--", new { @class = "form-control", @id = "ddlPrg" })
+                </div>
+                <div class="col-sm-2">
+                    <input type="submit" value="Filter" id="btnFilter" class="btn btn-primary" />
+                </div>
+            </div>
+            </div>
+            <article class="content-wrapper">
+                <!-- Tab panes -->
+                <div class="white-box">
+                    <div class="table-wrapper wrapper-noti">
+                        <table id="tblNotificationlogs" width="100%" class="table table_left_td tblNotification1">
+                            <thead>
+                                <tr>
+
+                                    <th width="20%" class="text-center nowrap">BITE ID</th>
+                                    <th width="18%" class="text-center">DATE</th>
+                                    <th width="12%">API NAME</th>
+                                    <th width="20%">REQUEST</th>
+                                    <th width="20%">RESPONSE</th>
+                                    <th width="10%">STATUS</th>
+
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtdate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            format: "yyyy-mm-dd",
+            language: "tr"
+        }).on('change', function () {
+            $('.datepicker').hide();
+        });
+    });
+</script>
+@*<script type="text/javascript" charset="utf8" src="~/js/Datatables/JS/buttons.html5.min.js"></script>*@

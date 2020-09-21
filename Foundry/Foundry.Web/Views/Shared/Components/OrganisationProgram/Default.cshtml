@@ -1,0 +1,85 @@
+﻿@using Foundry.Domain;
+@using Foundry.Domain.Dto;
+@model List<Foundry.Domain.Dto.ProgramDto>;
+@{
+    var selectedorgprogram = (List<OrganisationProgramDto>)ViewBag.OrganisationProgramIds;
+}
+<div id="menu1" class=" tab-pane fade">
+
+    <div class="detail-information prog-list">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2 id="lblOrgName"></h2>
+
+                </div>
+                <div class="col-sm-6 col-6">
+                    <div class="list-info list-info-admin">
+                        @if (User.Claims.FirstOrDefault(x => x.Type.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim()).Value.ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim() == "Super Admin".ToLower(System.Globalization.CultureInfo.InvariantCulture).Trim())
+                        {
+                            <ul>
+                                <li class="text-center">
+                                    <a href="javascript:void(0);" data-prg='@Cryptography.EncryptPlainToCipher("0")' class="btn btn-small clsAddorgPrg"><img src="~/images/icon-plus-lg.png"></a>
+                                    <em class="addsp">Add a Program</em>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        @if (selectedorgprogram != null && selectedorgprogram.Count > 0)
+        {
+            <div class="choose-program">
+                <h2>Program(s):</h2>
+
+                <div class="select-programs select-programs-orgs">
+                    @{var totalrecord = selectedorgprogram.Count - 1;}
+                    @for (var i = 0; i < selectedorgprogram.Count(); i++)
+                    {
+                        if (i % 3 == 0)
+                        {
+                            @Html.Raw("<div class='row'>")
+                        }
+
+                        <div class="col-sm-4">
+                            <ul>
+
+                                <li>
+                                    <label class="custom_check_box mt-3">
+
+                                        <span></span>
+                                        @selectedorgprogram[i].ProgramName
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        @if (i % 3 == 2)
+                        {
+                            @Html.Raw("</div>")
+                        }
+                        @if (i == totalrecord)
+                        {@Html.Raw("</div>")}
+                        <!--row-->
+
+
+                    }
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="custom-right">
+                            <button type="submit" id="btnOrganisationProgramDetail" class="btn btn-primary btn-login mt-3">CONTINUE</button>
+                        </div>
+
+                    </div>
+                    <!--row-->
+                </div>
+                <!--prog-list-->
+            </div>}

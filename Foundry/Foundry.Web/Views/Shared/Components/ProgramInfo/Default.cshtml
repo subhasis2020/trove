@@ -1,0 +1,427 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.ProgramInfoModel;
+<div class="tab-content">
+
+    <div id="program-info" class="tab-pane active show">
+        <div class="detail-information">
+            <div class="title-section">
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        @if (!string.IsNullOrEmpty(Convert.ToString(ViewBag.PrimaryOrgName)))
+                        {<h2>@Cryptography.DecryptCipherToPlain(ViewBag.PrimaryOrgName)</h2>}
+                    </div>
+                </div>
+            </div>
+
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "programInfoForm" }))
+            {
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Program name*</label>
+                            <div class="form-group-inner">
+
+                                @Html.TextBoxFor(m => m.name, new { @class = "form-control form-control-custom", @maxlength = 100 })
+                                @Html.ValidationMessageFor(m => m.name)
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Program ID*</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.ProgramCodeId, new { @class = "form-control form-control-custom", @placeholder = "Program id", @readonly = true })
+                                @Html.ValidationMessageFor(m => m.ProgramCodeId)
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Account Holder Groups</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.AccountHolderGroups, new { @class = "form-control form-control-custom", @maxlength = 100 })
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Time Zone*</label>
+                            <div class="form-group-inner form-group-select">
+                                @Html.DropDownListFor(m => m.timeZone, ViewBag.TimeZones as List<SelectListItem>, "--Select Time Zone--", new { @class = "form-control form-control-custom" })
+                                @Html.ValidationMessageFor(m => m.timeZone)
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--3-->
+                </div>
+
+                <!--row-->
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Program website</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.website, new { @class = "form-control form-control-custom", @maxlength = 150, @placeholder = "http(s)://domain" })
+                                @Html.ValidationMessageFor(m => m.website)
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Address*</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.address, new { @class = "form-control form-control-custom", @maxlength = "500" })
+                                @Html.ValidationMessageFor(m => m.address)
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>City</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.city, new { @class = "form-control form-control-custom city", @maxlength = "100" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+
+                </div>
+                <!--row-->
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Zip Code</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.zipcode, new { @class = "form-control form-control-custom", @maxlength = "10" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>State</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.state, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Country</label>
+                            <div class="form-group-inner">
+                                @Html.TextBoxFor(m => m.country, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Program Type*</label>
+                            <div class="form-group-inner form-group-select">
+                                @Html.DropDownListFor(m => m.ProgramTypeId, ViewBag.ProgramType as List<SelectListItem>, " -- Select -- ", new { @class = "form-control form-control-custom" })
+                                @Html.ValidationMessageFor(m => m.ProgramTypeId)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="col-sm-8">Show Notifications In App</label>
+                        <div style="float:left;" class="form-group-inner">
+                            <div class="switch-reload mt0">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(m => m.IsAllNotificationShow)
+                                    <span class="slider slider-round round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="col-sm-8">Show Rewards In App</label>
+                        <div style="float:left;" class="form-group-inner">
+                            <div class="switch-reload mt0">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(m => m.IsRewardsShowInApp)
+                                    <span class="slider slider-round round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--row-->
+
+                <section class="customer-account-details">
+                    <h3>Custom Account Holder Fields (Max 10)</h3>
+                    <div class="program-list" id="select-program-list-custom-fileds">
+                        <div class="form-group-inner accounts-action" id="select-accounts-action_0" style="display:none;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Name (E.g: Favorite color)</label>
+                                        <div class="form-group-inner">
+
+                                            @Html.TextBox("CustomFieldName_0", null, new { @class = "form-control form-control-custom", @maxlength = 40 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--3-->
+                                <div class="col-sm-6 col-md-6 col-lg-4 custom-padding">
+                                    <div class="form-group">
+                                        <label>Field type (E.g: Text, number)</label>
+                                        <div class="form-group-inner">
+
+                                            @Html.DropDownList("FieldType_0", ViewBag.DataTypesDDL as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--3-->
+
+                            </div>
+                            <!--row-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group mb0">
+                                        <label>Field length (E.g: Min, Max)</label>
+                                        <div class="form-group-inner">
+                                            @Html.TextBox("CustomFieldLength_0", null, new { @class = "form-control form-control-custom ForNumericOnly", @maxlength = 3 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--3-->
+                                <div class="col-sm-6 col-md-6 col-lg-5 custom-padding">
+                                    <div class="form-group mb0">
+                                        <label>Requirement (E.g: Mandatory or Optional)</label>
+                                        <div class="form-group-inner">
+                                            @Html.DropDownList("CustomFieldRequirement_0", ViewBag.IsRequiredDDL as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--3-->
+
+                            </div>
+                        </div>
+                        <div id="additionalaccounts-action">
+                            <div class="form-group-inner accounts-action" id="select-accounts-action_1">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Name (E.g: Favorite color)</label>
+                                            <div class="form-group-inner">
+                                                @Html.TextBox("CustomFieldName_1", null, new { @class = "form-control form-control-custom customTextBox", @maxlength = 40 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--3-->
+                                    <div class="col-sm-6 col-md-6 col-lg-4 custom-padding">
+                                        <div class="form-group">
+                                            <label>Field type (E.g: Text, number)</label>
+                                            <div class="form-group-inner">
+                                                @Html.DropDownList("FieldType_1", ViewBag.DataTypesDDL as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--3-->
+
+                                </div>
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb0">
+                                            <label>Field length (E.g: Min, Max)</label>
+                                            <div class="form-group-inner">
+                                                @Html.TextBox("CustomFieldLength_1", null, new { @class = "form-control form-control-custom  customTextBox ForNumericOnly", @maxlength = 3 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--3-->
+                                    <div class="col-sm-6 col-md-6 col-lg-5 custom-padding">
+                                        <div class="form-group mb0">
+                                            <label>Requirement (E.g: Mandatory or Optional)</label>
+                                            <div class="form-group-inner">
+
+                                                @Html.DropDownList("CustomFieldRequirement_1", ViewBag.IsRequiredDDL as List<SelectListItem>, new { @class = "form-control form-control-custom" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--3-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="add-program addCustomFields" value="1" href="javascript:void(0);"><img src="~/images/icon-plus-sm.png" /> <span>Add Field</span></a>
+                    <!--row-->
+                </section>
+                <!--customer-account-details-->
+                <div class="clearfix"></div>
+                <hr>
+
+                <section class="customer-account-details-link">
+                    <h3>*Following Fields are for account linking during registration:</h3>
+                    <div class="program-list">
+
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Account holder Unique ID*</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.AccountHolderUniqueId, new { @class = "form-control form-control-custom", @maxlength = "20", @readonly = true })
+                                        @Html.ValidationMessageFor(m => m.AccountHolderUniqueId)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3-->
+                            <div class="col-sm-4 col-md-4 custom-padding">
+                                <div class="form-group">
+                                    <label>Custom Name*</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.customName, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                        @Html.ValidationMessageFor(m => m.customName)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3-->
+                            <div class="col-sm-4 col-md-4 custom-padding">
+                                <div class="form-group">
+                                    <label>Custom Input Mask*</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.customInputMask, new { @class = "form-control form-control-custom", @maxlength = "100", @placeholder = "E.g: XXX-XXX-XX" })
+                                        @Html.ValidationMessageFor(m => m.customInputMask)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3-->
+
+                        </div>
+                        <!--row-->
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-10">
+                                <div class="form-group">
+                                    <label>Custom error messaging*</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.customErrorMessaging, new { @class = "form-control form-control-custom", @maxlength = "100" })
+                                        @Html.ValidationMessageFor(m => m.customErrorMessaging)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3-->
+
+                        </div>
+                        <!--row-->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Custom instructions. (Max 35 characters)</label>
+                                    <div class="form-group-inner">
+                                        @Html.TextBoxFor(m => m.customInstructions, new { @class = "form-control form-control-custom", @maxlength = "35" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--3-->
+                        </div>
+
+                        @if (Model.IssuerProps?.Count > 0)
+                        {
+                            <h3>*Issuer Properties:</h3>
+                            <div class="program-list">
+                                <div class="row">
+                                    @foreach (var issuer in Model.IssuerProps)
+                                    {
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <h3>
+                                                    <label>@issuer.Key</label> :
+                                                </h3>
+                                                <div class="form-group-inner">
+                                                    @Html.TextBoxFor(m =>issuer.Value, new { @class = "form-control form-control-custom", @maxlength = "35", @disabled="disabled" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <!--3-->
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="custom-right">
+                                    <button type="submit" id="btnProgramDetail" class="btn btn-primary btn-login mt-3">ADD</button>
+                                    @Html.HiddenFor(m => m.ProgramEncId)
+                                    @Html.HiddenFor(m => m.OrganizationEncId)
+                                    @Html.HiddenFor(m => m.programCustomFields)
+                                    @Html.HiddenFor(m => m.JPOS_IssuerId)
+                                    @Html.Hidden("hdnSubLocal")
+                                    @Html.Hidden("hdnRoute")
+                                    @Html.Hidden("hdnStreet")
+                                    @Html.Hidden("hdnNameAddrs")
+                                </div>
+                            </div>
+                            <!--row-->
+                        </div>
+
+                    </div>
+                    <!--row-->
+                </section>
+                <!--customer-account-details-->}
+            <section class="customer-account-details-link">
+            </section>
+        </div>
+    </div>
+
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        var options = {
+            componentRestrictions: { country: "ca" }
+        };
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'), options);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('hdnNameAddrs').value = place.name;
+            for (var i = 0; i < place.address_components.length; i++) {
+                for (var j = 0; j < place.address_components[i].types.length; j++) {
+                    if (place.address_components[i].types[j] == "locality") {
+                        document.getElementById('city').value = place.address_components[i].long_name.split(',')[0];
+                    }
+                    if (place.address_components[i].types[j] == "postal_code") {
+                        document.getElementById('zipcode').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "country") {
+                        document.getElementById('country').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "administrative_area_level_1") {
+                        document.getElementById('state').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "street_number") {
+                        document.getElementById('hdnStreet').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "route") {
+                        document.getElementById('hdnRoute').value = place.address_components[i].long_name;
+                    }
+                    if (place.address_components[i].types[j] == "sublocality") {
+                        document.getElementById('hdnSubLocal').value = place.address_components[i].long_name;
+                    }
+                }
+            }
+        });
+    });
+
+</script>

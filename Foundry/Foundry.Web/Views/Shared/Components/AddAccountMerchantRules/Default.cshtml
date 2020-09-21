@@ -1,0 +1,229 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.AccountMerchantRuleModel;
+@{
+    var accType = ViewBag.AccountTypeId;
+}
+<div id="tab-014" class=" tab-pane fade" aria-expanded="false">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h2>Rules</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="detail-information1 mt-3">
+
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label>Select Merchants</label>
+                        <div class="form-group-inner form-group-select">
+                            @Html.ListBoxFor(m => m.selectedBusinessType, Model.businessTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }), new { @multiple = "multiple" })
+                        </div>
+                        <input type="hidden" id="hdnaccountTypeId" value="@ViewBag.AccountTypeId" />
+                        <input type="hidden" id="hdnaccountId" value="@ViewBag.AccountId" />
+                    </div>
+                </div>
+                <!--3-->
+
+            </div>
+            <!--row-->
+            @if (Model.Merchants != null)
+            {
+                <div class="select-programs select-programs-mrchants mt-5">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul>
+
+                                <li>
+                                    <label class="custom_check_box mt-3">
+                                        <input type="checkbox" class="select_all" name="">
+                                        <span></span>SELECT ALL
+                                    </label>
+                                </li>
+                                @{ var i = 0;}
+                                @foreach (var item in Model.Merchants)
+                                {
+                                    <li>
+                                        <label class="custom_check_box mt-3">
+
+                                            @if (Model.AccountMerchantRuleAndDetail != null && Model.AccountMerchantRuleAndDetail.Select(x => x.merchantName).Contains(item.MerchantName))
+                                            {
+                                                <input type="checkbox" class="merchantcheckbox" name="" value="@item.Id" checked>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="merchantcheckbox" name="" value="@item.Id">
+                                            }
+                                            <span></span>@item.MerchantName
+                                        </label>
+                                    </li>
+                                    i++;
+                                }
+                            </ul>
+                        </div>
+                        <!--3-->
+
+                    </div>
+                    <!--row-->
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="custom-right mt5">
+                                <button type="submit" class="btn btn-primary btn-login btn-lg mt-3 @(ViewBag.AccountTypeId == "3" || ViewBag.AccountTypeId == "4" ? "not-active" : "")" id="btnaddselectmerchants">ADD SELECT MERCHANTS</button>
+
+                            </div>
+
+                        </div>
+                        <!--row-->
+                    </div>
+                </div>
+            }
+            @if (Model.AccountMerchantRuleAndDetail != null && Model.AccountMerchantRuleAndDetail.Count > 0)
+            {
+                <div class="tabing-custom tabing-repeat mt-5">
+                    <ul class="nav nav-tabs">
+                        @foreach (var item in ViewBag.AccountTypeId.Split(","))
+                        {
+                            @if (item == "1")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#acctype_@item"><i>MEAL PASSES</i></a>
+                                </li>
+                            }
+                            else if (item == "2")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#acctype_@item"><i>FLEX SPENDING</i></a>
+                                </li>
+                            }
+                            else if (item == "0")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#acctype_@item"><i>EXCHANGE</i></a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content white-box" id="merchant-rule">
+                        @{ var l = 0;}
+                        @foreach (var item in ViewBag.AccountTypeId.Split(","))
+                        {
+                            l++;
+                            int atId = Convert.ToInt32(item);
+                            if (atId != 3)
+                            {
+                                <div class="dv-acctype tab-pane @(l == 1 ? "active show fade" : "")" id="acctype_@item">
+                                    <div class="table-wrapper">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">MERCHANT NAME</th>
+                                                    <th class="text-center">MEAL PERIOD</th>
+                                                    @if (atId == 1 || atId == 0)
+                                                    {
+                                                        if (atId == 1)
+                                                        {
+                                                            <th class="text-center">MAX PASS USAGE</th>
+                                                        }
+                                                        <th class="text-center">PASS MIN VALUE</th>
+                                                        <th class="text-center">PASS MAX VALUE</th>
+                                                    }
+                                                    else if (atId == 2)
+                                                    {
+                                                        <th class="text-center">TRANSACTION LIMIT</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    var i = 0;
+                                                }
+                                                @foreach (var rule in Model.AccountMerchantRuleAndDetail.Where(x => x.accountTypeId == atId).GroupBy(x => x.merchantName).Select(x => x.FirstOrDefault()))
+                                                {
+
+                                                    i++;
+                                                    <tr>
+                                                        <td class="text-center">@rule.merchantName</td>
+                                                        <td class="text-center">
+                                                            @(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == 1 && x.accountTypeId == atId).Select(x => x.mealPeriod).FirstOrDefault())<br />
+                                                            @(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == 2 && x.accountTypeId == atId).Select(x => x.mealPeriod).FirstOrDefault())<br />
+                                                            @(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == 3 && x.accountTypeId == atId).Select(x => x.mealPeriod).FirstOrDefault())<br />
+                                                            @(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == 4 && x.accountTypeId == atId).Select(x => x.mealPeriod).FirstOrDefault())
+                                                            @for (int j = 0; j < 4; j++)
+                                                            {
+                                                                <input type="hidden" id="hdnruleid_@(atId)_@(i)_@(j + 1)" value="@(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == (j + 1) && x.accountTypeId == atId).Select(x => x.id).FirstOrDefault())" />
+                                                            }
+                                                        </td>
+
+                                                        @if (atId == 1 || atId == 0)
+                                                        {
+                                                            if (atId == 1)
+                                                            {
+                                                                <td class="text-center">
+                                                                    @for (int j = 0; j < 4; j++)
+                                                                    {
+                                                                        <input type="hidden" id="hdnruleid_@(atId)_@(i)_@(j + 1)" value="@(Model.AccountMerchantRuleAndDetail.Where(x => x.merchantName == rule.merchantName && x.mealPeriodId == (j + 1) && x.accountTypeId == atId).Select(x => x.id).FirstOrDefault())" />
+                                                                        @Html.TextBoxFor(x => x.AccountMerchantRuleAndDetail.Where(y => y.merchantName == rule.merchantName && y.mealPeriodId == (j + 1) && y.accountTypeId == atId).FirstOrDefault().maxPassUsage, new { @id = "maxPassUsage_" + atId + "_" + i + "_" + (j + 1), @class = "ForNumericOnly", @maxlength = "4" }) <text>Passes</text><br />
+                                                                    }
+                                                                </td>
+                                                            }
+                                                            <td class="text-center">
+                                                                @for (int j = 0; j < 4; j++)
+                                                                {
+                                                                    @Html.TextBoxFor(x => x.AccountMerchantRuleAndDetail.Where(y => y.merchantName == rule.merchantName && y.mealPeriodId == (j + 1) && y.accountTypeId == atId).FirstOrDefault().minPassValue, new { @id = "minPassValue_" + atId + "_" + i + "_" + (j + 1), @class = "ForNumericOnly", @maxlength = "4" }) <text>Passes</text><br />
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @for (int j = 0; j < 4; j++)
+                                                                {
+                                                                    @Html.TextBoxFor(x => x.AccountMerchantRuleAndDetail.Where(y => y.merchantName == rule.merchantName && y.mealPeriodId == j + 1 && y.accountTypeId == atId).FirstOrDefault().maxPassValue, new { @id = "maxPassValue_" + atId + "_" + i + "_" + (j + 1), @class = "ForNumericOnly", @maxlength = "4" }) <text>Passes</text><br />
+                                                                }
+                                                            </td>
+                                                        }
+                                                        else if (atId == 2)
+                                                        {
+                                                            <td class="text-center">
+                                                                @for (int j = 0; j < 4; j++)
+                                                                {
+                                                                    @Html.TextBoxFor(x => x.AccountMerchantRuleAndDetail.Where(y => y.merchantName == rule.merchantName && y.mealPeriodId == j + 1 && y.accountTypeId == atId).FirstOrDefault().transactionLimit, new { @id = "transactionLimit_" + atId + "_" + i + "_" + (j + 1), @class = "ForNumericOnly", @maxlength = "4" })<br />
+                                                                }
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                @if (ViewBag.AccountTypeId != "3" || ViewBag.AccountTypeId != "4")
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="custom-right mt5">
+                                <button type="submit" class="btn btn-primary btn-login btn-lg mt-3" id="btnaddmerchantrules">ADD MERCHANT RULES</button>
+
+                            </div>
+
+                        </div>
+                        <!--row-->
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+</div>
+<link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css">
+<script type="text/javascript" src="~/js/bootstrap-multiselect.js"></script>

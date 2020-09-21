@@ -1,0 +1,81 @@
+﻿@using Foundry.Domain;
+@model Foundry.Web.Models.MerchnatTransactionModel;
+<div id="transactions" class=" tab-pane fade">
+    <div class="detail-information prog-list pb20">
+        <div class="title-section title-section01">
+            <div class="row">
+                <div class="col-sm-4 ">
+                    <h6>Organizations: <small>@ViewBag.PrimaryOrgName</small></h6>
+                </div>
+                <div class="col-sm-4 ">
+                    <h6>Programs: <small>@(Cryptography.DecryptCipherToPlain(ViewBag.PrimaryProgName))</small></h6>
+                    @if (Convert.ToInt32(Cryptography.DecryptCipherToPlain(ViewBag.OrganisationId)) > 0)
+                    {
+                    <h6>Merchant: <small id="hmerchantname"></small></h6>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-info list-info-admin">
+                        <ul>
+                            <li>
+                                <a id="aExportTransaction" href="javascript:void(0);">
+                                    <div class="export-section">
+                                        <img src="~/images/icon-export.png"><em>Export File</em>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="white-box mt20">
+            <div class="table-wrapper">
+                <table class="table" id="tblMerchantTrasaction" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th width="15%">MERCHANT ID</th>
+                            <th class="plan-title"  width="15%">
+                                <div class="transactions-dropdown transactions-dropdown-table">
+                                    <a href="" class="plans-date" data-toggle="collapse" data-target="#transactions-panel-dropdown">
+                                        DATE<img src="~/images/img-selection-arrows.png">
+                                    </a>
+                                    <div id="transactions-panel-dropdown" class="collapse transactions-card">
+                                        <h2>Transactions</h2>
+                                        <a class="close" href="" data-toggle="collapse" data-target="#transactions-panel-dropdown"><img src="~/images/icon-close-sm.png"></a>
+                                        <div class="transaction-list-data">
+                                            <h3><a id="@ViewBag.CurrentPeriod" class="aCurrentPeriod" onclick='CheckForDate(this.id);' style="color:white;" href="javascript:void(0);">Current period</a></h3>
+                                            <div class="content-scroll scroll-height scroll-list">
+                                                <ul>
+                                                    @foreach (var item in ViewBag.MonthYear)
+                                                    {
+                                                        <li><a id="@item" onclick='CheckForDate(this.id);' href="javascript:void(0);">@item</a></li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </th>
+                            <th  width="15%" class="text-center">TIME</th>
+                            <th width="15%">ACCOUNT</th>
+                            <th width="15%"class="text-center">MERCHANT NAME</th>
+                            <th width="10%">AMOUNT</th>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            @Html.Hidden("hdnDateMonth", "")
+
+        </div>
+    </div>
+</div>

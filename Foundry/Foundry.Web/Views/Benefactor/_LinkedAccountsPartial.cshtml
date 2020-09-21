@@ -1,0 +1,66 @@
+﻿@model List<Foundry.Web.Models.LinkedUsersModel>
+<div class="_linkedaccountpartial">
+    <table class="table" id="tblLinkedAccounts">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>CONTACT INFORMATION</th>
+                <th>SCHOOL</th>
+                <th>STUDENT ID</th>
+                <th>DATE ADDED</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="profile-accounts">
+                                <span class="avatar" style="background-image: url(@item.ImageUserPath)">
+                                </span><em>@item.UserFirstName @item.UserLastName</em>
+                            </div>
+                        </td>
+                        <td>
+                            <text>P: @item.PhoneNumber</text>
+                            <br /><text>M: @item.EmailAddress</text>
+                        </td>
+                        <td>@item.School</td>
+                        <td>@item.UserCode</td>
+                        <td>
+                            @item.DateAdded
+                        </td>
+                        <td>
+                            <div class="linked-delete-custom">
+                                <a href="javascript:void(0);" class="linked-down"  value="@item.linkedUserId" >
+                                    <div class="img-dots" id="img_dots@(item.linkedUserId)"></div>
+                                </a>
+                                <div id="linked-down-data@(item.linkedUserId)" class="linked-data">
+                                    <div class="plan-panel-dropdown">
+                                        <ul>
+                                            <li><a id="ankdelete" class="adelete" value="@(item.linkedUserId)" href="javascript:void(0);">Delete Connection</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <div class="profile-accounts">
+                            No Linked Account Exists.
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

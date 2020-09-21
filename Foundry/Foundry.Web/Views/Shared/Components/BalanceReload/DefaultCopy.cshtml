@@ -1,0 +1,331 @@
+﻿
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /*/* The Modal (background) */
+   
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+@model Foundry.Web.Models.ReloadRequestModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmReloadAmountform", @name = "frmReloadAmountform" }))
+{
+    
+    <div class="custom-cash-amount">
+        <div class="cash-amount payment-inputs add-bank-account">
+            <label class="head">Choose Account: </label>
+            @Html.DropDownListFor(m => m.ProgramAccountIdSelected, ViewBag.ProgramAccountsUser as List<SelectListItem>, " -- Please select account -- ", new { @class = "form-control form-control60" })
+            <span id="spnErrorProgramAccountSelect" style="display:none;" class="error">Please select program account.</span>
+        </div>
+    </div>
+
+    <div class="cash-amount mb20">
+        <label class="head">Choose an amount: </label>
+        <div class="amount-options">
+            <div class="row">
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <label class="btn-custom-bx beds-baths-1 radio-active amount_label">
+                        <input type="radio" name="options" id="option1" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point reloadVal">$50</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                        <input type="radio" name="options" id="option2" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point reloadVal">$100</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                        <input type="radio" name="options" id="option3" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point reloadVal">$150</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active amount_label">
+                        <input type="radio" name="options" id="option3" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point reloadVal">$200</span>
+                    </label>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-3">
+                    <div class="input-amount input-currency">
+                        <span class="currency-amount">$</span>
+                        @Html.TextBoxFor(m => m.ReloadAmount, new { @class = "form-control input form-control-sm ForNumericOnly", @placeholder = "Enter an amount" })
+                    </div>
+                    <span id="spnErrorReloadAmount" style="display:none;" class="error">Reload Amount is required.</span>
+                    @*@Html.ValidationMessageFor(m => m.ReloadAmount)*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--first-->
+
+    <div class="cash-amount cash-amount-filled">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="switch-reload switch_reload_rile">
+                    <em>Subscription Rule </em>@*AUTO RELOAD*@
+                    <label class="switch">
+                        @Html.CheckBoxFor(m => m.IsAutoReload)
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!--row-->
+
+
+        <span id="spnErrorDroppedAmount" style="display:none;" class="error">Please select for the amount drop.</span>
+
+        <div class="amount-options1 amount-option-filled">
+            @{string styleAuto = "";}
+
+
+            <div class="row dvAutoReloadOptions_box" id="dvAutoReloadOptions" style="@styleAuto">
+                <label class="head head_balance col-sm-12">When your visa balance drops below: </label>
+                @Html.HiddenFor(m => m.CheckDroppedAmount)
+                <div class="col-sm-6 col-md-5 col-lg-3">
+                    <div class="input-amount input-currency">
+                        <span class="currency-amount">$</span>
+                        @Html.TextBoxFor(m => m.AutoReloadAmount, new { @class = "form-control form-control-sm input ForNumericOnly", @placeholder = "Enter amount to be refilled" })
+                    </div>
+                    @*@Html.ValidationMessageFor(m => m.AutoReloadAmount)*@
+                    <span id="spnErrorAutoReload" style="display:none;" class="error">Please enter auto reload amount.</span>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                    <label class="btn-custom-bx beds-baths-1 radio-active1 autoLabel labelAutoReload20">
+                        <input type="radio" name="options1" id="option11" autocomplete="off">
+
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point choose_autoreload 50">$20</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                    <label class="btn-custom-bx beds-baths-1 radio-active1 autoLabel labelAutoReload50">
+                        <input type="radio" name="options1" id="option12" autocomplete="off">
+
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point choose_autoreload 50">$50</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel labelAutoReload100">
+                        <input type="radio" name="options1" id="option13" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point choose_autoreload 100">$100</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel labelAutoReload150">
+                        <input type="radio" name="options1" id="option14" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point choose_autoreload 150">$150</span>
+                    </label>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-2 custom-load">
+                    <label class="btn-custom-bx beds-baths beds-baths-1 radio-active1 autoLabel labelAutoReload200">
+                        <input type="radio" name="options1" id="option15" autocomplete="off">
+                        <span class="icon icon-blank-space"></span>
+                        <span class="choose-no-point choose_autoreload 200">$200</span>
+                    </label>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-12 pl0">
+                        <button id="myBtn" class="btn btn-primary">Select Payment Mode</button>
+                      
+                        <button type="submit" id="btnCancelAutoReload" class="btn btn-primary float-right btn-login mt-3">Cancel RULE</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12 col-md-8 col-lg-8 pl0">
+                    <label class="custom_check_box mt-3">
+                    </label>
+                </div>
+                <div class="col-sm-1 col-md-1 col-lg-1 pl0">
+                    @Html.HiddenFor(m => m.ReloadUserId)
+                    @Html.HiddenFor(m => m.ReloadRequestId)
+                    @Html.HiddenFor(m => m.ProgramId)
+                    @Html.HiddenFor(m => m.AccountReloadSrNo)
+                    @Html.Hidden("SelectedBankStatus")
+                    @Html.HiddenFor(m => m.BenefactorUserId)
+                    @Html.HiddenFor(m => m.CardToken)
+
+                </div>
+            </div>
+            <div class="row ad_money">
+                <span id="spnRefreshBankAccount">
+                    @await Component.InvokeAsync("AddBankBalanceReload", new { id = ViewBag.UserId, reloadRequestId = ViewBag.ReloadRequestId, programId = ViewBag.ProgramId, LoggedId = ViewBag.LoggedUserId })
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-12 pl0">
+                    <button type="submit" style="display:none;" id="btnReloadAmount" class="btn btn-primary float-right btn-login mt-3">PROCEED WITH PAYMENT</button>
+                </div>
+            </div>
+        </div>
+        <!--first-->
+    </div>
+
+}
+
+@*<div class="modal" id="myModal">
+    <div class="modal-dialog" style="max-width:700px">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnclose" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="font-size:25px;color:black;">Add Payment Mode</h4>
+            </div>
+            <div class="modal-body">
+                <div class="custom-iframe">
+                    <form class="form-horizontal">
+                        <div class="">
+                            <div class="row">
+                                <!--6-->
+                                <div class="col-sm-12">
+                                    <div class="org-admin-form">
+                                        <div class="detail-information mt20">
+                                            <div class="row">
+                                                <div class="custom-cash-amount">
+                                                    <div class="cash-amount payment-inputs add-bank-account reloadOptionButton ">
+                                                        <button type="button" id="btnpayviabank_rule" class="btn btn-primary btn-login offset-sm-3 mr-3">Pay Via Bank</button><br />
+                                                        <span id="spnErrorBankAccountForRule" style="display:none;" class="error">Please add bank details first.</span>
+                                                        OR
+                                                        <button type="button" id="btnAddPaymentViaCard_rule" class="btn btn-primary btn-login ml-3">Pay with Card</button><br />
+                                                        <span id="spnErrorCardForRule" style="display:none;" class="error">Please add card details first.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            @Html.Hidden("hdnExistingBank", ((List<SelectListItem>)ViewBag.UserBankAccounts).Count)
+                                            @Html.Hidden("hdnExistingCard", ((List<SelectListItem>)ViewBag.UserCardList).Count)
+                                            <div id="dvChooseBankforsubscriptionrule" style="display:none;" class="cash-amount payment-inputs add-bank-account">
+                                                <div class="row">
+                                                    <div class="col-sm-4 offset-sm-2">
+                                                        <div class="form-group">
+                                                            <label class="head">Choose bank account: </label>
+
+                                                            @Html.DropDownListFor(m => m.bankAccount.BankIdSelected, ViewBag.UserBankAccounts as List<SelectListItem>, " -- Please select -- ", new { @class = "form-control form-control60",@id= "BankIdSelectedRule" })
+                                                            <span id="spnErrorBankSelectForRule" style="display:none;" class="error">Please select bank.</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div id="dvVerifyBankAccount" style="display:none;">
+                                                    @await Component.InvokeAsync("VerifyBankAccount", new { })
+                                                </div>
+                                            </div>
+                                            <div id="dvChooseCardforSubscriptionrule" style="display:none;" class="cash-amount payment-inputs row add-bank-account">
+
+                                                <div class="row">
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <label class="head">Choose Card: </label>
+                                                            @Html.DropDownListFor(m => m.CardToken, ViewBag.UserCardList as List<SelectListItem>, " -- Please select card -- ", new { @class = "form-control form-control60", @id = "ddlCardForPayment" })
+                                                            <span id="spnErrorCardSelectForRule" style="display:none;" class="error">Please select card.</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+
+                                            <!--row-->
+                                            <div class="row">
+                                                <div class="col-sm-12 pt-5">
+                                                    <div class="custom-right">
+                                                        
+                                                         <button type="submit" id="btnSetAutoReload" class="btn btn-primary float-right btn-login mt-3">SET RULE</button>
+                                                    </div>
+                                                </div>
+                                                <!--row-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--form-->
+                                </div>
+                                <!--6-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>*@
+
+
+
+
+
+@*<script type="text/javascript">
+
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function DeleteRule(userid, benefactoruserid) {
+        $("#dvLoadingGif").show();
+        $.ajax({
+            type: "POST",
+            url: "/Benefactor/PostCancelSubscriptionRule/",
+            data: { 'userId': userid, 'benefactorUserId': benefactoruserid },
+            dataType: "json",
+            success: function (data) { $("#dvLoadingGif").hide(); if (data.data > 0 && data.success) { swal({ title: "Organization program has been deleted successfully!", icon: "success" }); var oTable = $('#tblOrgnisationProgram').DataTable(); oTable.draw(); } else { swal({ title: "Currently unable to process the request! Please try again later.", icon: "error" }); } },
+            error: function () {
+                swal({ title: "Currently unable to process the request! Please try again later.", icon: "error" });
+            }
+        });
+
+
+    }
+</script>*@
+
